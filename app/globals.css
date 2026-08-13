@@ -103,6 +103,14 @@ body {
   box-shadow: var(--glass-shadow);
 }
 
+.glass-popover {
+  background: rgba(18, 18, 34, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+}
+
 .glass-card {
   background: var(--bg-card);
   backdrop-filter: blur(16px);
