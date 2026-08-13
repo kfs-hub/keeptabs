@@ -8,9 +8,9 @@ import { revalidatePath } from 'next/cache'
 const issueFineSchema = z.object({
   group_id: z.string().uuid(),
   fined_user_id: z.string().uuid(),
-  rule_id: z.string().uuid().optional(),
+  rule_id: z.string().uuid().optional().nullable(),
   amount: z.coerce.number().min(1).max(100000),
-  description: z.string().max(500).optional(),
+  description: z.string().max(500).optional().nullable(),
 })
 
 interface IssueFineResult {
@@ -34,12 +34,13 @@ export async function issueFineAction(formData: FormData): Promise<IssueFineResu
 
   // 3. Validate input
   const ruleId = formData.get('rule_id') as string | null
+  const description = formData.get('description') as string | null
   const parsed = issueFineSchema.safeParse({
     group_id: groupId,
     fined_user_id: formData.get('fined_user_id'),
     rule_id: ruleId || undefined,
     amount: formData.get('amount'),
-    description: formData.get('description'),
+    description: description || undefined,
   })
   if (!parsed.success) return { error: parsed.error.issues[0].message }
 

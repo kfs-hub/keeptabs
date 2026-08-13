@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache'
 
 const ruleSchema = z.object({
   name: z.string().min(2, 'Rule name must be at least 2 characters').max(100),
-  description: z.string().max(500).optional(),
+  description: z.string().max(500).optional().nullable(),
   default_amount: z.coerce.number().min(1, 'Amount must be at least 1').max(100000),
   group_id: z.string().uuid(),
 })
@@ -44,9 +44,10 @@ export async function createRuleAction(formData: FormData): Promise<ActionResult
     const groupId = formData.get('group_id') as string
     await requireAdmin(groupId, user.id)
 
+    const description = formData.get('description') as string | null
     const parsed = ruleSchema.safeParse({
       name: formData.get('name'),
-      description: formData.get('description'),
+      description: description || undefined,
       default_amount: formData.get('default_amount'),
       group_id: groupId,
     })
@@ -76,9 +77,10 @@ export async function updateRuleAction(formData: FormData): Promise<ActionResult
     const ruleId = formData.get('rule_id') as string
     await requireAdmin(groupId, user.id)
 
+    const description = formData.get('description') as string | null
     const parsed = ruleSchema.safeParse({
       name: formData.get('name'),
-      description: formData.get('description'),
+      description: description || undefined,
       default_amount: formData.get('default_amount'),
       group_id: groupId,
     })

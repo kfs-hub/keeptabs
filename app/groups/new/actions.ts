@@ -16,7 +16,7 @@ function getAdminClient() {
 
 const createGroupSchema = z.object({
   name: z.string().min(2).max(50),
-  description: z.string().max(200).optional(),
+  description: z.string().max(200).optional().nullable(),
   currency: z.string().min(1).max(10).default('INR'),
   default_fine_amount: z.coerce.number().min(1).max(10000).default(10),
 })
@@ -36,9 +36,10 @@ export async function createGroupAction(formData: FormData): Promise<CreateGroup
   }
 
   // 2. Validate input
+  const description = formData.get('description') as string | null
   const raw = {
     name: formData.get('name') as string,
-    description: formData.get('description') as string | undefined,
+    description: description || undefined,
     currency: (formData.get('currency') as string) || 'INR',
     default_fine_amount: formData.get('default_fine_amount') as string,
   }

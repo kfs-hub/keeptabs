@@ -132,7 +132,7 @@ export async function changeRoleAction(targetUserId: string, groupId: string, ne
 
 const settingsSchema = z.object({
   name: z.string().min(2).max(50),
-  description: z.string().max(200).optional(),
+  description: z.string().max(200).optional().nullable(),
   currency: z.string().min(1).max(10),
   default_fine_amount: z.coerce.number().min(1),
 })
@@ -142,8 +142,9 @@ export async function updateGroupSettingsAction(groupId: string, formData: FormD
     const user = await getAuthUser()
     await checkIsAdmin(groupId, user.id)
 
+    const description = formData.get('description') as string | null
     const parsed = settingsSchema.safeParse({
-      name: formData.get('name'), description: formData.get('description'),
+      name: formData.get('name'), description: description || undefined,
       currency: formData.get('currency'), default_fine_amount: formData.get('default_fine_amount'),
     })
     if (!parsed.success) return { error: parsed.error.issues[0].message }
