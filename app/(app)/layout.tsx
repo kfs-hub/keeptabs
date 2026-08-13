@@ -56,7 +56,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const members: Profile[] = (membersRaw ?? [])
     .map((m) => m.profiles as any)
     .filter(Boolean)
-    .filter((p: Profile) => p.id !== user.id) // can't fine yourself
+    // Allow fining anyone including yourself (useful when group has 1 member or for testing)
 
   const { data: rules } = await supabase
     .from('rules')
