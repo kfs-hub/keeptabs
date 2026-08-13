@@ -60,13 +60,21 @@ export async function POST(req: Request) {
     } else if (eventType === 'payment.failed') {
       await handlePaymentFailed(supabase, event)
     }
-    // Other events: order.paid, refund.created, etc. — log and acknowledge
 
     // 6. Record that we processed this event (idempotency)
     await supabase.from('processed_webhook_events').insert({
       event_id: eventId,
       event_type: eventType,
     })
+
+    // 7. Revalidate Next.js cache so dashboard/payments reflect immediately
+    const { revalidatePath } = await import('next/cache')
+    revalidatePath('/dashboard')
+    revalidatePath('/payments')
+    revalidatePath('/payments/pay')
+    revalidatePath('/payments/history')
+    revalidatePath('/fines')
+    revalidatePath('/leaderboard')
 
     return NextResponse.json({ received: true })
   } catch (error: any) {

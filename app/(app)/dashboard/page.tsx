@@ -11,6 +11,8 @@ import { AchievementToastListener } from '@/components/fun/achievement-toast'
 import { formatCurrency } from '@/lib/utils'
 import type { FineWithDetails, GroupSettings } from '@/types/database'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 export const metadata = { title: 'Dashboard' }
 
 export default async function DashboardPage() {

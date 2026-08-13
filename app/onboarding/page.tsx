@@ -40,6 +40,7 @@ export default async function OnboardingPage() {
         </div>
 
         <div className="grid sm:grid-cols-2 gap-4">
+          {/* Points to /groups/new (standalone, outside app layout) */}
           <Link href="/groups/new">
             <Card className="cursor-pointer hover:border-violet-500/50 transition-all group h-full">
               <CardContent className="p-6 text-center space-y-3">
@@ -55,6 +56,7 @@ export default async function OnboardingPage() {
             </Card>
           </Link>
 
+          {/* Points to /groups/join (standalone, outside app layout) */}
           <Link href="/groups/join">
             <Card className="cursor-pointer hover:border-violet-500/50 transition-all group h-full">
               <CardContent className="p-6 text-center space-y-3">

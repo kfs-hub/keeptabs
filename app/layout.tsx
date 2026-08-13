@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
+import { NavProgress } from '@/components/ui/nav-progress'
+import { Suspense } from 'react'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -42,7 +44,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-app-gradient font-[var(--font-inter)] antialiased">
-        <Providers>{children}</Providers>
+        <Providers>
+          <Suspense fallback={null}>
+            <NavProgress />
+          </Suspense>
+          {children}
+        </Providers>
       </body>
     </html>
   )
