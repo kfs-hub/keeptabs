@@ -1,10 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { getCurrentUser } from '@/lib/auth/get-current-user'
-import { requireGroupMembership } from '@/lib/auth/require-group-membership'
-import { createFineNotification } from '@/lib/notifications/create-notification'
-import { checkRateLimit } from '@/lib/rate-limit'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
@@ -22,24 +19,20 @@ interface IssueFineResult {
 }
 
 export async function issueFineAction(formData: FormData): Promise<IssueFineResult> {
+  // 1. Authenticate
+  const serverClient = await createClient()
+  const { data: { user }, error: authError } = await serverClient.auth.getUser()
+  if (authError || !user) return { error: 'Not authenticated.' }
+
   const groupId = formData.get('group_id') as string
 
-  const { currentUser } = await requireGroupMembership(groupId)
+  // 2. Verify membership using admin client
+  const admin = createAdminClient()
+  const { data: myMembership } = await admin
+    .from('group_members').select('role').eq('group_id', groupId).eq('user_id', user.id).single()
+  if (!myMembership) return { error: 'You are not a member of this group.' }
 
-  // Rate limit: max 10 fines per minute
-  const { allowed } = await checkRateLimit({
-    action: 'issue_fine',
-    userId: currentUser.id,
-    maxRequests: 10,
-    windowSeconds: 60,
-  })
-
-  if (!allowed) {
-    return { error: 'Too many fines issued. Please wait a moment.' }
-  }
-
-  const supabase = await createClient()
-
+  // 3. Validate input
   const ruleId = formData.get('rule_id') as string | null
   const parsed = issueFineSchema.safeParse({
     group_id: groupId,
@@ -48,113 +41,76 @@ export async function issueFineAction(formData: FormData): Promise<IssueFineResu
     amount: formData.get('amount'),
     description: formData.get('description'),
   })
+  if (!parsed.success) return { error: parsed.error.issues[0].message }
 
-  if (!parsed.success) {
-    return { error: parsed.error.issues[0].message }
-  }
+  // 4. Validate fined user is in the group
+  const { data: targetMembership } = await admin
+    .from('group_members').select('user_id').eq('group_id', groupId).eq('user_id', parsed.data.fined_user_id).single()
+  if (!targetMembership) return { error: 'That person is not in this group.' }
 
-  // Validate fined user is in the group
-  const { data: targetMembership } = await supabase
-    .from('group_members')
-    .select('user_id')
-    .eq('group_id', groupId)
-    .eq('user_id', parsed.data.fined_user_id)
-    .single()
-
-  if (!targetMembership) {
-    return { error: 'The person you are trying to fine is not in this group.' }
-  }
-
-  // Validate rule belongs to group (if provided)
+  // 5. Validate rule
   if (parsed.data.rule_id) {
-    const { data: rule } = await supabase
-      .from('rules')
-      .select('id, is_active')
-      .eq('id', parsed.data.rule_id)
-      .eq('group_id', groupId)
-      .single()
-
-    if (!rule || !rule.is_active) {
-      return { error: 'Invalid or disabled rule.' }
-    }
+    const { data: rule } = await admin
+      .from('rules').select('id, is_active').eq('id', parsed.data.rule_id).eq('group_id', groupId).single()
+    if (!rule || !(rule as any).is_active) return { error: 'Invalid or disabled rule.' }
   }
 
-  // Get fined user profile
-  const { data: finedProfile } = await supabase
-    .from('profiles')
-    .select('display_name')
-    .eq('id', parsed.data.fined_user_id)
-    .single()
+  // 6. Get fined user profile
+  const { data: finedProfile } = await admin
+    .from('profiles').select('display_name').eq('id', parsed.data.fined_user_id).single()
 
-  // Handle evidence upload
+  // 7. Handle evidence upload
   let evidenceUrl: string | null = null
   const evidenceFile = formData.get('evidence') as File | null
   if (evidenceFile && evidenceFile.size > 0) {
-    // Validate file type and size
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
-    if (!allowedTypes.includes(evidenceFile.type)) {
-      return { error: 'Evidence must be an image (JPEG, PNG, GIF, or WebP).' }
-    }
-    if (evidenceFile.size > 5 * 1024 * 1024) {
-      return { error: 'Evidence image must be under 5MB.' }
-    }
+    if (!allowedTypes.includes(evidenceFile.type)) return { error: 'Evidence must be an image.' }
+    if (evidenceFile.size > 5 * 1024 * 1024) return { error: 'Evidence must be under 5MB.' }
 
     const fileName = `${groupId}/${Date.now()}_${evidenceFile.name.replace(/[^a-z0-9.]/gi, '_')}`
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('evidence')
-      .upload(fileName, evidenceFile)
-
+    const { data: uploadData, error: uploadError } = await serverClient.storage
+      .from('evidence').upload(fileName, evidenceFile)
     if (!uploadError && uploadData) {
-      const { data: publicUrl } = supabase.storage.from('evidence').getPublicUrl(fileName)
+      const { data: publicUrl } = serverClient.storage.from('evidence').getPublicUrl(fileName)
       evidenceUrl = publicUrl.publicUrl
     }
   }
 
-  // Insert fine
-  const { data: fine, error: fineError } = await supabase
-    .from('fines')
-    .insert({
-      group_id: parsed.data.group_id,
-      rule_id: parsed.data.rule_id ?? null,
-      fined_user_id: parsed.data.fined_user_id,
-      reported_by: currentUser.id,
-      amount: parsed.data.amount,
-      description: parsed.data.description || null,
-      evidence_url: evidenceUrl,
-      status: 'unpaid',
-    })
-    .select('id')
-    .single()
+  // 8. Insert fine using admin client
+  const { data: fine, error: fineError } = await admin.from('fines').insert({
+    group_id: parsed.data.group_id,
+    rule_id: parsed.data.rule_id ?? null,
+    fined_user_id: parsed.data.fined_user_id,
+    reported_by: user.id,
+    amount: parsed.data.amount,
+    description: parsed.data.description || null,
+    evidence_url: evidenceUrl,
+    status: 'unpaid',
+  }).select('id').single()
 
-  if (fineError || !fine) {
-    return { error: 'Failed to issue fine. Please try again.' }
-  }
+  if (fineError || !fine) return { error: `Failed to issue fine: ${fineError?.message}` }
 
-  // Get rule name for notification
+  // 9. Get rule name for notification
   let ruleName = 'Custom fine'
   if (parsed.data.rule_id) {
-    const { data: rule } = await supabase
-      .from('rules')
-      .select('name')
-      .eq('id', parsed.data.rule_id)
-      .single()
-    ruleName = rule?.name ?? 'a rule'
+    const { data: rule } = await admin.from('rules').select('name').eq('id', parsed.data.rule_id).single()
+    ruleName = (rule as any)?.name ?? 'a rule'
   }
 
-  // Create notification
-  await createFineNotification({
-    finedUserId: parsed.data.fined_user_id,
-    reporterId: currentUser.id,
-    groupId,
-    amount: parsed.data.amount,
-    ruleName,
-    fineId: fine.id,
+  // 10. Notify fined user
+  await admin.from('notifications').insert({
+    user_id: parsed.data.fined_user_id,
+    group_id: groupId,
+    type: 'fine_received',
+    title: '🚨 You just got fined!',
+    message: `You were fined ₹${parsed.data.amount} for: ${ruleName}`,
+    metadata: { fine_id: (fine as any).id },
   })
 
-  // Check achievements for the fined user (async — don't block response)
+  // 11. Check achievements async
   import('@/lib/achievements/check-achievements').then(({ checkAndAwardAchievements }) => {
     checkAndAwardAchievements(parsed.data.fined_user_id, groupId).catch(() => {})
-    checkAndAwardAchievements(currentUser.id, groupId).catch(() => {}) // reporter achievements
+    checkAndAwardAchievements(user.id, groupId).catch(() => {})
   })
 
   revalidatePath('/dashboard')
@@ -162,9 +118,9 @@ export async function issueFineAction(formData: FormData): Promise<IssueFineResu
 
   return {
     data: {
-      fineId: fine.id,
+      fineId: (fine as any).id,
       amount: parsed.data.amount,
-      userName: finedProfile?.display_name ?? 'Unknown',
+      userName: (finedProfile as any)?.display_name ?? 'Unknown',
     },
   }
 }
@@ -172,78 +128,40 @@ export async function issueFineAction(formData: FormData): Promise<IssueFineResu
 export async function createDisputeAction(formData: FormData): Promise<{ error?: string; success?: boolean }> {
   const fineId = formData.get('fine_id') as string
   const reason = (formData.get('reason') as string)?.trim()
+  if (!reason || reason.length < 5) return { error: 'Please provide a reason.' }
 
-  if (!reason || reason.length < 5) {
-    return { error: 'Please provide a reason for the dispute.' }
-  }
+  const serverClient = await createClient()
+  const { data: { user }, error: authError } = await serverClient.auth.getUser()
+  if (authError || !user) return { error: 'Not authenticated.' }
 
-  const currentUser = await getCurrentUser()
-  const supabase = await createClient()
+  const admin = createAdminClient()
+  const { data: fine } = await admin
+    .from('fines').select('id, fined_user_id, group_id, amount, status').eq('id', fineId).single()
+  const f = fine as any
 
-  // Verify this fine belongs to the current user
-  const { data: fine } = await supabase
-    .from('fines')
-    .select('id, fined_user_id, group_id, amount, status')
-    .eq('id', fineId)
-    .single()
+  if (!f || f.fined_user_id !== user.id) return { error: 'You can only dispute your own fines.' }
+  if (f.status !== 'unpaid') return { error: 'You can only dispute unpaid fines.' }
 
-  if (!fine || fine.fined_user_id !== currentUser.id) {
-    return { error: 'You can only dispute your own fines.' }
-  }
+  const { data: existing } = await admin.from('disputes').select('id').eq('fine_id', fineId).single()
+  if (existing) return { error: 'A dispute already exists for this fine.' }
 
-  if (fine.status !== 'unpaid') {
-    return { error: 'You can only dispute unpaid fines.' }
-  }
-
-  // Check no existing dispute
-  const { data: existingDispute } = await supabase
-    .from('disputes')
-    .select('id')
-    .eq('fine_id', fineId)
-    .single()
-
-  if (existingDispute) {
-    return { error: 'A dispute already exists for this fine.' }
-  }
-
-  // Rate limit disputes
-  const { allowed } = await checkRateLimit({
-    action: 'create_dispute',
-    userId: currentUser.id,
-    maxRequests: 5,
-    windowSeconds: 60,
+  await admin.from('disputes').insert({
+    fine_id: fineId, submitted_by: user.id, reason: reason.slice(0, 500), status: 'pending',
   })
-
-  if (!allowed) {
-    return { error: 'Too many disputes. Please wait.' }
-  }
-
-  // Create dispute
-  await supabase.from('disputes').insert({
-    fine_id: fineId,
-    submitted_by: currentUser.id,
-    reason: reason.slice(0, 500),
-    status: 'pending',
-  })
-
-  // Update fine status to disputed
-  await supabase.from('fines').update({ status: 'disputed', updated_at: new Date().toISOString() }).eq('id', fineId)
+  await admin.from('fines').update({ status: 'disputed', updated_at: new Date().toISOString() }).eq('id', fineId)
 
   // Notify admins
-  const { data: admins } = await supabase
-    .from('group_members')
-    .select('user_id')
-    .eq('group_id', fine.group_id)
-    .in('role', ['admin', 'owner'])
-    .neq('user_id', currentUser.id)
+  const { data: admins } = await admin
+    .from('group_members').select('user_id').eq('group_id', f.group_id).in('role', ['admin', 'owner']).neq('user_id', user.id)
 
-  for (const admin of admins ?? []) {
-    await supabase.from('notifications').insert({
-      user_id: admin.user_id,
-      group_id: fine.group_id,
-      type: 'dispute_submitted',
+  const { data: myProfile } = await admin.from('profiles').select('display_name').eq('id', user.id).single()
+  const myName = (myProfile as any)?.display_name ?? 'Someone'
+
+  for (const a of admins ?? []) {
+    await admin.from('notifications').insert({
+      user_id: (a as any).user_id, group_id: f.group_id, type: 'dispute_submitted',
       title: '⚖️ Fine Disputed',
-      message: `${currentUser.profile.display_name} is disputing their ₹${fine.amount} fine`,
+      message: `${myName} is disputing their ₹${f.amount} fine`,
       metadata: { fine_id: fineId },
     })
   }

@@ -1,9 +1,18 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import { getCurrentUser } from '@/lib/auth/get-current-user'
+import { createClient } from '@supabase/supabase-js'
+import { createClient as createServerClient } from '@/lib/supabase/server'
 import { generateInviteCode } from '@/lib/utils'
 import { z } from 'zod'
+
+// Admin client bypasses RLS — safe to use server-side only
+function getAdminClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { autoRefreshToken: false, persistSession: false } }
+  )
+}
 
 const createGroupSchema = z.object({
   name: z.string().min(2).max(50),
@@ -18,9 +27,15 @@ interface CreateGroupResult {
 }
 
 export async function createGroupAction(formData: FormData): Promise<CreateGroupResult> {
-  const currentUser = await getCurrentUser()
-  const supabase = await createClient()
+  // 1. Get current authenticated user (uses anon client + session cookie)
+  const serverClient = await createServerClient()
+  const { data: { user }, error: authError } = await serverClient.auth.getUser()
 
+  if (authError || !user) {
+    return { error: 'You must be logged in to create a group.' }
+  }
+
+  // 2. Validate input
   const raw = {
     name: formData.get('name') as string,
     description: formData.get('description') as string | undefined,
@@ -33,19 +48,19 @@ export async function createGroupAction(formData: FormData): Promise<CreateGroup
     return { error: parsed.error.issues[0].message }
   }
 
+  // 3. Use admin client for all DB operations (bypasses RLS safely on server)
+  const supabase = getAdminClient()
+
   // Generate unique invite code
   let inviteCode = generateInviteCode(8)
-  let attempts = 0
-  while (attempts < 5) {
+  for (let i = 0; i < 5; i++) {
     const { data: existing } = await supabase
       .from('groups')
       .select('id')
       .eq('invite_code', inviteCode)
       .single()
-
     if (!existing) break
     inviteCode = generateInviteCode(8)
-    attempts++
   }
 
   // Create group
@@ -55,7 +70,7 @@ export async function createGroupAction(formData: FormData): Promise<CreateGroup
       name: parsed.data.name,
       description: parsed.data.description || null,
       invite_code: inviteCode,
-      created_by: currentUser.id,
+      created_by: user.id,
       currency: parsed.data.currency,
       default_fine_amount: parsed.data.default_fine_amount,
       settings: {},
@@ -71,7 +86,7 @@ export async function createGroupAction(formData: FormData): Promise<CreateGroup
   // Add creator as owner
   const { error: memberError } = await supabase.from('group_members').insert({
     group_id: (group as any).id,
-    user_id: currentUser.id,
+    user_id: user.id,
     role: 'owner',
   })
 

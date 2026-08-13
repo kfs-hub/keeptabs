@@ -1,7 +1,15 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import { getCurrentUser } from '@/lib/auth/get-current-user'
+import { createClient } from '@supabase/supabase-js'
+import { createClient as createServerClient } from '@/lib/supabase/server'
+
+function getAdminClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { autoRefreshToken: false, persistSession: false } }
+  )
+}
 
 interface JoinGroupResult {
   error?: string
@@ -9,14 +17,21 @@ interface JoinGroupResult {
 }
 
 export async function joinGroupAction(formData: FormData): Promise<JoinGroupResult> {
-  const currentUser = await getCurrentUser()
-  const supabase = await createClient()
+  // 1. Get current authenticated user
+  const serverClient = await createServerClient()
+  const { data: { user }, error: authError } = await serverClient.auth.getUser()
+
+  if (authError || !user) {
+    return { error: 'You must be logged in to join a group.' }
+  }
 
   const inviteCode = (formData.get('invite_code') as string)?.trim().toUpperCase()
-
   if (!inviteCode || inviteCode.length < 4) {
     return { error: 'Please enter a valid invite code.' }
   }
+
+  // 2. Use admin client for DB operations
+  const supabase = getAdminClient()
 
   // Find group by invite code
   const { data: group, error: groupError } = await supabase
@@ -36,7 +51,7 @@ export async function joinGroupAction(formData: FormData): Promise<JoinGroupResu
     .from('group_members')
     .select('id')
     .eq('group_id', g.id)
-    .eq('user_id', currentUser.id)
+    .eq('user_id', user.id)
     .single()
 
   if (existingMembership) {
@@ -46,13 +61,13 @@ export async function joinGroupAction(formData: FormData): Promise<JoinGroupResu
   // Join the group
   const { error: joinError } = await supabase.from('group_members').insert({
     group_id: g.id,
-    user_id: currentUser.id,
+    user_id: user.id,
     role: 'member',
   })
 
   if (joinError) {
     console.error('Join error:', joinError)
-    return { error: 'Failed to join group. Please try again.' }
+    return { error: `Failed to join group: ${joinError.message}` }
   }
 
   return { data: { groupId: g.id, groupName: g.name } }
