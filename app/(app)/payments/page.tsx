@@ -6,27 +6,14 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { formatCurrency } from '@/lib/utils'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export const metadata = { title: 'Payments' }
 
 export default async function PaymentsPage() {
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
 
-  const { data: membership } = await supabase
-    .from('group_members')
-    .select('group_id, groups(*)')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!membership) redirect('/onboarding')
-
-  const groupId = membership.group_id
-  const group = membership.groups as any
+  const { group, groupId, userId } = await getActiveGroup()
   const currency: string = group?.currency ?? 'INR'
 
   // My unpaid fines
@@ -34,7 +21,7 @@ export default async function PaymentsPage() {
     .from('fines')
     .select('amount')
     .eq('group_id', groupId)
-    .eq('fined_user_id', user.id)
+    .eq('fined_user_id', userId)
     .in('status', ['unpaid', 'disputed'])
 
   const totalOwed = (unpaidFines ?? []).reduce((s, f) => s + Number(f.amount), 0)
@@ -43,7 +30,7 @@ export default async function PaymentsPage() {
   const { data: recentPayments } = await supabase
     .from('payments')
     .select('id, amount, status, created_at')
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .eq('group_id', groupId)
     .order('created_at', { ascending: false })
     .limit(3)

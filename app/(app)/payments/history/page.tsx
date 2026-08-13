@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { PaymentHistoryClient } from './payment-history-client'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export const metadata = { title: 'Payment History' }
 
 export default async function PaymentHistoryPage({
@@ -12,25 +14,9 @@ export default async function PaymentHistoryPage({
   const params = await searchParams
   const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
-
-  const { data: membership } = await supabase
-    .from('group_members')
-    .select('group_id, role, groups(*)')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!membership) redirect('/onboarding')
-
-  const groupId = membership.group_id
-  const group = membership.groups as any
+  const { group, groupId, role, userId } = await getActiveGroup()
   const currency: string = group?.currency ?? 'INR'
-  const isAdmin = ['admin', 'owner'].includes(membership.role)
+  const isAdmin = ['admin', 'owner'].includes(role)
 
   const page = parseInt(params.page ?? '1')
   const pageSize = 15
@@ -43,7 +29,7 @@ export default async function PaymentHistoryPage({
     .eq('group_id', groupId)
 
   if (!isAdmin) {
-    query = query.eq('user_id', user.id)
+    query = query.eq('user_id', userId)
   }
 
   if (statusFilter && statusFilter !== 'all') {
@@ -76,7 +62,7 @@ export default async function PaymentHistoryPage({
       finesByPayment={finesByPayment}
       currency={currency}
       isAdmin={isAdmin}
-      currentUserId={user.id}
+      currentUserId={userId}
       total={count ?? 0}
       page={page}
       pageSize={pageSize}

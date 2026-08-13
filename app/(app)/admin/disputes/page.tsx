@@ -2,25 +2,15 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { DisputesClient } from './disputes-client'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export const metadata = { title: 'Admin — Disputes' }
 
 export default async function AdminDisputesPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
 
-  const { data: membership } = await supabase
-    .from('group_members')
-    .select('group_id, role, groups(*)')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!membership || !['admin', 'owner'].includes(membership.role)) redirect('/dashboard')
-
-  const groupId = membership.group_id
-  const group = membership.groups as any
+  const { group, groupId, role } = await getActiveGroup()
+  if (!['admin', 'owner'].includes(role)) redirect('/dashboard')
 
   // All pending disputes in the group
   const { data: disputes } = await supabase

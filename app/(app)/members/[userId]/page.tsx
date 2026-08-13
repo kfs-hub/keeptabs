@@ -6,6 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { formatCurrency, formatDate, getInitials } from '@/lib/utils'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export async function generateMetadata({ params }: { params: Promise<{ userId: string }> }) {
   return { title: 'Member Profile' }
 }
@@ -18,24 +20,8 @@ export default async function MemberProfilePage({
   const { userId: profileUserId } = await params
   const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
-
   // Get viewer's active group
-  const { data: viewerMembership } = await supabase
-    .from('group_members')
-    .select('group_id, groups(*)')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!viewerMembership) redirect('/onboarding')
-
-  const groupId = viewerMembership.group_id
-  const group = viewerMembership.groups as any
+  const { group, groupId, userId } = await getActiveGroup()
   const currency: string = group?.currency ?? 'INR'
 
   // Verify target user is in the same group (RLS also enforces this)
@@ -49,7 +35,7 @@ export default async function MemberProfilePage({
   if (!targetMembership) notFound()
 
   const profile = targetMembership.profiles as any
-  const isMe = profileUserId === user.id
+  const isMe = profileUserId === userId
 
   // Get this user's fines
   const { data: receivedFines } = await supabase

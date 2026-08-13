@@ -3,6 +3,8 @@ import { createClient } from '@/lib/supabase/server'
 import { FinesClient } from './fines-client'
 import type { FineWithDetails } from '@/types/database'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export const metadata = { title: 'Fines' }
 
 export default async function FinesPage({
@@ -13,25 +15,9 @@ export default async function FinesPage({
   const params = await searchParams
   const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
-
-  const { data: membership } = await supabase
-    .from('group_members')
-    .select('group_id, role, groups(*)')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!membership) redirect('/onboarding')
-
-  const groupId = membership.group_id
-  const group = membership.groups as any
+  const { group, groupId, role, userId } = await getActiveGroup()
   const currency: string = group?.currency ?? 'INR'
-  const isAdmin = ['admin', 'owner'].includes(membership.role)
+  const isAdmin = ['admin', 'owner'].includes(role)
 
   // Build query from search params
   let query = supabase
@@ -85,7 +71,7 @@ export default async function FinesPage({
       fines={fines}
       members={(members ?? []).map((m) => m.profiles as any)}
       rules={rules ?? []}
-      currentUserId={user.id}
+      currentUserId={userId}
       currency={currency}
       isAdmin={isAdmin}
       total={count ?? 0}

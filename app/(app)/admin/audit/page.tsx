@@ -3,6 +3,8 @@ import { createClient } from '@/lib/supabase/server'
 import { FileText } from 'lucide-react'
 import { formatDate, formatRelativeTime } from '@/lib/utils'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export const metadata = { title: 'Admin — Audit Log' }
 
 const actionLabels: Record<string, string> = {
@@ -25,20 +27,9 @@ export default async function AuditLogPage({
   const pageSize = 30
 
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
 
-  const { data: membership } = await supabase
-    .from('group_members')
-    .select('group_id, role')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!membership || !['admin', 'owner'].includes(membership.role)) redirect('/dashboard')
-
-  const groupId = membership.group_id
+  const { groupId, role } = await getActiveGroup()
+  if (!['admin', 'owner'].includes(role)) redirect('/dashboard')
 
   const { data: logs, count } = await supabase
     .from('audit_logs')

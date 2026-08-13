@@ -11,6 +11,8 @@ import { AchievementToastListener } from '@/components/fun/achievement-toast'
 import { formatCurrency } from '@/lib/utils'
 import type { FineWithDetails, GroupSettings } from '@/types/database'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 export const metadata = { title: 'Dashboard' }
@@ -18,24 +20,8 @@ export const metadata = { title: 'Dashboard' }
 export default async function DashboardPage() {
   const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
-
   // Get active group
-  const { data: membership } = await supabase
-    .from('group_members')
-    .select('*, groups(*)')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!membership) redirect('/onboarding')
-
-  const group = membership.groups as any
-  const groupId = group.id
+  const { group, groupId, userId } = await getActiveGroup()
   const currency: string = group.currency || 'INR'
   const settings = (group.settings || {}) as GroupSettings
 
@@ -87,7 +73,7 @@ export default async function DashboardPage() {
 
   // My balance
   const myUnpaidFines = (allFines ?? []).filter(
-    (f) => f.fined_user_id === user.id && (f.status === 'unpaid' || f.status === 'disputed')
+    (f) => f.fined_user_id === userId && (f.status === 'unpaid' || f.status === 'disputed')
   )
   const myAmountOwed = myUnpaidFines.reduce((sum, f) => sum + Number(f.amount), 0)
 
@@ -178,7 +164,7 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Achievement toast listener (client, invisible) */}
-      <AchievementToastListener userId={user.id} groupId={groupId} />
+      <AchievementToastListener userId={userId} groupId={groupId} />
 
       {/* Page Title */}
       <div>

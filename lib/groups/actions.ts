@@ -27,7 +27,7 @@ export async function switchGroupAction(groupId: string): Promise<{ success?: bo
     secure: process.env.NODE_ENV === 'production',
   })
 
-  revalidatePath('/(app)', 'layout')
+  revalidatePath('/', 'layout')
   revalidatePath('/dashboard')
   revalidatePath('/fines')
   revalidatePath('/rules')

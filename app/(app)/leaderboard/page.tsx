@@ -3,27 +3,14 @@ import { createClient } from '@/lib/supabase/server'
 import { LeaderboardClient } from './leaderboard-client'
 import type { GroupSettings } from '@/types/database'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export const metadata = { title: 'Leaderboard' }
 
 export default async function LeaderboardPage() {
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
 
-  const { data: membership } = await supabase
-    .from('group_members')
-    .select('group_id, groups(*)')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!membership) redirect('/onboarding')
-
-  const groupId = membership.group_id
-  const group = membership.groups as any
+  const { group, groupId, userId } = await getActiveGroup()
   const currency: string = group?.currency ?? 'INR'
   const settings = (group?.settings ?? {}) as GroupSettings
 
@@ -89,7 +76,7 @@ export default async function LeaderboardPage() {
       entries={entries}
       currency={currency}
       settings={settings}
-      currentUserId={user.id}
+      currentUserId={userId}
     />
   )
 }

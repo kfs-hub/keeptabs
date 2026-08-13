@@ -8,56 +8,27 @@ import type { Profile } from '@/types/database'
 
 import { cookies } from 'next/headers'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) redirect('/login')
+  const { group: activeGroup, groupId, membership: activeMembership, memberships, userId } = await getActiveGroup()
 
   // Fetch profile
   const { data: profile } = await supabase
     .from('profiles')
     .select('*')
-    .eq('id', user.id)
+    .eq('id', userId)
     .single()
 
   if (!profile) redirect('/login')
-
-  // Fetch user's groups
-  const { data: memberships } = await supabase
-    .from('group_members')
-    .select('*, groups(*)')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-
-  if (!memberships || memberships.length === 0) {
-    redirect('/onboarding')
-  }
-
-  // Determine active group from cookie
-  const cookieStore = await cookies()
-  const activeGroupId = cookieStore.get('active_group_id')?.value
-
-  let activeMembership = memberships.find((m) => (m.groups as any)?.id === activeGroupId)
-
-  if (!activeMembership) {
-    if (memberships.length > 1) {
-      redirect('/groups/select')
-    }
-    activeMembership = memberships[0]
-  }
-
-  const activeGroup = activeMembership.groups as any
-  const groupId = activeGroup?.id
 
   // Unread notifications count
   const { count: unreadCount } = await supabase
     .from('notifications')
     .select('*', { count: 'exact', head: true })
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .eq('read', false)
 
   // Fetch group members and rules for the FAB

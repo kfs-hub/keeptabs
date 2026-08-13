@@ -3,6 +3,8 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { Shield, Users, BarChart2, Settings, FileText, AlertTriangle } from 'lucide-react'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 const adminNav = [
   { href: '/admin/disputes',  label: 'Disputes',  icon: <AlertTriangle className="h-4 w-4" /> },
   { href: '/admin/members',   label: 'Members',   icon: <Users className="h-4 w-4" /> },
@@ -11,19 +13,9 @@ const adminNav = [
 ]
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
+  const { role } = await getActiveGroup()
 
-  const { data: membership } = await supabase
-    .from('group_members')
-    .select('role, group_id')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!membership || !['admin', 'owner'].includes(membership.role)) {
+  if (!['admin', 'owner'].includes(role)) {
     redirect('/dashboard')
   }
 
@@ -37,7 +29,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <div>
           <h1 className="text-xl font-bold text-white">Admin Panel</h1>
           <p className="text-xs text-white/40">
-            {membership.role === 'owner' ? '👑 Group Owner' : '🛡️ Group Admin'}
+            {role === 'owner' ? '👑 Group Owner' : '🛡️ Group Admin'}
           </p>
         </div>
       </div>

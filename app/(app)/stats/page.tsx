@@ -3,27 +3,14 @@ import { createClient } from '@/lib/supabase/server'
 import { StatsClient } from './stats-client'
 import { formatCurrency } from '@/lib/utils'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export const metadata = { title: 'Statistics' }
 
 export default async function StatsPage() {
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
 
-  const { data: membership } = await supabase
-    .from('group_members')
-    .select('group_id, groups(*)')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!membership) redirect('/onboarding')
-
-  const groupId = membership.group_id
-  const group = membership.groups as any
+  const { group, groupId } = await getActiveGroup()
   const currency: string = group?.currency ?? 'INR'
 
   // All fines

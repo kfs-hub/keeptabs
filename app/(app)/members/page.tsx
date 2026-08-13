@@ -6,27 +6,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { formatCurrency, getInitials } from '@/lib/utils'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export const metadata = { title: 'Members' }
 
 export default async function MembersPage() {
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
 
-  const { data: membership } = await supabase
-    .from('group_members')
-    .select('group_id, groups(*)')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!membership) redirect('/onboarding')
-
-  const groupId = membership.group_id
-  const group = membership.groups as any
+  const { group, groupId, userId } = await getActiveGroup()
   const currency: string = group?.currency ?? 'INR'
 
   const { data: members } = await supabase
@@ -67,7 +54,7 @@ export default async function MembersPage() {
           {members.map((m) => {
             const p = m.profiles as any
             const balance = balanceMap[m.user_id] ?? 0
-            const isMe = m.user_id === user.id
+            const isMe = m.user_id === userId
             return (
               <Link
                 key={m.user_id}

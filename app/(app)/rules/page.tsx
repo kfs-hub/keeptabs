@@ -2,28 +2,15 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { RulesClient } from './rules-client'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export const metadata = { title: 'Rules' }
 
 export default async function RulesPage() {
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
 
-  const { data: membership } = await supabase
-    .from('group_members')
-    .select('group_id, role, groups(*)')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!membership) redirect('/onboarding')
-
-  const groupId = membership.group_id
-  const group = membership.groups as any
-  const isAdmin = ['admin', 'owner'].includes(membership.role)
+  const { group, groupId, role } = await getActiveGroup()
+  const isAdmin = ['admin', 'owner'].includes(role)
 
   const { data: rules } = await supabase
     .from('rules')

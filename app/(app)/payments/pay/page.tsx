@@ -3,36 +3,22 @@ import { createClient } from '@/lib/supabase/server'
 import { PayClient } from './pay-client'
 import type { FineWithDetails } from '@/types/database'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export const metadata = { title: 'Pay Fines' }
 
 export default async function PayPage() {
   const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
-
   // Get active group membership
-  const { data: membership } = await supabase
-    .from('group_members')
-    .select('group_id, groups(*)')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!membership) redirect('/onboarding')
-
-  const groupId = membership.group_id
-  const group = membership.groups as any
+  const { group, groupId, userId, user } = await getActiveGroup()
   const currency: string = group?.currency ?? 'INR'
 
   // Get current user's profile (for Razorpay prefill)
   const { data: profile } = await supabase
     .from('profiles')
     .select('display_name')
-    .eq('id', user.id)
+    .eq('id', userId)
     .single()
 
   // Get all unpaid + disputed fines for this user in this group
@@ -45,7 +31,7 @@ export default async function PayPage() {
       rule:rules(*)
     `)
     .eq('group_id', groupId)
-    .eq('fined_user_id', user.id)
+    .eq('fined_user_id', userId)
     .in('status', ['unpaid', 'disputed'])
     .order('created_at', { ascending: true })
 

@@ -2,25 +2,15 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { AdminMembersClient } from './members-client'
 
+import { getActiveGroup } from '@/lib/groups/get-active-group'
+
 export const metadata = { title: 'Admin — Members' }
 
 export default async function AdminMembersPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
 
-  const { data: myMembership } = await supabase
-    .from('group_members')
-    .select('group_id, role, groups(*)')
-    .eq('user_id', user.id)
-    .order('joined_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (!myMembership || !['admin', 'owner'].includes(myMembership.role)) redirect('/dashboard')
-
-  const groupId = myMembership.group_id
-  const group = myMembership.groups as any
+  const { group, groupId, role: myRole, userId } = await getActiveGroup()
+  if (!['admin', 'owner'].includes(myRole)) redirect('/dashboard')
 
   const { data: members } = await supabase
     .from('group_members')
@@ -47,8 +37,8 @@ export default async function AdminMembersPage() {
       members={enriched}
       groupId={groupId}
       currency={group?.currency ?? 'INR'}
-      currentUserId={user.id}
-      isOwner={myMembership.role === 'owner'}
+      currentUserId={userId}
+      isOwner={myRole === 'owner'}
     />
   )
 }
