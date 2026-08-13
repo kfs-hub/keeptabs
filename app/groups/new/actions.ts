@@ -65,7 +65,7 @@ export async function createGroupAction(formData: FormData): Promise<CreateGroup
 
   if (groupError || !group) {
     console.error('Group creation error:', groupError)
-    return { error: 'Failed to create group. Please try again.' }
+    return { error: `Failed to create group: ${groupError?.message ?? 'unknown error'}` }
   }
 
   // Add creator as owner
@@ -78,7 +78,7 @@ export async function createGroupAction(formData: FormData): Promise<CreateGroup
   if (memberError) {
     console.error('Member insert error:', memberError)
     await supabase.from('groups').delete().eq('id', (group as any).id)
-    return { error: 'Failed to set up group membership.' }
+    return { error: `Failed to set up group membership: ${memberError.message}` }
   }
 
   return { data: { groupId: (group as any).id, inviteCode } }
