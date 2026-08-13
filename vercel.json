@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "app/api/razorpay-webhook/route.ts": {
+      "maxDuration": 30
+    },
+    "app/api/payments/create-order/route.ts": {
+      "maxDuration": 15
+    },
+    "app/api/payments/verify/route.ts": {
+      "maxDuration": 15
+    }
+  }
+}
