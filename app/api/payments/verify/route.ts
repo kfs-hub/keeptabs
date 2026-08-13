@@ -1,10 +1,20 @@
 import { NextResponse } from 'next/server'
 import crypto from 'crypto'
-import { createClient } from '@/lib/supabase/server'
+import { createClient as createServerClient } from '@/lib/supabase/server'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { revalidatePath } from 'next/cache'
+
+// Admin client to bypass RLS when marking fines paid
+function getAdminClient() {
+  return createAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+}
 
 export async function POST(req: Request) {
   try {
-    const supabase = await createClient()
+    const supabase = await createServerClient()
 
     // 1. Authenticate user
     const {
@@ -23,7 +33,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    // 3. Verify HMAC signature
+    // 3. Verify HMAC signature — server-side only
     const expectedSignature = crypto
       .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!)
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
@@ -33,37 +43,75 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid payment signature' }, { status: 400 })
     }
 
-    // 4. Verify the payment record belongs to this user
+    // 4. Verify payment record belongs to this user
     const { data: payment } = await supabase
       .from('payments')
-      .select('id, user_id, status, razorpay_order_id')
+      .select('id, user_id, status, razorpay_order_id, group_id')
       .eq('id', paymentDbId)
       .single()
 
-    if (!payment || payment.user_id !== user.id) {
-      return NextResponse.json({ error: 'Payment not found or not yours' }, { status: 403 })
+    const p = payment as any
+
+    if (!p || p.user_id !== user.id) {
+      return NextResponse.json({ error: 'Payment not found' }, { status: 403 })
     }
 
-    if (payment.razorpay_order_id !== razorpay_order_id) {
+    if (p.razorpay_order_id !== razorpay_order_id) {
       return NextResponse.json({ error: 'Order ID mismatch' }, { status: 400 })
     }
 
-    if (payment.status === 'successful') {
-      // Already processed (e.g., webhook was faster) — idempotent success
-      return NextResponse.json({ success: true, alreadyProcessed: true })
+    // 5. If already successful, return early (idempotent)
+    if (p.status === 'successful') {
+      return NextResponse.json({ success: true, status: 'successful' })
     }
 
-    // 5. Update payment status to processing (webhook will finalize to successful)
-    await supabase
+    // 6. Signature verified — immediately mark payment as successful
+    // Use admin client to bypass RLS (users can't update their own payment status)
+    const admin = getAdminClient()
+
+    await admin
       .from('payments')
       .update({
         razorpay_payment_id,
-        status: 'processing',
+        status: 'successful',
         updated_at: new Date().toISOString(),
       })
       .eq('id', paymentDbId)
 
-    return NextResponse.json({ success: true, status: 'processing' })
+    // 7. Get linked fines and mark them all as paid
+    const { data: paymentFines } = await admin
+      .from('payment_fines')
+      .select('fine_id')
+      .eq('payment_id', paymentDbId)
+
+    if (paymentFines && paymentFines.length > 0) {
+      const fineIds = paymentFines.map((pf: any) => pf.fine_id)
+      await admin
+        .from('fines')
+        .update({ status: 'paid', updated_at: new Date().toISOString() })
+        .in('id', fineIds)
+    }
+
+    // 8. Send notification to user
+    await admin.from('notifications').insert({
+      user_id: user.id,
+      group_id: p.group_id,
+      type: 'payment_successful',
+      title: '🎉 Payment Confirmed!',
+      message: `Your payment of ₹${p.amount} was successful. Debt cleared! 🏆`,
+      metadata: { payment_id: paymentDbId },
+    })
+
+    // 9. Revalidate all relevant pages so they show fresh data immediately
+    revalidatePath('/dashboard')
+    revalidatePath('/fines')
+    revalidatePath('/payments')
+    revalidatePath('/payments/pay')
+    revalidatePath('/payments/history')
+    revalidatePath('/leaderboard')
+    revalidatePath('/stats')
+
+    return NextResponse.json({ success: true, status: 'successful' })
   } catch (error: any) {
     console.error('verify-payment error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { CheckSquare, Square, CreditCard, RefreshCw } from 'lucide-react'
+import { CheckSquare, Square } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -14,7 +14,7 @@ import { PaymentFailed } from '@/components/payments/payment-failed'
 import { formatCurrency, formatDate } from '@/lib/utils'
 import type { FineWithDetails } from '@/types/database'
 
-type PayState = 'select' | 'verifying' | 'success' | 'failed'
+type PayState = 'select' | 'success' | 'failed'
 
 interface PayClientProps {
   fines: FineWithDetails[]
@@ -32,35 +32,6 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
   const [checkoutState, setCheckoutState] = useState<'idle' | 'loading' | 'open' | 'verifying'>('idle')
   const [failureError, setFailureError] = useState<string>('')
   const [successData, setSuccessData] = useState<{ paymentDbId: string; amount: number; fineCount: number } | null>(null)
-
-  // Poll for payment status after verification
-  useEffect(() => {
-    if (!successData?.paymentDbId) return
-    let attempts = 0
-    const MAX = 10
-
-    const poll = setInterval(async () => {
-      attempts++
-      try {
-        const res = await fetch(`/api/payments/status?id=${successData.paymentDbId}`)
-        if (res.ok) {
-          const data = await res.json()
-          if (data.status === 'successful') {
-            clearInterval(poll)
-            setPayState('success')
-            router.refresh()
-          }
-        }
-      } catch {}
-      if (attempts >= MAX) {
-        // Webhook may be slow but verification confirmed — treat as success
-        clearInterval(poll)
-        setPayState('success')
-      }
-    }, 3000)
-
-    return () => clearInterval(poll)
-  }, [successData, router])
 
   const selectedFines = fines.filter((f) => selected.has(f.id))
   const selectedTotal = selectedFines.reduce((sum, f) => sum + Number(f.amount), 0)
@@ -81,9 +52,12 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
   }
 
   const handleSuccess = useCallback((paymentDbId: string) => {
+    // Verify endpoint now marks fines paid immediately after signature check.
+    // Go straight to success — no polling needed.
     setSuccessData({ paymentDbId, amount: selectedTotal, fineCount: selectedFines.length })
-    setPayState('verifying')
-  }, [selectedTotal, selectedFines.length])
+    setPayState('success')
+    router.refresh()
+  }, [selectedTotal, selectedFines.length, router])
 
   const handleFailure = useCallback((error: string) => {
     setFailureError(error)
@@ -93,28 +67,6 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
   // ---- Success screen ----
   if (payState === 'success' && successData) {
     return <PaymentSuccess amount={successData.amount} fineCount={successData.fineCount} currency={currency} />
-  }
-
-  // ---- Verifying (post-checkout, awaiting webhook) ----
-  if (payState === 'verifying') {
-    return (
-      <div className="min-h-[50vh] flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center space-y-4"
-        >
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
-          >
-            <RefreshCw className="h-12 w-12 text-violet-400 mx-auto" />
-          </motion.div>
-          <h2 className="text-xl font-bold text-white">Confirming your payment…</h2>
-          <p className="text-white/40 text-sm">Waiting for payment confirmation. This takes a few seconds.</p>
-        </motion.div>
-      </div>
-    )
   }
 
   // ---- Failed screen ----
