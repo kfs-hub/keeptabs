@@ -15,11 +15,11 @@ import {
   LogOut,
   Shield,
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn, getInitials } from '@/lib/utils'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { getInitials } from '@/lib/utils'
+import { GroupSwitcher } from '@/components/layout/group-switcher'
 import { logoutAction } from '@/app/(auth)/actions'
-import type { Profile, MemberRole } from '@/types/database'
+import type { Profile, MemberRole, Group } from '@/types/database'
 
 interface NavItem {
   href: string
@@ -44,9 +44,11 @@ interface SidebarProps {
   profile: Profile
   groupName: string
   role: MemberRole
+  groups?: Group[]
+  activeGroup?: Group
 }
 
-export function Sidebar({ profile, groupName, role }: SidebarProps) {
+export function Sidebar({ profile, groupName, role, groups, activeGroup }: SidebarProps) {
   const pathname = usePathname()
   const isAdmin = ['admin', 'owner'].includes(role)
 
@@ -56,17 +58,18 @@ export function Sidebar({ profile, groupName, role }: SidebarProps) {
 
   return (
     <aside className="hidden md:flex flex-col w-60 shrink-0 border-r border-white/5 bg-[#0a0a14] h-screen sticky top-0">
-      {/* Logo */}
-      <div className="p-5 border-b border-white/5">
+      {/* Logo & Group Switcher */}
+      <div className="p-4 border-b border-white/5 space-y-3">
         <Link href="/dashboard" className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center text-base shadow-lg shadow-violet-500/30">
             💸
           </div>
-          <div>
-            <div className="font-bold text-white text-sm leading-none">Keep Tabs</div>
-            <div className="text-xs text-white/40 mt-0.5 truncate max-w-[130px]">{groupName}</div>
-          </div>
+          <div className="font-bold text-white text-sm">Keep Tabs</div>
         </Link>
+
+        {groups && activeGroup && (
+          <GroupSwitcher groups={groups} activeGroup={activeGroup} />
+        )}
       </div>
 
       {/* Nav Items */}

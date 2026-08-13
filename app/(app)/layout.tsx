@@ -6,6 +6,8 @@ import { Header } from '@/components/layout/header'
 import { IssueFineButton } from '@/components/fines/issue-fine-fab'
 import type { Profile } from '@/types/database'
 
+import { cookies } from 'next/headers'
+
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
 
@@ -35,8 +37,19 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     redirect('/onboarding')
   }
 
-  // Use first group as active
-  const activeMembership = memberships[0]
+  // Determine active group from cookie
+  const cookieStore = await cookies()
+  const activeGroupId = cookieStore.get('active_group_id')?.value
+
+  let activeMembership = memberships.find((m) => (m.groups as any)?.id === activeGroupId)
+
+  if (!activeMembership) {
+    if (memberships.length > 1) {
+      redirect('/groups/select')
+    }
+    activeMembership = memberships[0]
+  }
+
   const activeGroup = activeMembership.groups as any
   const groupId = activeGroup?.id
 
@@ -73,6 +86,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         profile={profile}
         groupName={activeGroup?.name ?? 'Loading...'}
         role={activeMembership.role}
+        groups={groups}
+        activeGroup={activeGroup}
       />
 
       <div className="flex-1 flex flex-col min-w-0">

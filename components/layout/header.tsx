@@ -16,6 +16,8 @@ import { getInitials } from '@/lib/utils'
 import { logoutAction } from '@/app/(auth)/actions'
 import type { Profile, Group } from '@/types/database'
 
+import { GroupSwitcher } from '@/components/layout/group-switcher'
+
 interface HeaderProps {
   profile: Profile
   group: Group
@@ -27,17 +29,16 @@ export function Header({ profile, group, unreadNotifications, groups }: HeaderPr
   return (
     <header className="sticky top-0 z-30 h-14 border-b border-white/5 bg-[#0a0a14]/80 backdrop-blur-md flex items-center px-4 gap-3">
       {/* Mobile: Logo */}
-      <Link href="/dashboard" className="md:hidden flex items-center gap-2">
+      <Link href="/dashboard" className="md:hidden flex items-center gap-2 shrink-0">
         <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center text-sm">
           💸
         </div>
-        <span className="font-bold text-white text-sm">Keep Tabs</span>
       </Link>
 
-      {/* Group name (desktop) */}
-      <div className="hidden md:flex items-center gap-2 text-sm text-white/50">
-        <span className="text-white/20">/</span>
-        <span className="text-white/80 font-medium">{group.name}</span>
+      {/* Group Switcher */}
+      <div className="flex items-center gap-2">
+        <span className="hidden md:inline text-white/20 text-sm">/</span>
+        <GroupSwitcher groups={groups} activeGroup={group} compact />
       </div>
 
       <div className="ml-auto flex items-center gap-2">
