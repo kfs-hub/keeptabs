@@ -1,6 +1,7 @@
 'use server'
 
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendWebPush } from '@/lib/notifications/web-push'
 
 interface CreateNotificationParams {
   userId: string
@@ -22,6 +23,14 @@ export async function createNotification(params: CreateNotificationParams) {
     metadata: params.metadata ?? {},
   })
   if (error) console.error('Failed to create notification:', error)
+
+  // Dispatch real-time web push notification to user's devices
+  await sendWebPush(params.userId, {
+    title: params.title,
+    body: params.message,
+    url: '/notifications',
+    tag: `group-${params.groupId}-${params.type}`,
+  })
 }
 
 export async function createFineNotification({ finedUserId, reporterId, groupId, amount, ruleName, fineId }: {

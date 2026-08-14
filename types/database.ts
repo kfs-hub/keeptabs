@@ -356,6 +356,29 @@ export interface Database {
         }
         Update: Record<string, never>
       }
+      push_subscriptions: {
+        Row: {
+          id: string
+          user_id: string
+          endpoint: string
+          p256dh: string
+          auth: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          endpoint: string
+          p256dh: string
+          auth: string
+          created_at?: string
+        }
+        Update: {
+          endpoint?: string
+          p256dh?: string
+          auth?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never
@@ -393,6 +416,7 @@ export type Payment = Database['public']['Tables']['payments']['Row']
 export type PaymentFine = Database['public']['Tables']['payment_fines']['Row']
 export type Dispute = Database['public']['Tables']['disputes']['Row']
 export type Notification = Database['public']['Tables']['notifications']['Row']
+export type PushSubscription = Database['public']['Tables']['push_subscriptions']['Row']
 export type Achievement = Database['public']['Tables']['achievements']['Row']
 export type UserAchievement = Database['public']['Tables']['user_achievements']['Row']
 export type AuditLog = Database['public']['Tables']['audit_logs']['Row']

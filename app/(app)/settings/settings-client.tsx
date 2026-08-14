@@ -3,17 +3,19 @@
 import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
-import { Camera, Save, Key, LogOut, Users, Link2, Eye, EyeOff } from 'lucide-react'
+import { Camera, Save, Key, LogOut, Users, Link2, Eye, EyeOff, BellRing, Send } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
 import { Separator } from '@/components/ui/separator'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { getInitials, formatDate } from '@/lib/utils'
 import { logoutAction } from '@/app/(auth)/actions'
 import { createClient } from '@/lib/supabase/client'
+import { usePushNotifications } from '@/hooks/use-push-notifications'
 import {
   updateProfileAction,
   uploadAvatarAction,
@@ -34,6 +36,16 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
   const [avatarPreview, setAvatarPreview] = useState<string | null>(profile.avatar_url)
   const [showPassword, setShowPassword] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const {
+    isSupported: pushSupported,
+    permission: pushPermission,
+    isSubscribed: pushSubscribed,
+    isLoading: pushLoading,
+    subscribe: subscribePush,
+    unsubscribe: unsubscribePush,
+    sendTest: sendTestPush,
+  } = usePushNotifications()
 
   async function handleProfileSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -161,6 +173,76 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
             Save Profile
           </Button>
         </form>
+      </div>
+
+      {/* Push Notifications */}
+      <div className="bg-white border border-zinc-200 rounded-xl p-5 shadow-xs">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-700">
+              <BellRing className="h-3.5 w-3.5" />
+            </div>
+            <div>
+              <h2 className="text-xs font-semibold text-zinc-900 uppercase tracking-wider">Device Notifications</h2>
+              <p className="text-[11px] text-zinc-500">Receive instant alerts for fines, payments, and disputes</p>
+            </div>
+          </div>
+          <Badge
+            variant={pushSubscribed ? 'default' : 'ghost'}
+            className="text-[10px]"
+          >
+            {pushSubscribed ? 'Active' : 'Disabled'}
+          </Badge>
+        </div>
+
+        {!pushSupported ? (
+          <p className="text-xs text-zinc-500 bg-zinc-50 border border-zinc-200 rounded-lg p-3">
+            Push notifications are not supported on this browser or device.
+          </p>
+        ) : (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-50 border border-zinc-200">
+              <div className="space-y-0.5 pr-4">
+                <Label htmlFor="push-toggle" className="text-xs font-semibold text-zinc-900 cursor-pointer">
+                  Browser Push Notifications
+                </Label>
+                <p className="text-[11px] text-zinc-500">
+                  {pushPermission === 'denied'
+                    ? 'Blocked by browser. Allow notifications in site settings.'
+                    : pushSubscribed
+                    ? 'This browser is registered for real-time push alerts.'
+                    : 'Turn on to get notified on this device.'}
+                </p>
+              </div>
+              <Switch
+                id="push-toggle"
+                checked={pushSubscribed}
+                disabled={pushLoading || pushPermission === 'denied'}
+                onCheckedChange={async (checked) => {
+                  if (checked) {
+                    await subscribePush()
+                  } else {
+                    await unsubscribePush()
+                  }
+                }}
+              />
+            </div>
+
+            {pushSubscribed && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="w-full text-xs gap-1.5"
+                onClick={sendTestPush}
+                disabled={pushLoading}
+              >
+                <Send className="h-3.5 w-3.5" />
+                Send Test Notification to This Device
+              </Button>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Change password */}
