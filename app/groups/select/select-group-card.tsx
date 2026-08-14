@@ -36,8 +36,7 @@ export function SelectGroupCard({
         toast.error(res.error)
         setSwitching(false)
       } else {
-        router.push('/dashboard')
-        router.refresh()
+        window.location.href = '/dashboard'
       }
     })
   }

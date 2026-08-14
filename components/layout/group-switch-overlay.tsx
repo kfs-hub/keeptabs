@@ -17,7 +17,18 @@ export function GroupSwitchOverlay({ isVisible, groupName }: GroupSwitchOverlayP
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.15 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-white/80 backdrop-blur-sm"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(250, 250, 250, 0.97)',
+          }}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 6 }}
@@ -47,7 +58,7 @@ export function GroupSwitchOverlay({ isVisible, groupName }: GroupSwitchOverlayP
             </div>
 
             {/* Progress bar */}
-            <div className="w-40 h-1 rounded-full bg-zinc-100 overflow-hidden">
+            <div className="w-40 h-1 rounded-full bg-zinc-200 overflow-hidden">
               <motion.div
                 className="h-full bg-zinc-900 rounded-full"
                 initial={{ width: '0%' }}

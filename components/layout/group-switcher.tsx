@@ -45,9 +45,8 @@ export function GroupSwitcher({ groups, activeGroup, compact = false }: GroupSwi
         toast.error(res.error)
         setSwitchingTo(null)
       } else {
-        router.refresh()
-        // Small delay to let the refresh complete before hiding overlay
-        setTimeout(() => setSwitchingTo(null), 600)
+        // Full navigation to reload all server components with new group context
+        window.location.href = '/dashboard'
       }
     })
   }
