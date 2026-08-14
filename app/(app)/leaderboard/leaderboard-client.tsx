@@ -1,9 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowUpDown } from 'lucide-react'
+import { ArrowUpDown, Trophy, Flame } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { formatCurrency, getInitials } from '@/lib/utils'
@@ -31,32 +30,15 @@ interface LeaderboardClientProps {
   currentUserId: string
 }
 
-const medals = ['🥇', '🥈', '🥉']
-
-const defaultLabels: Record<number, string> = {
-  0: '💀 Biggest Criminal',
-  1: '😭 Bro Owes Everyone',
-  2: '💸 Walking ATM',
-}
-
 function getLabel(index: number, entry: LeaderboardEntry, settings: GroupSettings, sortKey: SortKey): string {
-  if (sortKey === 'streak' && entry.cleanStreak > 6) return '🌟 On a Streak'
-  if (sortKey === 'paid' && index === 0) return '👑 Most Generous'
-  if (entry.totalOwed === 0 && entry.totalPaid > 0) return '🕊️ All Cleared'
+  if (sortKey === 'streak' && entry.cleanStreak > 6) return 'Clean Streak'
+  if (sortKey === 'paid' && index === 0) return 'Top Payer'
+  if (entry.totalOwed === 0 && entry.totalPaid > 0) return 'Balance Cleared'
   const custom = settings?.leaderboard_labels
-  if (index === 0) return custom?.first ?? defaultLabels[0]
-  if (index === 1) return custom?.second ?? defaultLabels[1]
-  if (index === 2) return custom?.third ?? defaultLabels[2]
+  if (index === 0) return custom?.first ?? '1st Place'
+  if (index === 1) return custom?.second ?? '2nd Place'
+  if (index === 2) return custom?.third ?? '3rd Place'
   return ''
-}
-
-const container = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.05 } },
-}
-const row = {
-  hidden: { opacity: 0, x: -12 },
-  show: { opacity: 1, x: 0 },
 }
 
 export function LeaderboardClient({ entries, currency, settings, currentUserId }: LeaderboardClientProps) {
@@ -82,23 +64,23 @@ export function LeaderboardClient({ entries, currency, settings, currentUserId }
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-zinc-900">🏆 Leaderboard</h1>
-        <p className="text-zinc-400 text-sm mt-1">The official group crime rankings.</p>
+        <h1 className="text-xl font-bold tracking-tight text-zinc-900">Leaderboard</h1>
+        <p className="text-xs text-zinc-500 mt-0.5">Group rankings by fines, payments, and clean streaks</p>
       </div>
 
       {/* Sort tabs */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-1.5 flex-wrap">
         {sortButtons.map((btn) => (
           <button
             key={btn.key}
             onClick={() => setSortKey(btn.key)}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
               sortKey === btn.key
-                ? 'bg-violet-600 text-white shadow-sm'
-                : 'bg-zinc-50 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 border border-zinc-200'
+                ? 'bg-zinc-900 text-white shadow-xs'
+                : 'bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 border border-zinc-200'
             }`}
           >
-            <ArrowUpDown className="h-3.5 w-3.5" />
+            <ArrowUpDown className="h-3 w-3" />
             {btn.label}
           </button>
         ))}
@@ -108,57 +90,60 @@ export function LeaderboardClient({ entries, currency, settings, currentUserId }
       {sorted.length >= 3 && (
         <div className="grid grid-cols-3 gap-3 items-end">
           {/* 2nd */}
-          <motion.div
-            layout
+          <div
             key={sorted[1].userId + '-2nd'}
-            className="glass-card rounded-2xl p-4 text-center border border-zinc-200 h-40 flex flex-col items-center justify-end pb-4"
+            className="bg-white rounded-xl p-4 text-center border border-zinc-200 h-36 flex flex-col items-center justify-end pb-3 shadow-xs"
           >
-            <Avatar className="h-12 w-12 mb-2">
+            <Avatar className="h-10 w-10 mb-1.5 border border-zinc-200">
               <AvatarImage src={sorted[1].avatarUrl ?? undefined} />
-              <AvatarFallback>{getInitials(sorted[1].displayName)}</AvatarFallback>
+              <AvatarFallback className="text-xs bg-zinc-100 text-zinc-700">{getInitials(sorted[1].displayName)}</AvatarFallback>
             </Avatar>
-            <p className="text-xl">🥈</p>
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-zinc-100 text-zinc-700 border border-zinc-200">
+              #2
+            </span>
             <p className="text-xs font-semibold text-zinc-900 mt-1 truncate w-full px-1">{sorted[1].displayName}</p>
-            <p className="text-xs text-zinc-400">{formatCurrency(sorted[1].totalOwed, currency)}</p>
-          </motion.div>
+            <p className="text-[11px] text-zinc-500">{formatCurrency(sorted[1].totalOwed, currency)}</p>
+          </div>
 
           {/* 1st */}
-          <motion.div
-            layout
+          <div
             key={sorted[0].userId + '-1st'}
-            className="glass-card rounded-2xl p-4 text-center border border-violet-200 bg-violet-500/5 h-52 flex flex-col items-center justify-end pb-4"
+            className="bg-white rounded-xl p-4 text-center border border-zinc-900 h-44 flex flex-col items-center justify-end pb-4 shadow-xs"
           >
-            <Avatar className="h-14 w-14 mb-2 ring-2 ring-violet-400/50">
+            <Avatar className="h-12 w-12 mb-1.5 border-2 border-zinc-900">
               <AvatarImage src={sorted[0].avatarUrl ?? undefined} />
-              <AvatarFallback>{getInitials(sorted[0].displayName)}</AvatarFallback>
+              <AvatarFallback className="text-sm bg-zinc-100 text-zinc-900">{getInitials(sorted[0].displayName)}</AvatarFallback>
             </Avatar>
-            <p className="text-3xl">🥇</p>
-            <p className="text-sm font-bold text-zinc-900 mt-1 truncate w-full px-1">{sorted[0].displayName}</p>
-            <p className="text-xs text-violet-600 font-semibold">{formatCurrency(sorted[0].totalOwed, currency)}</p>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-zinc-900 text-white">
+              #1
+            </span>
+            <p className="text-xs font-bold text-zinc-900 mt-1 truncate w-full px-1">{sorted[0].displayName}</p>
+            <p className="text-xs text-zinc-900 font-semibold">{formatCurrency(sorted[0].totalOwed, currency)}</p>
             <p className="text-[10px] text-zinc-400 mt-0.5">{getLabel(0, sorted[0], settings, sortKey)}</p>
-          </motion.div>
+          </div>
 
           {/* 3rd */}
-          <motion.div
-            layout
+          <div
             key={sorted[2].userId + '-3rd'}
-            className="glass-card rounded-2xl p-4 text-center border border-zinc-200 h-36 flex flex-col items-center justify-end pb-4"
+            className="bg-white rounded-xl p-4 text-center border border-zinc-200 h-32 flex flex-col items-center justify-end pb-3 shadow-xs"
           >
-            <Avatar className="h-10 w-10 mb-2">
+            <Avatar className="h-9 w-9 mb-1.5 border border-zinc-200">
               <AvatarImage src={sorted[2].avatarUrl ?? undefined} />
-              <AvatarFallback>{getInitials(sorted[2].displayName)}</AvatarFallback>
+              <AvatarFallback className="text-[10px] bg-zinc-100 text-zinc-700">{getInitials(sorted[2].displayName)}</AvatarFallback>
             </Avatar>
-            <p className="text-lg">🥉</p>
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-zinc-100 text-zinc-700 border border-zinc-200">
+              #3
+            </span>
             <p className="text-xs font-semibold text-zinc-900 mt-1 truncate w-full px-1">{sorted[2].displayName}</p>
-            <p className="text-xs text-zinc-400">{formatCurrency(sorted[2].totalOwed, currency)}</p>
-          </motion.div>
+            <p className="text-[11px] text-zinc-500">{formatCurrency(sorted[2].totalOwed, currency)}</p>
+          </div>
         </div>
       )}
 
       {/* Full ranked list */}
-      <div className="glass-card rounded-2xl overflow-hidden">
+      <div className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-xs">
         {/* Column headers */}
-        <div className="grid grid-cols-[40px_1fr_90px_90px_80px] gap-2 px-5 py-3 border-b border-zinc-200 text-xs text-zinc-300 font-medium uppercase tracking-wider">
+        <div className="grid grid-cols-[40px_1fr_90px_90px_80px] gap-2 px-4 py-2.5 border-b border-zinc-100 bg-zinc-50/50 text-[10px] text-zinc-500 font-semibold uppercase tracking-wider">
           <span>#</span>
           <span>Member</span>
           <span className="text-right">Owes</span>
@@ -166,72 +151,66 @@ export function LeaderboardClient({ entries, currency, settings, currentUserId }
           <span className="text-right">Fines</span>
         </div>
 
-        <AnimatePresence mode="wait">
-          <motion.div key={sortKey} variants={container} initial="hidden" animate="show">
-            {sorted.map((entry, index) => {
-              const label = getLabel(index, entry, settings, sortKey)
-              const isMe = entry.userId === currentUserId
-              return (
-                <motion.div
-                  key={entry.userId}
-                  layout
-                  variants={row}
-                  className={`grid grid-cols-[40px_1fr_90px_90px_80px] gap-2 items-center px-5 py-3.5 border-b border-zinc-200 last:border-0 transition-colors ${
-                    isMe ? 'bg-violet-500/5' : 'hover:bg-zinc-50'
-                  }`}
-                >
-                  {/* Rank */}
-                  <div className="text-center">
-                    {index < 3 ? (
-                      <span className="text-lg">{medals[index]}</span>
-                    ) : (
-                      <span className="text-sm text-zinc-400 font-mono">{index + 1}</span>
+        <div className="divide-y divide-zinc-100">
+          {sorted.map((entry, index) => {
+            const label = getLabel(index, entry, settings, sortKey)
+            const isMe = entry.userId === currentUserId
+            return (
+              <div
+                key={entry.userId}
+                className={`grid grid-cols-[40px_1fr_90px_90px_80px] gap-2 items-center px-4 py-3 transition-colors ${
+                  isMe ? 'bg-zinc-50/80 font-medium' : 'hover:bg-zinc-50/40'
+                }`}
+              >
+                {/* Rank */}
+                <div className="text-center">
+                  <span className="text-xs text-zinc-500 font-mono font-medium">{index + 1}</span>
+                </div>
+
+                {/* Member */}
+                <Link href={`/members/${entry.userId}`} className="flex items-center gap-2.5 min-w-0 group">
+                  <Avatar className="h-7 w-7 shrink-0 border border-zinc-200">
+                    <AvatarImage src={entry.avatarUrl ?? undefined} />
+                    <AvatarFallback className="text-[10px] bg-zinc-100 text-zinc-700">{getInitials(entry.displayName)}</AvatarFallback>
+                  </Avatar>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className={`text-xs truncate group-hover:underline ${isMe ? 'font-semibold text-zinc-900' : 'text-zinc-800'}`}>
+                        {entry.displayName}
+                      </span>
+                      {isMe && <Badge variant="default" className="text-[8px] py-0 px-1">You</Badge>}
+                    </div>
+                    {label && <p className="text-[10px] text-zinc-400 truncate">{label}</p>}
+                    {entry.cleanStreak > 0 && (
+                      <p className="text-[10px] text-zinc-500 flex items-center gap-0.5">
+                        <Flame className="h-2.5 w-2.5 text-zinc-700" /> {entry.cleanStreak}d clean
+                      </p>
                     )}
                   </div>
+                </Link>
 
-                  {/* Member */}
-                  <Link href={`/members/${entry.userId}`} className="flex items-center gap-3 min-w-0 group">
-                    <Avatar className="h-8 w-8 shrink-0">
-                      <AvatarImage src={entry.avatarUrl ?? undefined} />
-                      <AvatarFallback className="text-xs">{getInitials(entry.displayName)}</AvatarFallback>
-                    </Avatar>
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <span className={`text-sm font-medium group-hover:text-violet-700 transition-colors ${isMe ? 'text-violet-700' : 'text-zinc-900'}`}>
-                          {entry.displayName}
-                        </span>
-                        {isMe && <Badge variant="default" className="text-[9px] py-0 px-1.5">You</Badge>}
-                      </div>
-                      {label && <p className="text-xs text-zinc-400 truncate">{label}</p>}
-                      {entry.cleanStreak > 0 && (
-                        <p className="text-[10px] text-orange-400/70">🔥 {entry.cleanStreak}d clean</p>
-                      )}
-                    </div>
-                  </Link>
+                {/* Owes */}
+                <div className="text-right">
+                  <span className={`text-xs font-semibold ${entry.totalOwed > 0 ? 'text-zinc-900' : 'text-zinc-400'}`}>
+                    {formatCurrency(entry.totalOwed, currency)}
+                  </span>
+                </div>
 
-                  {/* Owes */}
-                  <div className="text-right">
-                    <span className={`text-sm font-semibold ${entry.totalOwed > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                      {formatCurrency(entry.totalOwed, currency)}
-                    </span>
-                  </div>
+                {/* Paid */}
+                <div className="text-right">
+                  <span className="text-xs text-zinc-500">
+                    {formatCurrency(entry.totalPaid, currency)}
+                  </span>
+                </div>
 
-                  {/* Paid */}
-                  <div className="text-right">
-                    <span className="text-sm text-zinc-400">
-                      {formatCurrency(entry.totalPaid, currency)}
-                    </span>
-                  </div>
-
-                  {/* Fine count */}
-                  <div className="text-right">
-                    <span className="text-sm text-zinc-400">{entry.fineCount}</span>
-                  </div>
-                </motion.div>
-              )
-            })}
-          </motion.div>
-        </AnimatePresence>
+                {/* Fine count */}
+                <div className="text-right">
+                  <span className="text-xs text-zinc-500">{entry.fineCount}</span>
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

@@ -128,9 +128,8 @@ export function NotificationBell({ initialUnreadCount, userId, groupId }: Notifi
                 {loading ? (
                   <div className="py-8 text-center text-zinc-400 text-sm">Loading…</div>
                 ) : notifications.length === 0 ? (
-                  <div className="py-8 text-center space-y-2">
-                    <p className="text-2xl">🔔</p>
-                    <p className="text-zinc-400 text-sm">No notifications yet.</p>
+                  <div className="py-8 text-center space-y-1">
+                    <p className="text-zinc-400 text-xs font-medium">No notifications yet</p>
                   </div>
                 ) : (
                   <div className="divide-y divide-zinc-100">

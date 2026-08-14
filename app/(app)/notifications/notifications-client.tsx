@@ -84,9 +84,9 @@ export function NotificationsClient({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">🔔 Notifications</h1>
+          <h1 className="text-xl font-bold tracking-tight text-zinc-900">Notifications</h1>
           {unreadCount > 0 && (
-            <p className="text-zinc-400 text-sm mt-1">{unreadCount} unread</p>
+            <p className="text-xs text-zinc-500 mt-0.5">{unreadCount} unread</p>
           )}
         </div>
         {unreadCount > 0 && (
@@ -95,45 +95,41 @@ export function NotificationsClient({
             size="sm"
             onClick={handleMarkAllRead}
             loading={markingAll}
+            className="text-xs h-8"
           >
-            <CheckCheck className="h-4 w-4" />
+            <CheckCheck className="h-3.5 w-3.5" />
             Mark all read
           </Button>
         )}
       </div>
 
       {notifications.length === 0 ? (
-        <div className="glass-card rounded-2xl p-14 text-center">
-          <Bell className="h-12 w-12 text-zinc-300 mx-auto mb-4" />
-          <p className="text-zinc-400">No notifications yet.</p>
-          <p className="text-zinc-300 text-sm mt-1">You&apos;ll see fines, payments, and updates here.</p>
+        <div className="bg-white border border-zinc-200 rounded-xl p-12 text-center shadow-xs">
+          <Bell className="h-8 w-8 text-zinc-300 mx-auto mb-2" />
+          <p className="text-sm font-semibold text-zinc-800">No notifications yet</p>
+          <p className="text-xs text-zinc-400 mt-0.5">You&apos;ll see fines, payments, and group activity here.</p>
         </div>
       ) : (
-        <div className="glass-card rounded-2xl overflow-hidden">
+        <div className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-xs">
           {/* Unread */}
           {unread.length > 0 && (
             <div>
-              <div className="px-5 py-2.5 border-b border-zinc-200">
-                <p className="text-xs text-zinc-400 uppercase tracking-wider font-medium">New</p>
+              <div className="px-4 py-2 border-b border-zinc-100 bg-zinc-50/50">
+                <p className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">New</p>
               </div>
-              <motion.div
-                initial="hidden"
-                animate="show"
-                variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } }}
-                className="divide-y divide-zinc-100"
-              >
+              <div className="divide-y divide-zinc-100">
                 {unread.map((n) => (
                   <NotificationItem key={n.id} notification={n} />
                 ))}
-              </motion.div>
+              </div>
             </div>
           )}
 
           {/* Read */}
           {read.length > 0 && (
             <div>
-              <div className="px-5 py-2.5 border-t border-b border-zinc-200">
-                <p className="text-xs text-zinc-300 uppercase tracking-wider font-medium">Earlier</p>
+              <div className="px-4 py-2 border-t border-b border-zinc-100 bg-zinc-50/50">
+                <p className="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold">Earlier</p>
               </div>
               <div className="divide-y divide-zinc-100 opacity-60">
                 {read.map((n) => (

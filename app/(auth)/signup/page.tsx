@@ -37,11 +37,13 @@ export default function SignupPage() {
 
   if (done) {
     return (
-      <Card>
+      <Card className="border-zinc-200 bg-white">
         <CardContent className="p-6 text-center space-y-4">
-          <div className="text-5xl">📧</div>
-          <h2 className="text-xl font-semibold text-zinc-900">Check your email!</h2>
-          <p className="text-zinc-500 text-sm">
+          <div className="w-12 h-12 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-800 mx-auto">
+            <UserPlus className="h-6 w-6" />
+          </div>
+          <h2 className="text-lg font-bold text-zinc-900">Check your email</h2>
+          <p className="text-zinc-500 text-xs">
             We sent a confirmation link to your email. Click it to activate your account.
           </p>
           <Link href="/login">
@@ -55,10 +57,10 @@ export default function SignupPage() {
   }
 
   return (
-    <Card className="p-0 overflow-hidden">
+    <Card className="p-0 overflow-hidden border-zinc-200 shadow-xs bg-white">
       <CardHeader className="p-6 pb-0">
-        <CardTitle className="text-xl">Join the gang 🎉</CardTitle>
-        <CardDescription>Create your Keep Tabs account</CardDescription>
+        <CardTitle className="text-lg font-bold text-zinc-900">Create an Account</CardTitle>
+        <CardDescription className="text-xs text-zinc-500">Join Keep Tabs to track group fines and payments</CardDescription>
       </CardHeader>
       <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -69,7 +71,7 @@ export default function SignupPage() {
                 id="display_name"
                 name="display_name"
                 type="text"
-                placeholder="Kaif"
+                placeholder="Alex"
                 required
                 minLength={2}
                 maxLength={50}
@@ -81,7 +83,7 @@ export default function SignupPage() {
                 id="username"
                 name="username"
                 type="text"
-                placeholder="kaif42"
+                placeholder="alex42"
                 required
                 minLength={3}
                 maxLength={30}
@@ -126,21 +128,17 @@ export default function SignupPage() {
             </div>
           </div>
 
-          <Button type="submit" className="w-full" size="lg" loading={loading}>
+          <Button type="submit" className="w-full" size="default" loading={loading}>
             <UserPlus className="h-4 w-4" />
             Create Account
           </Button>
-
-          <p className="text-xs text-zinc-400 text-center">
-            By signing up, you agree to our group rules. No excuses.
-          </p>
         </form>
 
-        <div className="mt-6 text-center text-sm text-zinc-400">
+        <div className="mt-6 text-center text-xs text-zinc-500">
           Already have an account?{' '}
           <Link
             href="/login"
-            className="text-violet-600 hover:text-violet-700 font-medium transition-colors"
+            className="text-zinc-900 font-semibold hover:underline transition-colors"
           >
             Sign in
           </Link>

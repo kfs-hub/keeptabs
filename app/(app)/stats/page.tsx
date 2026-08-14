@@ -113,21 +113,21 @@ export default async function StatsPage() {
 
   const topStats = [
     {
-      label: 'Most Fined Person',
-      icon: '💀',
+      type: 'most_fined',
+      label: 'Most Fined Member',
       value: mostFinedPerson?.name ?? 'N/A',
       subtitle: mostFinedPerson ? `${mostFinedPerson.fines} fines · ${formatCurrency(mostFinedPerson.amount, currency)}` : undefined,
       name: mostFinedPerson?.name,
     },
     {
+      type: 'most_broken',
       label: 'Most Broken Rule',
-      icon: '🔥',
       value: mostExpensiveRule?.name ?? 'N/A',
       subtitle: mostExpensiveRule ? `Broken ${mostExpensiveRule.count}× · ${formatCurrency(mostExpensiveRule.amount, currency)}` : undefined,
     },
     {
-      label: 'Most Generous Payer',
-      icon: '👑',
+      type: 'top_payer',
+      label: 'Top Payer',
       value: topPayerName ?? 'N/A',
       subtitle: topPayerAmount ? `Paid ${formatCurrency(topPayerAmount, currency)}` : undefined,
       name: topPayerName,

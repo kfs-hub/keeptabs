@@ -29,7 +29,7 @@ export async function createFineNotification({ finedUserId, reporterId, groupId,
 }) {
   await createNotification({
     userId: finedUserId, groupId, type: 'fine_received',
-    title: '🚨 You just got fined!',
+    title: 'You received a fine',
     message: `You were fined ₹${amount} for: ${ruleName}`,
     metadata: { fine_id: fineId, reported_by: reporterId },
   })

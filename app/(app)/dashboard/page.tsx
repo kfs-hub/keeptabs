@@ -10,6 +10,7 @@ import { FineOfTheWeek } from '@/components/fun/fine-of-the-week'
 import { AchievementToastListener } from '@/components/fun/achievement-toast'
 import { formatCurrency } from '@/lib/utils'
 import type { FineWithDetails, GroupSettings } from '@/types/database'
+import { DollarSign, CheckCircle2, AlertCircle, Calendar } from 'lucide-react'
 
 import { getActiveGroup } from '@/lib/groups/get-active-group'
 
@@ -101,9 +102,6 @@ export default async function DashboardPage() {
     })
     .sort((a, b) => b.totalOwed - a.totalOwed)
 
-  // ── Fun features data ────────────────────────────────────────────────────────
-  // (now is already declared above)
-
   // Streaks: days since last fine per member
   const streaks = (members ?? [])
     .map(({ user_id, profiles: profile }) => {
@@ -167,23 +165,23 @@ export default async function DashboardPage() {
       <AchievementToastListener userId={userId} groupId={groupId} />
 
       {/* Page Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-1 border-b border-slate-100">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-1 border-b border-zinc-200">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+          <h1 className="text-xl font-bold text-zinc-950 tracking-tight">
             Dashboard
           </h1>
-          <p className="text-slate-500 text-xs sm:text-sm mt-0.5">
-            Active tab overview for <span className="font-semibold text-slate-800">{group.name}</span>
+          <p className="text-zinc-500 text-xs mt-0.5">
+            Active tab overview for <span className="font-semibold text-zinc-800">{group.name}</span>
           </p>
         </div>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <StatsCard title="Outstanding" value={formatCurrency(totalOwed, currency)} icon="💰" subtitle="Group total" delay={0} />
-        <StatsCard title="Collected" value={formatCurrency(totalCollected, currency)} icon="✅" subtitle="All-time settled" delay={0.04} />
-        <StatsCard title="Unpaid Fines" value={unpaidCount.toString()} icon="⚠️" subtitle="Pending review" delay={0.08} />
-        <StatsCard title="This Month" value={formatCurrency(thisMonth, currency)} icon="📅" subtitle="Issued in current cycle" delay={0.12} />
+        <StatsCard title="Outstanding" value={formatCurrency(totalOwed, currency)} icon={<DollarSign className="h-4 w-4" />} subtitle="Group total" delay={0} />
+        <StatsCard title="Collected" value={formatCurrency(totalCollected, currency)} icon={<CheckCircle2 className="h-4 w-4 text-emerald-600" />} subtitle="All-time settled" delay={0.04} />
+        <StatsCard title="Unpaid Fines" value={unpaidCount.toString()} icon={<AlertCircle className="h-4 w-4 text-red-600" />} subtitle="Pending review" delay={0.08} />
+        <StatsCard title="This Month" value={formatCurrency(thisMonth, currency)} icon={<Calendar className="h-4 w-4" />} subtitle="Issued in current cycle" delay={0.12} />
       </div>
 
       {/* Main Content */}
@@ -204,16 +202,16 @@ export default async function DashboardPage() {
 
           {/* Most Wanted */}
           {leaderboard[0]?.totalOwed > 0 && (
-            <div className="glass-card rounded-2xl p-5 border border-rose-200/80 bg-rose-50/20 relative overflow-hidden">
-              <div className="text-center space-y-1.5">
-                <span className="text-[10px] text-rose-700 font-bold uppercase tracking-widest bg-rose-100/80 border border-rose-200 px-2.5 py-0.5 rounded-full inline-block">
-                  🚨 Highest Outstanding
+            <div className="glass-card rounded-xl p-4.5 border border-zinc-200 bg-white relative">
+              <div className="text-center space-y-1">
+                <span className="text-[10px] text-zinc-600 font-semibold uppercase tracking-wider bg-zinc-100 border border-zinc-200 px-2 py-0.5 rounded inline-block">
+                  Highest Outstanding
                 </span>
-                <p className="text-base font-bold text-slate-900 mt-1">{leaderboard[0].displayName}</p>
-                <p className="text-2xl font-bold text-rose-600 tabular-nums">
+                <p className="text-sm font-semibold text-zinc-900 mt-1">{leaderboard[0].displayName}</p>
+                <p className="text-xl font-bold text-red-600 tabular-nums">
                   {formatCurrency(leaderboard[0].totalOwed, currency)}
                 </p>
-                <p className="text-[11px] text-slate-400">Total unpaid fines in group</p>
+                <p className="text-[10px] text-zinc-400">Total unpaid balance in group</p>
               </div>
             </div>
           )}

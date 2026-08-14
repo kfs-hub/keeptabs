@@ -23,24 +23,24 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <div className="max-w-4xl mx-auto space-y-5">
       {/* Admin header */}
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-violet-100 border border-violet-200 flex items-center justify-center">
-          <Shield className="h-5 w-5 text-violet-600" />
+        <div className="w-10 h-10 rounded-xl bg-zinc-900 flex items-center justify-center text-white shadow-xs">
+          <Shield className="h-5 w-5" />
         </div>
         <div>
-          <h1 className="text-xl font-bold text-zinc-900">Admin Panel</h1>
-          <p className="text-xs text-zinc-400">
-            {role === 'owner' ? '👑 Group Owner' : '🛡️ Group Admin'}
+          <h1 className="text-xl font-bold tracking-tight text-zinc-900">Admin Panel</h1>
+          <p className="text-xs text-zinc-500 capitalize">
+            Group {role}
           </p>
         </div>
       </div>
 
       {/* Sub nav */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-1.5 flex-wrap">
         {adminNav.map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-zinc-50 border border-zinc-200 text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 hover:border-violet-200 transition-all"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-zinc-200 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 transition-colors shadow-xs"
           >
             {item.icon}
             {item.label}

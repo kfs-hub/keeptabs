@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { CheckSquare, Square } from 'lucide-react'
+import { CheckSquare, Square, CheckCircle2, CreditCard, ShieldCheck } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -52,8 +51,6 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
   }
 
   const handleSuccess = useCallback((paymentDbId: string) => {
-    // Verify endpoint now marks fines paid immediately after signature check.
-    // Go straight to success — no polling needed.
     setSuccessData({ paymentDbId, amount: selectedTotal, fineCount: selectedFines.length })
     setPayState('success')
     router.refresh()
@@ -66,7 +63,14 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
 
   // ---- Success screen ----
   if (payState === 'success' && successData) {
-    return <PaymentSuccess amount={successData.amount} fineCount={successData.fineCount} currency={currency} />
+    return (
+      <PaymentSuccess
+        paymentId={successData.paymentDbId}
+        amount={successData.amount}
+        finesClearedCount={successData.fineCount}
+        currency={currency}
+      />
+    )
   }
 
   // ---- Failed screen ----
@@ -84,11 +88,15 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
   // ---- No fines ----
   if (fines.length === 0) {
     return (
-      <div className="max-w-lg mx-auto pt-10 text-center space-y-5">
-        <div className="text-6xl">🎉</div>
-        <h2 className="text-2xl font-bold text-zinc-900">You&apos;re all clear!</h2>
-        <p className="text-zinc-500">No outstanding fines. You&apos;re officially a responsible adult.</p>
-        <Button variant="outline" onClick={() => router.push('/dashboard')}>Back to Dashboard</Button>
+      <div className="max-w-lg mx-auto pt-10 text-center space-y-4">
+        <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto">
+          <ShieldCheck className="h-6 w-6" />
+        </div>
+        <h2 className="text-xl font-bold text-zinc-900">All Cleared</h2>
+        <p className="text-zinc-500 text-xs">You have no outstanding fines in this group.</p>
+        <div className="pt-2">
+          <Button variant="outline" onClick={() => router.push('/dashboard')}>Back to Dashboard</Button>
+        </div>
       </div>
     )
   }
@@ -98,18 +106,20 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
     <div className="max-w-lg mx-auto space-y-5">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-zinc-900">💳 Pay Your Fines</h1>
-        <p className="text-zinc-400 text-sm mt-1">Select fines to pay — or pay them all at once.</p>
+        <h1 className="text-xl font-bold tracking-tight text-zinc-900">Settle Balance</h1>
+        <p className="text-xs text-zinc-500 mt-0.5">Select outstanding fines to pay online via Razorpay</p>
       </div>
 
       {/* Total owed card */}
-      <div className="glass-card rounded-2xl p-5 border border-red-500/15">
+      <div className="bg-white border border-zinc-200 rounded-xl p-5 shadow-xs">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-zinc-500">Total Outstanding</p>
-            <p className="text-3xl font-bold text-red-600">{formatCurrency(totalOwed, currency)}</p>
+            <p className="text-xs text-zinc-500 font-medium">Total Outstanding</p>
+            <p className="text-2xl font-bold text-zinc-900 mt-0.5">{formatCurrency(totalOwed, currency)}</p>
           </div>
-          <span className="text-4xl">💰</span>
+          <div className="w-10 h-10 rounded-lg bg-zinc-100 flex items-center justify-center text-zinc-700">
+            <CreditCard className="h-5 w-5" />
+          </div>
         </div>
       </div>
 
@@ -117,35 +127,29 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
       <div className="flex items-center justify-between px-1">
         <button
           onClick={toggleAll}
-          className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 transition-colors"
+          className="flex items-center gap-2 text-xs font-medium text-zinc-600 hover:text-zinc-900 transition-colors"
         >
           {allSelected
-            ? <CheckSquare className="h-4 w-4 text-violet-600" />
-            : <Square className="h-4 w-4" />
+            ? <CheckSquare className="h-4 w-4 text-zinc-900" />
+            : <Square className="h-4 w-4 text-zinc-400" />
           }
           {allSelected ? 'Deselect All' : 'Select All'}
         </button>
-        <span className="text-sm text-zinc-400">
+        <span className="text-xs text-zinc-400">
           {selected.size} of {fines.length} selected
         </span>
       </div>
 
       {/* Fine list */}
-      <motion.div
-        initial="hidden"
-        animate="show"
-        variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } }}
-        className="space-y-2"
-      >
+      <div className="space-y-2">
         {fines.map((fine) => {
           const isSelected = selected.has(fine.id)
           return (
-            <motion.div
+            <div
               key={fine.id}
-              variants={{ hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0 } }}
               onClick={() => toggleFine(fine.id)}
-              className={`glass-card rounded-xl p-4 cursor-pointer transition-all border ${
-                isSelected ? 'border-violet-500/40 bg-violet-500/5' : 'border-zinc-200'
+              className={`bg-white rounded-xl p-4 cursor-pointer transition-all border ${
+                isSelected ? 'border-zinc-900 ring-1 ring-zinc-900 shadow-xs' : 'border-zinc-200'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -156,67 +160,60 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
                 />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium text-zinc-900 truncate">
+                    <p className="text-xs font-semibold text-zinc-900 truncate">
                       {fine.rule?.name ?? 'Custom fine'}
                     </p>
-                    <span className="text-base font-bold text-zinc-900 ml-2 shrink-0">
+                    <span className="text-sm font-bold text-zinc-900 ml-2 shrink-0">
                       {formatCurrency(fine.amount, currency)}
                     </span>
                   </div>
-                  <p className="text-xs text-zinc-400 mt-0.5">
+                  <p className="text-[11px] text-zinc-400 mt-0.5">
                     {formatDate(fine.created_at)} · Reported by {fine.reporter?.display_name}
                   </p>
                   {fine.description && (
-                    <p className="text-xs text-zinc-400 italic mt-0.5 truncate">
+                    <p className="text-[11px] text-zinc-500 italic mt-0.5 truncate">
                       &quot;{fine.description}&quot;
                     </p>
                   )}
                   {fine.status === 'disputed' && (
-                    <Badge variant="disputed" className="text-[10px] mt-1">🟡 Under Review</Badge>
+                    <Badge variant="disputed" className="text-[9px] mt-1">Under Review</Badge>
                   )}
                 </div>
               </div>
-            </motion.div>
+            </div>
           )
         })}
-      </motion.div>
+      </div>
 
       {/* Payment Summary */}
-      <AnimatePresence>
-        {selected.size > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className="sticky bottom-24 md:bottom-6 glass-card rounded-2xl p-5 border border-violet-200 shadow-lg space-y-4"
-          >
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-sm text-zinc-500">
-                <span>{selected.size} fine{selected.size !== 1 ? 's' : ''} selected</span>
-                <span>Subtotal</span>
-              </div>
-              <Separator />
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-zinc-900">Total to Pay</span>
-                <span className="text-2xl font-bold text-zinc-900">{formatCurrency(selectedTotal, currency)}</span>
-              </div>
+      {selected.size > 0 && (
+        <div className="sticky bottom-20 md:bottom-6 bg-white border border-zinc-200 rounded-xl p-5 shadow-lg space-y-4">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs text-zinc-500">
+              <span>{selected.size} fine{selected.size !== 1 ? 's' : ''} selected</span>
+              <span>Subtotal</span>
             </div>
+            <Separator />
+            <div className="flex items-center justify-between">
+              <span className="font-semibold text-sm text-zinc-900">Total to Pay</span>
+              <span className="text-xl font-bold text-zinc-900">{formatCurrency(selectedTotal, currency)}</span>
+            </div>
+          </div>
 
-            <CheckoutButton
-              fineIds={Array.from(selected)}
-              groupId={groupId}
-              totalAmount={selectedTotal}
-              currency={currency}
-              userName={userName}
-              userEmail={userEmail}
-              onSuccess={handleSuccess}
-              onFailure={handleFailure}
-              onStateChange={setCheckoutState}
-              disabled={checkoutState !== 'idle' || selected.size === 0}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <CheckoutButton
+            fineIds={Array.from(selected)}
+            groupId={groupId}
+            totalAmount={selectedTotal}
+            currency={currency}
+            userName={userName}
+            userEmail={userEmail}
+            onSuccess={handleSuccess}
+            onFailure={handleFailure}
+            onStateChange={setCheckoutState}
+            disabled={checkoutState !== 'idle' || selected.size === 0}
+          />
+        </div>
+      )}
     </div>
   )
 }

@@ -147,8 +147,8 @@ async function handlePaymentCaptured(supabase: ReturnType<typeof getAdminClient>
     user_id: paymentRecord.user_id,
     group_id: paymentRecord.group_id,
     type: 'payment_successful',
-    title: '🎉 Payment Successful!',
-    message: `Your payment was confirmed. Debt cleared! 🏆`,
+    title: 'Payment Successful',
+    message: `Your payment was confirmed. Debt cleared.`,
     metadata: { payment_id: paymentRecord.id },
   })
 
@@ -165,7 +165,7 @@ async function handlePaymentCaptured(supabase: ReturnType<typeof getAdminClient>
       user_id: admin.user_id,
       group_id: paymentRecord.group_id,
       type: 'payment_received',
-      title: '💸 Payment Received!',
+      title: 'Payment Received',
       message: `${userName} has paid their fines.`,
       metadata: { payment_id: paymentRecord.id },
     })
@@ -198,8 +198,8 @@ async function handlePaymentFailed(supabase: ReturnType<typeof getAdminClient>, 
     user_id: paymentRecord.user_id,
     group_id: paymentRecord.group_id,
     type: 'payment_failed',
-    title: '💀 Payment Failed',
-    message: `Your payment failed. Your debt remains undefeated. Try again?`,
+    title: 'Payment Failed',
+    message: `Your payment could not be processed. Please try again.`,
     metadata: { payment_id: paymentRecord.id },
   })
 }

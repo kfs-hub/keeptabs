@@ -41,10 +41,10 @@ export default function LoginPage() {
   }
 
   return (
-    <Card className="p-0 overflow-hidden">
+    <Card className="p-0 overflow-hidden border-zinc-200 shadow-xs bg-white">
       <CardHeader className="p-6 pb-0">
-        <CardTitle className="text-xl">Welcome back 👋</CardTitle>
-        <CardDescription>Sign in to Keep Tabs</CardDescription>
+        <CardTitle className="text-lg font-bold text-zinc-900">Sign In</CardTitle>
+        <CardDescription className="text-xs text-zinc-500">Enter your email and password to access your account</CardDescription>
       </CardHeader>
       <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -65,7 +65,7 @@ export default function LoginPage() {
               <Label htmlFor="password">Password</Label>
               <Link
                 href="/reset-password"
-                className="text-xs text-violet-600 hover:text-violet-700 transition-colors"
+                className="text-xs text-zinc-600 hover:text-zinc-900 transition-colors"
               >
                 Forgot password?
               </Link>
@@ -90,17 +90,17 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <Button type="submit" className="w-full" size="lg" loading={loading}>
+          <Button type="submit" className="w-full" size="default" loading={loading}>
             <LogIn className="h-4 w-4" />
             Sign In
           </Button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-zinc-400">
+        <div className="mt-6 text-center text-xs text-zinc-500">
           Don&apos;t have an account?{' '}
           <Link
             href="/signup"
-            className="text-violet-600 hover:text-violet-700 font-medium transition-colors"
+            className="text-zinc-900 font-semibold hover:underline transition-colors"
           >
             Create one
           </Link>

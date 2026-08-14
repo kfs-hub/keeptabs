@@ -31,25 +31,20 @@ export default async function SelectGroupPage() {
   const activeGroupId = cookieStore.get('active_group_id')?.value
 
   return (
-    <div className="min-h-screen bg-auth-gradient flex items-center justify-center p-4">
-      <div className="fixed top-0 left-0 w-96 h-96 bg-violet-300/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="fixed bottom-0 right-0 w-80 h-80 bg-violet-200/20 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="relative z-10 w-full max-w-xl space-y-6 py-8">
+    <div className="min-h-screen bg-zinc-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-lg space-y-6 py-8">
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-2 mb-2">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center text-2xl shadow-sm">
-              👥
-            </div>
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-zinc-900 text-white mx-auto mb-2 shadow-xs">
+            <Users className="h-6 w-6" />
           </div>
-          <h1 className="text-3xl font-bold gradient-text">Select a Group</h1>
-          <p className="text-zinc-500 text-sm">
-            Choose which friend group tracker you want to open today.
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900">Select a Group</h1>
+          <p className="text-zinc-500 text-sm max-w-sm mx-auto">
+            Choose which group tracker you want to open.
           </p>
         </div>
 
         {/* Group Cards Grid */}
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           {memberships.map((m) => {
             const group = m.groups as any
             if (!group) return null
@@ -71,15 +66,15 @@ export default async function SelectGroupPage() {
         {/* Actions bar */}
         <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
           <Link href="/groups/new" className="w-full sm:flex-1">
-            <Button variant="outline" className="w-full gap-2 border-zinc-200 hover:border-violet-200">
+            <Button variant="outline" className="w-full gap-2 border-zinc-200">
               <Plus className="h-4 w-4" />
-              Create New Group
+              Create Group
             </Button>
           </Link>
           <Link href="/groups/join" className="w-full sm:flex-1">
-            <Button variant="outline" className="w-full gap-2 border-zinc-200 hover:border-violet-200">
+            <Button variant="outline" className="w-full gap-2 border-zinc-200">
               <Users className="h-4 w-4" />
-              Join via Code
+              Join Group
             </Button>
           </Link>
         </div>

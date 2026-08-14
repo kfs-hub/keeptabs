@@ -92,8 +92,8 @@ export function CheckoutButton({
             email: userEmail,
           },
           theme: {
-            color: '#7c3aed',
-            backdrop_color: 'rgba(0,0,0,0.8)',
+            color: '#18181b',
+            backdrop_color: 'rgba(0,0,0,0.6)',
           },
           modal: {
             ondismiss: () => {
@@ -148,10 +148,10 @@ export function CheckoutButton({
       onClick={handlePay}
       loading={loading}
       disabled={disabled || loading}
-      size="xl"
-      className="w-full text-lg"
+      size="lg"
+      className="w-full bg-zinc-900 hover:bg-zinc-800 text-white font-semibold"
     >
-      💳 Pay {formatCurrency(totalAmount, currency)}
+      Pay {formatCurrency(totalAmount, currency)}
     </Button>
   )
 }

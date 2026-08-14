@@ -52,30 +52,30 @@ export function AdminSettingsClient({ group, groupId }: AdminSettingsClientProps
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-zinc-900">⚙️ Group Settings</h2>
+      <h2 className="text-sm font-semibold text-zinc-900">Group Settings</h2>
 
       {/* Invite code */}
-      <div className="glass-card rounded-2xl p-5 space-y-3">
-        <h3 className="text-sm font-medium text-zinc-600">Invite Code</h3>
-        <div className="flex items-center gap-3">
-          <div className="flex-1 bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-2.5">
-            <span className="text-xl font-mono font-bold tracking-widest text-violet-700">
+      <div className="bg-white border border-zinc-200 rounded-xl p-5 shadow-xs space-y-3">
+        <h3 className="text-xs font-semibold text-zinc-700 uppercase tracking-wider">Invite Code</h3>
+        <div className="flex items-center gap-2.5">
+          <div className="flex-1 bg-zinc-50 border border-zinc-200 rounded-lg px-3.5 py-2">
+            <span className="text-lg font-mono font-bold tracking-widest text-zinc-900">
               {inviteCode}
             </span>
           </div>
           <Button variant="outline" size="icon" onClick={copyCode} title="Copy">
-            {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+            {copied ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
           </Button>
-          <Button variant="warning" size="icon" onClick={handleRegen} loading={regen} title="Regenerate">
+          <Button variant="outline" size="icon" onClick={handleRegen} loading={regen} title="Regenerate">
             <RefreshCw className="h-4 w-4" />
           </Button>
         </div>
-        <p className="text-xs text-zinc-400">Regenerating will invalidate the old code.</p>
+        <p className="text-[11px] text-zinc-400">Regenerating will invalidate the existing invite code.</p>
       </div>
 
       {/* Group settings form */}
-      <form onSubmit={handleSubmit} className="glass-card rounded-2xl p-5 space-y-5">
-        <h3 className="text-sm font-medium text-zinc-600">Group Info</h3>
+      <form onSubmit={handleSubmit} className="bg-white border border-zinc-200 rounded-xl p-5 shadow-xs space-y-5">
+        <h3 className="text-xs font-semibold text-zinc-700 uppercase tracking-wider">Group Info</h3>
 
         <div className="grid sm:grid-cols-2 gap-4">
           <div className="space-y-1.5">
@@ -113,13 +113,13 @@ export function AdminSettingsClient({ group, groupId }: AdminSettingsClientProps
         <Separator />
 
         <div className="space-y-3">
-          <h3 className="text-sm font-medium text-zinc-600">🏆 Leaderboard Labels</h3>
-          <p className="text-xs text-zinc-400">Customise the fun labels shown on the leaderboard.</p>
+          <h3 className="text-xs font-semibold text-zinc-700 uppercase tracking-wider">Leaderboard Custom Labels</h3>
+          <p className="text-[11px] text-zinc-400">Custom labels shown for ranked places on the leaderboard.</p>
 
           {[
-            { key: 'first',  placeholder: '💀 Biggest Criminal' },
-            { key: 'second', placeholder: '😭 Bro Owes Everyone' },
-            { key: 'third',  placeholder: '💸 Walking ATM' },
+            { key: 'first',  placeholder: '1st Place' },
+            { key: 'second', placeholder: '2nd Place' },
+            { key: 'third',  placeholder: '3rd Place' },
           ].map(({ key, placeholder }) => (
             <div key={key} className="space-y-1">
               <Label className="capitalize text-xs">{key} place label</Label>

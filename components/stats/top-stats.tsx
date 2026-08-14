@@ -1,36 +1,41 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { formatCurrency, getInitials } from '@/lib/utils'
+import { AlertTriangle, BookOpen, CreditCard } from 'lucide-react'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { getInitials } from '@/lib/utils'
 
 interface TopStat {
+  type?: string
   label: string
-  icon: string
   value: string
   subtitle?: string
   avatarUrl?: string | null
   name?: string
 }
 
-export function TopStats({ stats, currency = 'INR' }: { stats: TopStat[]; currency?: string }) {
+const icons: Record<string, React.ReactNode> = {
+  most_fined: <AlertTriangle className="h-5 w-5 text-red-500" />,
+  most_broken: <BookOpen className="h-5 w-5 text-amber-500" />,
+  top_payer: <CreditCard className="h-5 w-5 text-emerald-500" />,
+}
+
+export function TopStats({ stats }: { stats: TopStat[]; currency?: string }) {
   return (
     <div className="grid sm:grid-cols-3 gap-3">
-      {stats.map((stat, i) => (
-        <motion.div
+      {stats.map((stat) => (
+        <div
           key={stat.label}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: i * 0.07 }}
-          className="glass-card rounded-2xl p-5 flex items-center gap-4"
+          className="bg-white border border-zinc-200 rounded-xl p-4 flex items-center gap-3.5"
         >
-          <div className="text-3xl shrink-0">{stat.icon}</div>
+          <div className="w-10 h-10 rounded-lg bg-zinc-50 border border-zinc-100 flex items-center justify-center shrink-0">
+            {icons[stat.type || ''] || <AlertTriangle className="h-5 w-5 text-zinc-500" />}
+          </div>
           <div className="min-w-0">
-            <p className="text-xs text-zinc-400 font-medium">{stat.label}</p>
-            <div className="flex items-center gap-2 mt-0.5">
+            <p className="text-xs text-zinc-500 font-medium">{stat.label}</p>
+            <div className="flex items-center gap-1.5 mt-0.5">
               {stat.avatarUrl !== undefined && stat.name && (
-                <Avatar className="h-6 w-6">
-                  <AvatarFallback className="text-[10px]">
+                <Avatar className="h-5 w-5">
+                  <AvatarFallback className="text-[9px] bg-zinc-100 text-zinc-700">
                     {getInitials(stat.name)}
                   </AvatarFallback>
                 </Avatar>
@@ -38,10 +43,10 @@ export function TopStats({ stats, currency = 'INR' }: { stats: TopStat[]; curren
               <p className="text-zinc-900 font-semibold text-sm truncate">{stat.value}</p>
             </div>
             {stat.subtitle && (
-              <p className="text-xs text-zinc-400 mt-0.5 truncate">{stat.subtitle}</p>
+              <p className="text-[11px] text-zinc-400 mt-0.5 truncate">{stat.subtitle}</p>
             )}
           </div>
-        </motion.div>
+        </div>
       ))}
     </div>
   )

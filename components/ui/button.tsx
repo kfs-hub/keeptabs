@@ -4,20 +4,20 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/30 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] cursor-pointer',
   {
     variants: {
       variant: {
         default:
-          'bg-gradient-to-r from-sky-600 to-sky-700 text-white shadow-sm hover:from-sky-700 hover:to-sky-800 shadow-sky-600/15 active:scale-[0.98]',
+          'bg-zinc-900 text-white hover:bg-zinc-800 shadow-xs active:bg-zinc-950',
         destructive:
-          'bg-rose-600 text-white shadow-sm hover:bg-rose-700 shadow-rose-600/10 active:bg-rose-800',
+          'bg-red-600 text-white hover:bg-red-700 shadow-xs active:bg-red-800',
         outline:
-          'border border-slate-200 bg-white text-slate-700 shadow-2xs hover:bg-sky-50/50 hover:text-sky-900 hover:border-sky-200',
+          'border border-zinc-200 bg-white text-zinc-800 hover:bg-zinc-50 hover:border-zinc-300 shadow-2xs',
         secondary:
-          'bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 border border-slate-200/80',
-        ghost: 'text-slate-600 hover:bg-sky-50/60 hover:text-sky-900',
-        link: 'text-sky-600 underline-offset-4 hover:underline p-0 h-auto font-normal',
+          'bg-zinc-100 text-zinc-800 hover:bg-zinc-200 border border-zinc-200/80',
+        ghost: 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900',
+        link: 'text-zinc-900 underline-offset-4 hover:underline p-0 h-auto font-medium',
         success:
           'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100',
         warning:

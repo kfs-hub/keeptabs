@@ -123,8 +123,8 @@ export async function checkAndAwardAchievements(
           user_id: userId,
           group_id: groupId,
           type: 'achievement_earned',
-          title: `🏆 Achievement Unlocked!`,
-          message: `${a.icon} ${a.name} — ${a.description}`,
+          title: `Achievement Unlocked`,
+          message: `${a.name} — ${a.description}`,
           metadata: { achievement_id: a.id },
         })
       }

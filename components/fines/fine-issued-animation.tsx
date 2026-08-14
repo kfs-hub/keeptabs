@@ -1,11 +1,13 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import { AlertTriangle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { formatCurrency } from '@/lib/utils'
 
 interface FineIssuedAnimationProps {
-  open: boolean
+  open?: boolean
+  isOpen?: boolean
   userName: string
   amount: number
   ruleName?: string
@@ -15,80 +17,60 @@ interface FineIssuedAnimationProps {
 
 export function FineIssuedAnimation({
   open,
+  isOpen,
   userName,
   amount,
   ruleName,
   currency = 'INR',
   onClose,
 }: FineIssuedAnimationProps) {
+  const isVisible = open ?? isOpen ?? false
+
   return (
     <AnimatePresence>
-      {open && (
+      {isVisible && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
-          onClick={onClose}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs"
         >
           <motion.div
-            initial={{ scale: 0.4, rotate: -8, opacity: 0 }}
-            animate={{ scale: 1, rotate: 0, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-            onClick={(e) => e.stopPropagation()}
-            className="glass border border-red-200 rounded-3xl p-8 max-w-sm w-full text-center space-y-5 shadow-xl shadow-red-500/10"
+            initial={{ scale: 0.9, y: 10 }}
+            animate={{ scale: 1, y: 0 }}
+            exit={{ scale: 0.9, y: 10 }}
+            className="bg-white border border-zinc-200 rounded-2xl p-6 max-w-sm w-full text-center space-y-4 shadow-xl"
           >
-            {/* Siren emoji with pulse */}
-            <motion.div
-              animate={{ scale: [1, 1.15, 1] }}
-              transition={{ duration: 0.6, repeat: 3, repeatType: 'loop' }}
-              className="text-7xl"
-            >
-              🚨
-            </motion.div>
+            {/* Siren icon */}
+            <div className="mx-auto w-12 h-12 rounded-full bg-red-50 flex items-center justify-center text-red-600">
+              <AlertTriangle className="h-6 w-6" />
+            </div>
 
             <div className="space-y-1">
-              <p className="text-sm text-red-600 font-semibold uppercase tracking-[0.2em]">
+              <p className="text-[11px] text-red-600 font-semibold uppercase tracking-wider">
                 Fine Issued
               </p>
-              <h2 className="text-2xl font-bold text-zinc-900">
+              <h2 className="text-lg font-semibold text-zinc-900">
                 {userName} has been fined
               </h2>
             </div>
 
             {/* Amount */}
-            <motion.div
-              initial={{ y: 10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="bg-red-50 border border-red-200 rounded-2xl py-4"
-            >
-              <p className="text-5xl font-mono font-bold text-red-600">
+            <div className="bg-zinc-50 border border-zinc-100 rounded-xl py-3">
+              <p className="text-3xl font-mono font-bold text-zinc-900">
                 {formatCurrency(amount, currency)}
               </p>
-            </motion.div>
+            </div>
 
             {ruleName && (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.35 }}
-                className="text-zinc-500 text-sm"
-              >
-                Reason: <span className="text-zinc-700 italic">&quot;{ruleName}&quot;</span>
-              </motion.p>
+              <p className="text-zinc-500 text-xs">
+                Reason: <span className="text-zinc-800 font-medium">&quot;{ruleName}&quot;</span>
+              </p>
             )}
 
-            <motion.div
-              initial={{ y: 10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.45 }}
-            >
-              <Button onClick={onClose} className="w-full" size="lg">
-                Justice Served 👊
-              </Button>
-            </motion.div>
+            <Button onClick={onClose} className="w-full" size="default">
+              Dismiss
+            </Button>
           </motion.div>
         </motion.div>
       )}

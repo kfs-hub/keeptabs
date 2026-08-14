@@ -49,22 +49,22 @@ export function GroupSwitcher({ groups, activeGroup, compact = false }: GroupSwi
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <button
-          className={`flex items-center gap-2 rounded-xl transition-all border border-slate-200 hover:border-sky-300 hover:bg-sky-50/50 cursor-pointer ${
-            compact ? 'px-2.5 py-1.5 text-xs bg-slate-50/80 font-medium' : 'w-full px-3 py-2 text-sm bg-white font-medium shadow-2xs'
+          className={`flex items-center gap-2 rounded-lg transition-all border border-zinc-200 hover:border-zinc-300 hover:bg-zinc-50 cursor-pointer ${
+            compact ? 'px-2.5 py-1.5 text-xs bg-zinc-50 font-medium' : 'w-full px-3 py-2 text-sm bg-white font-medium shadow-2xs'
           }`}
           disabled={isPending}
         >
-          <div className="w-5 h-5 rounded-md bg-gradient-to-br from-cyan-500 to-sky-700 flex items-center justify-center text-[10px] font-bold text-white shrink-0 shadow-2xs">
+          <div className="w-5 h-5 rounded-md bg-zinc-900 flex items-center justify-center text-[10px] font-bold text-white shrink-0 shadow-2xs">
             {activeGroup.name.charAt(0).toUpperCase()}
           </div>
-          <span className="font-medium text-slate-800 truncate max-w-[120px] sm:max-w-[160px] text-left">
+          <span className="font-medium text-zinc-900 truncate max-w-[120px] sm:max-w-[160px] text-left">
             {activeGroup.name}
           </span>
-          <ChevronsUpDown className="h-3.5 w-3.5 text-slate-400 shrink-0 ml-auto" />
+          <ChevronsUpDown className="h-3.5 w-3.5 text-zinc-400 shrink-0 ml-auto" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-60 glass-popover p-1.5">
-        <DropdownMenuLabel className="text-[11px] font-medium text-slate-400 uppercase tracking-wider px-2 py-1.5">
+        <DropdownMenuLabel className="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider px-2 py-1.5">
           Switch Group
         </DropdownMenuLabel>
         
@@ -74,13 +74,13 @@ export function GroupSwitcher({ groups, activeGroup, compact = false }: GroupSwi
             <DropdownMenuItem
               key={group.id}
               onClick={() => handleSwitch(group.id)}
-              className={`flex items-center justify-between cursor-pointer py-2 px-2.5 rounded-lg text-xs transition-colors ${
-                isActive ? 'bg-sky-50 text-sky-900 font-semibold' : 'text-slate-700 hover:bg-slate-50'
+              className={`flex items-center justify-between cursor-pointer py-2 px-2.5 rounded-md text-xs transition-colors ${
+                isActive ? 'bg-zinc-100 text-zinc-950 font-semibold' : 'text-zinc-700 hover:bg-zinc-50'
               }`}
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className={`w-5.5 h-5.5 rounded-md flex items-center justify-center text-[11px] font-bold shrink-0 ${
-                  isActive ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-600 border border-slate-200'
+                <div className={`w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                  isActive ? 'bg-zinc-900 text-white' : 'bg-zinc-100 text-zinc-600 border border-zinc-200'
                 }`}>
                   {group.name.charAt(0).toUpperCase()}
                 </div>
@@ -88,17 +88,31 @@ export function GroupSwitcher({ groups, activeGroup, compact = false }: GroupSwi
                   {group.name}
                 </span>
               </div>
-              {isActive && <Check className="h-3.5 w-3.5 text-sky-600 shrink-0 ml-2" />}
+              {isActive && <Check className="h-3.5 w-3.5 text-zinc-900 shrink-0 ml-2" />}
             </DropdownMenuItem>
           )
         })}
 
-        <DropdownMenuSeparator className="my-1.5 bg-slate-100" />
+        <DropdownMenuSeparator className="my-1.5 bg-zinc-100" />
 
-        <DropdownMenuItem asChild className="rounded-lg text-xs py-1.5 px-2.5 text-sky-700 hover:bg-sky-50 cursor-pointer">
-          <Link href="/groups/select" className="flex items-center gap-2">
+        <DropdownMenuItem asChild className="rounded-md text-xs py-1.5 px-2.5 text-zinc-900 hover:bg-zinc-100 cursor-pointer">
+          <Link href="/groups/select" className="flex items-center gap-2 font-medium">
             <LayoutGrid className="h-3.5 w-3.5" />
-            <span>Select / View All Groups</span>
+            <span>Select Group</span>
+          </Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem asChild className="rounded-md text-xs py-1.5 px-2.5 text-zinc-600 hover:bg-zinc-50 cursor-pointer">
+          <Link href="/groups/new" className="flex items-center gap-2">
+            <Plus className="h-3.5 w-3.5" />
+            <span>Create New Group</span>
+          </Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem asChild className="rounded-md text-xs py-1.5 px-2.5 text-zinc-600 hover:bg-zinc-50 cursor-pointer">
+          <Link href="/groups/join" className="flex items-center gap-2">
+            <Users className="h-3.5 w-3.5" />
+            <span>Join with Code</span>
           </Link>
         </DropdownMenuItem>
 

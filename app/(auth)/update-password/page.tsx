@@ -33,10 +33,10 @@ export default function UpdatePasswordPage() {
   }
 
   return (
-    <Card>
+    <Card className="border-zinc-200 bg-white shadow-xs">
       <CardHeader className="p-6 pb-0">
-        <CardTitle className="text-xl">Set new password 🔐</CardTitle>
-        <CardDescription>Choose a strong new password.</CardDescription>
+        <CardTitle className="text-lg font-bold text-zinc-900">Set New Password</CardTitle>
+        <CardDescription className="text-xs text-zinc-500">Choose a strong password for your account</CardDescription>
       </CardHeader>
       <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -74,7 +74,7 @@ export default function UpdatePasswordPage() {
             />
           </div>
 
-          <Button type="submit" className="w-full" size="lg" loading={loading}>
+          <Button type="submit" className="w-full" size="default" loading={loading}>
             <Lock className="h-4 w-4" />
             Update Password
           </Button>

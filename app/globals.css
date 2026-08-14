@@ -1,62 +1,63 @@
 @import "tailwindcss";
 
 /* =============================================================================
-   Keep Tabs — Design System
-   Calm, professional, neat, and aesthetically pleasing.
-   Soft slate neutrals, serene indigo/ocean accents, crisp surfaces, and refined typography.
+   Keep Tabs — Clean Modern Minimalist Design System
+   Professional, calm, neat, and structured.
+   Neutral zinc surfaces, obsidian high-contrast accents, crisp borders.
 ============================================================================= */
 
 :root {
-  /* Brand — Nordic Frost & Deep Sea Slate */
-  --brand-primary: #0284c7;      /* sky-600 — crisp arctic blue */
-  --brand-secondary: #0369a1;    /* sky-700 — deep ocean blue */
-  --brand-accent: #06b6d4;       /* cyan-500 — icy accent */
-  --brand-subtle: #f0f9ff;       /* sky-50 — frosty subtle tint */
-  --brand-border: #bae6fd;       /* sky-200 — delicate ice border */
+  /* Brand — Neutral Obsidian & Deep Slate */
+  --brand-primary: #18181b;      /* zinc-900 — solid, confident, professional */
+  --brand-secondary: #09090b;    /* zinc-950 — hover/pressed */
+  --brand-accent: #27272a;       /* zinc-800 — subtle focus */
+  --brand-subtle: #f4f4f5;       /* zinc-100 — soft neutral fill */
+  --brand-border: #e4e4e7;       /* zinc-200 — delicate clean border */
 
   /* Surfaces & Canvas */
-  --bg-base: #f1f5f9;            /* slate-100 / cool icy canvas */
-  --bg-surface: #ffffff;         /* pure crisp elevated card surface */
-  --bg-muted: #e2e8f0;           /* slate-200 — secondary surface */
-  --bg-subtle: #f8fafc;          /* slate-50 — tertiary item hover */
+  --bg-base: #fafafa;            /* neutral clean canvas */
+  --bg-surface: #ffffff;         /* pure white surface */
+  --bg-muted: #f4f4f5;           /* zinc-100 — secondary surface */
+  --bg-subtle: #f4f4f5;          /* zinc-100 — hover surface */
 
   /* Borders & Dividers */
-  --border: #dbe4ee;             /* cool slate border */
-  --border-strong: #cbd5e1;      /* slate-300 — active borders */
-  --border-subtle: #edf2f7;      /* frosty internal dividers */
+  --border: #e4e4e7;             /* zinc-200 — clean quiet borders */
+  --border-strong: #d4d4d8;      /* zinc-300 — active borders */
+  --border-subtle: #f4f4f5;      /* zinc-100 — internal dividers */
 
   /* Typography */
-  --text-primary: #0b192c;        /* deep sea navy */
-  --text-secondary: #334155;      /* slate-700 */
-  --text-muted: #94a3b8;          /* slate-400 */
+  --text-primary: #09090b;        /* zinc-950 — deep black/slate */
+  --text-secondary: #52525b;      /* zinc-600 — clear readable body */
+  --text-muted: #71717a;          /* zinc-500 — labels & secondary */
+  --text-dim: #a1a1aa;            /* zinc-400 — placeholders & meta */
 
   /* Status Colors */
-  --color-success: #059669;       /* cool emerald */
-  --color-success-bg: #ecfdf5;
-  --color-success-border: #a7f3d0;
+  --color-success: #16a34a;       /* emerald-600 */
+  --color-success-bg: #f0fdf4;
+  --color-success-border: #bbf7d0;
 
-  --color-warning: #d97706;       /* arctic amber */
+  --color-warning: #d97706;       /* amber-600 */
   --color-warning-bg: #fffbeb;
   --color-warning-border: #fde68a;
 
-  --color-error: #e11d48;         /* coral rose */
-  --color-error-bg: #fff1f2;
-  --color-error-border: #fecdd3;
+  --color-error: #dc2626;         /* red-600 */
+  --color-error-bg: #fef2f2;
+  --color-error-border: #fecaca;
 
-  --color-info: #0284c7;          /* ice blue */
-  --color-info-bg: #f0f9ff;
-  --color-info-border: #bae6fd;
+  --color-info: #2563eb;          /* blue-600 */
+  --color-info-bg: #eff6ff;
+  --color-info-border: #bfdbfe;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 3px 0 rgba(15, 30, 60, 0.03);
-  --shadow-md: 0 3px 12px -2px rgba(15, 30, 60, 0.05), 0 1px 3px 0 rgba(15, 30, 60, 0.02);
-  --shadow-lg: 0 10px 28px -4px rgba(15, 30, 60, 0.08), 0 2px 8px -1px rgba(15, 30, 60, 0.03);
-  --shadow-popover: 0 16px 40px -4px rgba(15, 30, 60, 0.12), 0 4px 14px -2px rgba(15, 30, 60, 0.05);
+  /* Shadows — Refined, subtle */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 24px -4px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+  --shadow-popover: 0 12px 32px -4px rgba(0, 0, 0, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
 
   /* Layout Spacing */
-  --sidebar-width: 250px;
-  --header-height: 58px;
-  --bottom-nav-height: 64px;
+  --sidebar-width: 240px;
+  --header-height: 56px;
+  --bottom-nav-height: 60px;
 }
 
 html {
@@ -98,31 +99,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #d4d4d8;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #a1a1aa;
 }
 
 /* =============================================================================
-   Page Backgrounds — Nordic Frost
+   Page Backgrounds
 ============================================================================= */
 .bg-app-gradient {
-  background-color: #f1f5f9;
-  background-image: 
-    radial-gradient(at 100% 0%, rgba(186, 230, 253, 0.45) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(207, 250, 254, 0.45) 0px, transparent 50%),
-    radial-gradient(at 50% 50%, rgba(241, 245, 249, 0.5) 0px, transparent 100%);
-  background-attachment: fixed;
+  background-color: var(--bg-base);
 }
 
 .bg-auth-gradient {
-  background-color: #f1f5f9;
-  background-image: 
-    radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.08) 0%, transparent 60%),
-    radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.08) 0%, transparent 50%);
+  background-color: var(--bg-base);
 }
 
 /* =============================================================================
@@ -143,59 +136,54 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--bg-surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .glass-card:hover {
-  border-color: #cbd5e1;
+  border-color: var(--border-strong);
   box-shadow: var(--shadow-md);
 }
 
 /* =============================================================================
-   Gradient Text & Signature Accents
+   Signature Text
 ============================================================================= */
 .gradient-text {
-  background: linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #0b192c 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text-primary);
+  font-weight: 700;
 }
 
 .gradient-text-warm {
-  background: linear-gradient(135deg, #d97706 0%, #e11d48 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-warning);
+  font-weight: 700;
 }
 
 /* =============================================================================
    Buttons & Badges
 ============================================================================= */
 .btn-brand {
-  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  background: #18181b;
   color: #ffffff;
   font-weight: 500;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 1px 2px rgba(2, 132, 199, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 1px solid #18181b;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
   transition: all 0.15s ease;
 }
 
 .btn-brand:hover {
-  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
-  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+  background: #09090b;
 }
 
 /* Status Badges */
 .badge-unpaid {
-  background: #fff1f2;
-  color: #e11d48;
-  border: 1px solid #fecdd3;
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
 }
 
 .badge-paid {
-  background: #ecfdf5;
-  color: #059669;
-  border: 1px solid #a7f3d0;
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
 }
 
 .badge-disputed {
@@ -205,9 +193,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .badge-cancelled {
-  background: #f1f5f9;
-  color: #64748b;
-  border: 1px solid #e2e8f0;
+  background: #f4f4f5;
+  color: #71717a;
+  border: 1px solid #e4e4e7;
 }
 
 /* =============================================================================
@@ -221,36 +209,35 @@ input, textarea, select {
 }
 
 input:focus, textarea:focus, select:focus {
-  border-color: var(--brand-primary) !important;
-  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14) !important;
+  border-color: #18181b !important;
+  box-shadow: 0 0 0 3px rgba(24, 24, 27, 0.08) !important;
   outline: none !important;
 }
 
 input::placeholder, textarea::placeholder {
-  color: var(--text-muted) !important;
+  color: var(--text-dim) !important;
 }
 
 /* =============================================================================
    Keyframe Animations
 ============================================================================= */
 @keyframes fine-bounce {
-  0% { transform: scale(0.6) translateY(10px); opacity: 0; }
-  60% { transform: scale(1.02) translateY(-2px); opacity: 1; }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 .fine-issued-animation {
-  animation: fine-bounce 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fine-bounce 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* =============================================================================
    Tailwind v4 Theme Tokens
 ============================================================================= */
 @theme inline {
-  --color-brand: #0284c7;
-  --color-brand-light: #38bdf8;
-  --color-brand-dark: #0369a1;
+  --color-brand: #18181b;
+  --color-brand-light: #27272a;
+  --color-brand-dark: #09090b;
   --color-surface: #ffffff;
   --color-elevated: #ffffff;
-  --color-muted: #94a3b8;
+  --color-muted: #71717a;
 }

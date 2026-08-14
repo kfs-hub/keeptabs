@@ -69,20 +69,16 @@ export default async function MemberProfilePage({
     .eq('group_id', groupId)
     .order('earned_at', { ascending: false })
 
-  const statusEmoji: Record<string, string> = {
-    unpaid: '🔴', paid: '🟢', disputed: '🟡', cancelled: '⚪',
-  }
-
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Back */}
-      <Link href="/members" className="inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-900 transition-colors">
+      <Link href="/members" className="inline-flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-900 transition-colors">
         <ArrowLeft className="h-3.5 w-3.5" />
-        Members
+        Back to Members
       </Link>
 
       {/* Profile header */}
-      <div className="glass-card rounded-2xl p-6">
+      <div className="bg-white border border-zinc-200 rounded-xl p-5 shadow-xs">
         <div className="flex items-start gap-4">
           <Avatar className="h-16 w-16 shrink-0 ring-2 ring-violet-500/30">
             <AvatarImage src={profile?.avatar_url ?? undefined} />
@@ -124,8 +120,8 @@ export default async function MemberProfilePage({
 
       {/* Achievements */}
       {(userAchievements?.length ?? 0) > 0 && (
-        <div className="glass-card rounded-2xl p-5">
-          <h3 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4">🏆 Achievements</h3>
+        <div className="glass-card rounded-xl p-4 bg-white border border-zinc-200">
+          <h3 className="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider mb-3">Achievements</h3>
           <div className="flex flex-wrap gap-2">
             {userAchievements?.map((ua) => {
               const a = ua.achievements as any
@@ -133,10 +129,9 @@ export default async function MemberProfilePage({
                 <div
                   key={ua.achievement_id}
                   title={`${a?.name}: ${a?.description}`}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-violet-50 border border-violet-200 text-xs text-zinc-600 cursor-default hover:bg-violet-100 transition-colors"
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-zinc-100 border border-zinc-200 text-xs text-zinc-700 cursor-default"
                 >
-                  <span className="text-base">{a?.icon}</span>
-                  <span>{a?.name}</span>
+                  <span className="font-medium">{a?.name}</span>
                 </div>
               )
             })}
@@ -145,27 +140,29 @@ export default async function MemberProfilePage({
       )}
 
       {/* Recent fines received */}
-      <div className="glass-card rounded-2xl overflow-hidden">
-        <div className="px-5 py-4 border-b border-zinc-200">
-          <h3 className="font-semibold text-zinc-900">Recent Fines</h3>
+      <div className="glass-card rounded-xl overflow-hidden bg-white border border-zinc-200">
+        <div className="px-4 py-3 border-b border-zinc-100">
+          <h3 className="font-semibold text-zinc-900 text-xs">Recent Fines</h3>
         </div>
         {!receivedFines?.length ? (
-          <div className="p-8 text-center text-zinc-400 text-sm">No fines yet 🎉</div>
+          <div className="p-8 text-center text-zinc-400 text-xs">No fines recorded</div>
         ) : (
           <div className="divide-y divide-zinc-100">
             {receivedFines.map((f) => (
-              <div key={f.id} className="flex items-center justify-between px-5 py-3.5 gap-3">
+              <div key={f.id} className="flex items-center justify-between px-4 py-3 gap-3">
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-zinc-900">
+                  <p className="text-xs font-medium text-zinc-900">
                     {(f.rules as any)?.name ?? 'Custom fine'}
                   </p>
-                  <p className="text-xs text-zinc-400 mt-0.5">
-                    By {(f.reporter as any)?.display_name} · {formatDate(f.created_at)}
+                  <p className="text-[11px] text-zinc-400 mt-0.5">
+                    Reported by {(f.reporter as any)?.display_name} · {formatDate(f.created_at)}
                   </p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-sm font-semibold text-zinc-900">{formatCurrency(f.amount, currency)}</p>
-                  <p className="text-xs text-zinc-400">{statusEmoji[f.status]} {f.status}</p>
+                  <p className="text-xs font-semibold text-zinc-950 tabular-nums">{formatCurrency(f.amount, currency)}</p>
+                  <Badge variant={f.status === 'paid' ? 'paid' : f.status === 'unpaid' ? 'unpaid' : 'disputed'} className="text-[9px] py-0 px-1 capitalize">
+                    {f.status}
+                  </Badge>
                 </div>
               </div>
             ))}

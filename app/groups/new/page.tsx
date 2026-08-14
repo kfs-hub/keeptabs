@@ -46,25 +46,27 @@ export default function NewGroupPage() {
 
   if (created) {
     return (
-      <Card>
+      <Card className="border-zinc-200 bg-white">
         <CardContent className="p-8 text-center space-y-6">
-          <div className="text-6xl">🎉</div>
+          <div className="w-12 h-12 rounded-xl bg-zinc-900 text-white flex items-center justify-center mx-auto">
+            <Check className="h-6 w-6" />
+          </div>
           <div>
-            <h2 className="text-2xl font-bold text-zinc-900">Group Created!</h2>
-            <p className="text-zinc-500 mt-2">Share this code with your friends to invite them.</p>
+            <h2 className="text-xl font-bold text-zinc-900">Group Created</h2>
+            <p className="text-zinc-500 text-xs mt-1">Share this code with your friends to invite them.</p>
           </div>
           <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 space-y-2">
-            <p className="text-zinc-400 text-xs uppercase tracking-widest">Invite Code</p>
-            <div className="text-4xl font-mono font-bold gradient-text tracking-widest">
+            <p className="text-zinc-400 text-[10px] uppercase tracking-widest font-medium">Invite Code</p>
+            <div className="text-3xl font-mono font-bold text-zinc-900 tracking-widest">
               {created.inviteCode}
             </div>
             <Button onClick={copyInviteCode} variant="outline" size="sm" className="gap-2">
-              {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
-              {copied ? 'Copied!' : 'Copy Code'}
+              {copied ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
+              {copied ? 'Copied' : 'Copy Code'}
             </Button>
           </div>
-          <Button onClick={() => router.push('/dashboard')} className="w-full" size="lg">
-            Go to Dashboard →
+          <Button onClick={() => router.push('/dashboard')} className="w-full" size="default">
+            Go to Dashboard
           </Button>
         </CardContent>
       </Card>

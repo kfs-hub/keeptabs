@@ -52,7 +52,7 @@ export function DisputesClient({ disputes, groupId, currency }: DisputesClientPr
     setLoad(d.id + '_cancel', true)
     const r = await cancelDisputeAction(d.id, d.fine.id, groupId)
     if (r.error) toast.error(r.error)
-    else toast.success('Fine cancelled — dispute accepted! ✅')
+    else toast.success('Fine cancelled — dispute accepted')
     setLoad(d.id + '_cancel', false)
     setCancelConfirm(null)
   }
@@ -72,43 +72,40 @@ export function DisputesClient({ disputes, groupId, currency }: DisputesClientPr
   return (
     <div className="space-y-5">
       <div className="flex items-center gap-2">
-        <h2 className="text-lg font-semibold text-zinc-900">⚖️ Disputes</h2>
+        <h2 className="text-sm font-semibold text-zinc-900">Disputes</h2>
         {pending.length > 0 && (
-          <span className="px-2 py-0.5 text-xs rounded-full bg-yellow-100 text-yellow-600 border border-yellow-200 font-medium">
+          <span className="px-2 py-0.5 text-xs rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-medium">
             {pending.length} pending
           </span>
         )}
       </div>
 
       {disputes.length === 0 ? (
-        <div className="glass-card rounded-2xl p-12 text-center">
-          <Scale className="h-10 w-10 text-zinc-300 mx-auto mb-3" />
-          <p className="text-zinc-500">No disputes. Everyone&apos;s accepted their fate.</p>
+        <div className="bg-white border border-zinc-200 rounded-xl p-12 text-center shadow-xs">
+          <Scale className="h-8 w-8 text-zinc-300 mx-auto mb-2" />
+          <p className="text-xs text-zinc-500">No active disputes.</p>
         </div>
       ) : (
         <div className="space-y-3">
           {/* Pending */}
           {pending.map((d) => (
-            <motion.div
+            <div
               key={d.id}
-              layout
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="glass-card rounded-2xl p-5 border border-yellow-500/15 space-y-4"
+              className="bg-white border border-zinc-200 rounded-xl p-5 shadow-xs space-y-4"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <Avatar className="h-9 w-9 shrink-0">
-                    <AvatarFallback className="text-xs">
+                  <Avatar className="h-8 w-8 shrink-0 border border-zinc-200">
+                    <AvatarFallback className="text-[10px] bg-zinc-100 text-zinc-700">
                       {getInitials(d.submitter?.display_name ?? '?')}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-semibold text-zinc-900 text-sm">{d.submitter?.display_name}</p>
-                    <p className="text-xs text-zinc-400">{formatRelativeTime(d.created_at)}</p>
+                    <p className="font-semibold text-zinc-900 text-xs">{d.submitter?.display_name}</p>
+                    <p className="text-[11px] text-zinc-400">{formatRelativeTime(d.created_at)}</p>
                   </div>
                 </div>
-                <Badge variant="disputed" className="text-[10px] shrink-0">🟡 Pending</Badge>
+                <Badge variant="disputed" className="text-[9px] shrink-0">Pending</Badge>
               </div>
 
               {/* Fine details */}
@@ -162,7 +159,7 @@ export function DisputesClient({ disputes, groupId, currency }: DisputesClientPr
                   Modify Amount
                 </Button>
               </div>
-            </motion.div>
+            </div>
           ))}
 
           {/* Resolved */}

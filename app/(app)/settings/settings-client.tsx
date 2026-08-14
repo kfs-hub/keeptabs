@@ -80,22 +80,18 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
   return (
     <div className="max-w-lg mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-zinc-900">⚙️ Settings</h1>
-        <p className="text-zinc-400 text-sm mt-1">Manage your profile and account.</p>
+        <h1 className="text-xl font-bold tracking-tight text-zinc-900">Settings</h1>
+        <p className="text-xs text-zinc-500 mt-0.5">Manage your profile, credentials, and groups</p>
       </div>
 
       {/* Avatar */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="glass-card rounded-2xl p-6"
-      >
-        <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4">Profile Picture</h2>
+      <div className="bg-white border border-zinc-200 rounded-xl p-5 shadow-xs">
+        <h2 className="text-xs font-semibold text-zinc-700 uppercase tracking-wider mb-4">Profile Picture</h2>
         <div className="flex items-center gap-5">
           <div className="relative group">
-            <Avatar className="h-20 w-20 ring-2 ring-violet-500/30">
+            <Avatar className="h-16 w-16 border border-zinc-200">
               <AvatarImage src={avatarPreview ?? undefined} />
-              <AvatarFallback className="text-2xl">{getInitials(profile.display_name)}</AvatarFallback>
+              <AvatarFallback className="text-lg bg-zinc-100 text-zinc-700">{getInitials(profile.display_name)}</AvatarFallback>
             </Avatar>
             <button
               onClick={() => fileInputRef.current?.click()}
@@ -127,17 +123,11 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
             </Button>
           </div>
         </div>
-        <p className="text-xs text-zinc-300 mt-3">JPEG, PNG, WebP, or GIF · Max 2MB</p>
-      </motion.div>
+      </div>
 
       {/* Profile info */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.05 }}
-        className="glass-card rounded-2xl p-6"
-      >
-        <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4">Profile Info</h2>
+      <div className="bg-white border border-zinc-200 rounded-xl p-5 shadow-xs">
+        <h2 className="text-xs font-semibold text-zinc-700 uppercase tracking-wider mb-4">Profile Info</h2>
         <form onSubmit={handleProfileSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <Label htmlFor="display_name">Display Name</Label>
@@ -170,16 +160,11 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
             Save Profile
           </Button>
         </form>
-      </motion.div>
+      </div>
 
       {/* Change password */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="glass-card rounded-2xl p-6"
-      >
-        <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4">Change Password</h2>
+      <div className="bg-white border border-zinc-200 rounded-xl p-5 shadow-xs">
+        <h2 className="text-xs font-semibold text-zinc-700 uppercase tracking-wider mb-4">Change Password</h2>
         <form onSubmit={handlePasswordSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <Label htmlFor="password">New Password</Label>
@@ -218,24 +203,19 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
             Update Password
           </Button>
         </form>
-      </motion.div>
+      </div>
 
       {/* Groups */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
-        className="glass-card rounded-2xl p-6"
-      >
-        <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4">Your Groups</h2>
+      <div className="bg-white border border-zinc-200 rounded-xl p-5 shadow-xs">
+        <h2 className="text-xs font-semibold text-zinc-700 uppercase tracking-wider mb-4">Your Groups</h2>
         <div className="space-y-2 mb-4">
           {groups.map((g) => (
             <div
               key={g.id}
-              className={`flex items-center justify-between p-3 rounded-xl border transition-all ${
+              className={`flex items-center justify-between p-3 rounded-lg border transition-all ${
                 g.id === activeGroupId
-                  ? 'border-violet-200 bg-violet-500/5'
-                  : 'border-zinc-200 bg-zinc-50'
+                  ? 'border-zinc-900 bg-zinc-50'
+                  : 'border-zinc-200 bg-white'
               }`}
             >
               <div>
@@ -247,7 +227,7 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
                   >
                     {g.role}
                   </Badge>
-                  Code: <span className="font-mono text-violet-600/70">{g.invite_code}</span>
+                  Code: <span className="font-mono text-zinc-600">{g.invite_code}</span>
                 </p>
               </div>
               {g.id === activeGroupId && (
@@ -271,23 +251,18 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
             </Button>
           </Link>
         </div>
-      </motion.div>
+      </div>
 
       {/* Danger zone */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="glass-card rounded-2xl p-6 border border-red-500/10"
-      >
-        <h2 className="text-sm font-semibold text-red-600/70 uppercase tracking-wider mb-4">Account</h2>
+      <div className="bg-white border border-red-200 rounded-xl p-5 shadow-xs">
+        <h2 className="text-xs font-semibold text-red-600 uppercase tracking-wider mb-4">Account</h2>
         <form action={logoutAction}>
           <Button type="submit" variant="destructive" className="w-full">
             <LogOut className="h-4 w-4" />
             Sign Out
           </Button>
         </form>
-      </motion.div>
+      </div>
     </div>
   )
 }

@@ -1,21 +1,19 @@
+import { Receipt } from 'lucide-react'
+
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-auth-gradient flex items-center justify-center p-4">
-      {/* Decorative orbs */}
-      <div className="fixed top-0 left-0 w-96 h-96 bg-violet-300/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="fixed bottom-0 right-0 w-80 h-80 bg-violet-200/20 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="relative z-10 w-full max-w-md">
+    <div className="min-h-screen bg-zinc-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center text-xl shadow-sm">
-              💸
+          <div className="inline-flex items-center gap-2 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-zinc-900 flex items-center justify-center text-white shadow-xs">
+              <Receipt className="h-5 w-5" />
             </div>
-            <span className="text-2xl font-bold gradient-text">Keep Tabs</span>
+            <span className="text-xl font-bold tracking-tight text-zinc-900">Keep Tabs</span>
           </div>
-          <p className="text-zinc-400 text-sm">
-            Track fines. Settle debts. Keep friends.
+          <p className="text-zinc-500 text-xs">
+            Simple, transparent fine tracking for groups
           </p>
         </div>
 

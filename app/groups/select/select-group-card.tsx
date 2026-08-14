@@ -41,33 +41,33 @@ export function SelectGroupCard({
   return (
     <Card
       onClick={handleSelect}
-      className={`cursor-pointer transition-all duration-200 border hover:border-violet-500/50 hover:bg-zinc-50 ${
+      className={`cursor-pointer transition-all duration-150 border hover:border-zinc-300 bg-white ${
         isActive
-          ? 'bg-violet-600/10 border-violet-500/40 shadow-lg shadow-violet-500/10'
-          : 'bg-zinc-50 border-zinc-200'
+          ? 'border-zinc-900 ring-1 ring-zinc-900 shadow-xs'
+          : 'border-zinc-200'
       }`}
     >
       <CardContent className="p-4 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3.5 min-w-0">
-          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center text-lg font-bold text-white shadow-md shrink-0">
+          <div className="w-10 h-10 rounded-lg bg-zinc-900 flex items-center justify-center text-sm font-semibold text-white shrink-0">
             {groupName.charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h3 className="font-semibold text-zinc-900 truncate text-base">{groupName}</h3>
+              <h3 className="font-semibold text-zinc-900 truncate text-sm">{groupName}</h3>
               {isActive && (
-                <span className="text-[10px] bg-violet-100 text-violet-700 border border-violet-200 px-2 py-0.5 rounded-full font-medium shrink-0 flex items-center gap-1">
+                <span className="text-[10px] bg-zinc-100 text-zinc-700 border border-zinc-200 px-2 py-0.5 rounded-full font-medium shrink-0 flex items-center gap-1">
                   <Check className="h-3 w-3" /> Active
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-2 mt-1 text-xs text-zinc-400">
+            <div className="flex items-center gap-2 mt-0.5 text-xs text-zinc-500">
               <span className="capitalize flex items-center gap-1">
-                {['admin', 'owner'].includes(role) && <Shield className="h-3 w-3 text-amber-600" />}
+                {['admin', 'owner'].includes(role) && <Shield className="h-3 w-3 text-zinc-700" />}
                 {role}
               </span>
               <span>•</span>
-              <span>Currency: {currency}</span>
+              <span>{currency}</span>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ export function SelectGroupCard({
             'Opening...'
           ) : (
             <>
-              Enter <ArrowRight className="h-3.5 w-3.5" />
+              Open <ArrowRight className="h-3.5 w-3.5" />
             </>
           )}
         </Button>

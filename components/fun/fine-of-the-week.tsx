@@ -1,6 +1,3 @@
-'use client'
-
-import { motion } from 'framer-motion'
 import { formatCurrency, formatDate } from '@/lib/utils'
 
 interface FineOfTheWeekProps {
@@ -20,40 +17,35 @@ export function FineOfTheWeek({ fine, currency = 'INR' }: FineOfTheWeekProps) {
   if (!fine) return null
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.35, delay: 0.2 }}
-      className="glass-card rounded-2xl p-5 border border-amber-200/80 bg-gradient-to-br from-white via-amber-50/20 to-amber-50/40 relative overflow-hidden"
-    >
-      <div className="relative space-y-3">
+    <div className="glass-card rounded-xl p-5 border border-zinc-200 bg-white relative">
+      <div className="space-y-2.5">
         <div className="flex items-center justify-between">
-          <span className="text-[11px] text-amber-800 font-semibold uppercase tracking-wider bg-amber-100/70 border border-amber-200/60 px-2 py-0.5 rounded-full">
-            ⭐ Fine of the Week
+          <span className="text-[10px] text-zinc-700 font-semibold uppercase tracking-wider bg-zinc-100 border border-zinc-200 px-2 py-0.5 rounded">
+            Top Fine (7 Days)
           </span>
-          <span className="text-[11px] text-slate-400 font-normal">Past 7 Days</span>
+          <span className="text-[11px] text-zinc-400 font-normal">Past week</span>
         </div>
 
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start justify-between gap-3 pt-1">
           <div className="min-w-0">
-            <p className="font-semibold text-slate-900 text-base">{fine.finedUserName}</p>
-            <p className="text-xs text-slate-500 font-medium">{fine.ruleName}</p>
+            <p className="font-semibold text-zinc-950 text-sm">{fine.finedUserName}</p>
+            <p className="text-xs text-zinc-500 font-normal">{fine.ruleName}</p>
             {fine.description && (
-              <p className="text-xs text-slate-500 italic mt-1.5 line-clamp-2 bg-white/80 p-2 rounded-xl border border-amber-100">
+              <p className="text-xs text-zinc-600 italic mt-1.5 line-clamp-2 bg-zinc-50 p-2 rounded-lg border border-zinc-100">
                 &quot;{fine.description}&quot;
               </p>
             )}
-            <p className="text-[11px] text-slate-400 mt-2">
+            <p className="text-[10px] text-zinc-400 mt-2">
               Reported by {fine.reporterName} · {formatDate(fine.createdAt)}
             </p>
           </div>
           <div className="text-right shrink-0">
-            <p className="text-xl sm:text-2xl font-bold text-amber-700 tabular-nums">
+            <p className="text-xl font-bold text-zinc-950 tabular-nums">
               {formatCurrency(fine.amount, currency)}
             </p>
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }

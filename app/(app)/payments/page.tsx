@@ -36,45 +36,45 @@ export default async function PaymentsPage() {
     .limit(3)
 
   return (
-    <div className="max-w-lg mx-auto space-y-6">
+    <div className="max-w-lg mx-auto space-y-5">
       <div>
-        <h1 className="text-2xl font-bold text-zinc-900">💳 Payments</h1>
-        <p className="text-zinc-400 text-sm mt-1">Manage your fines and payment history.</p>
+        <h1 className="text-xl font-bold text-zinc-950">Payments</h1>
+        <p className="text-zinc-500 text-xs mt-0.5">Manage your fines and settlement history.</p>
       </div>
 
       {/* Balance card */}
-      <div className={`glass-card rounded-2xl p-6 border ${totalOwed > 0 ? 'border-red-200' : 'border-green-200'}`}>
-        <p className="text-sm text-zinc-500">Your Balance</p>
-        <p className={`text-4xl font-bold mt-1 ${totalOwed > 0 ? 'text-red-600' : 'text-green-600'}`}>
+      <div className={`glass-card rounded-xl p-5 bg-white border ${totalOwed > 0 ? 'border-red-200' : 'border-zinc-200'}`}>
+        <p className="text-xs text-zinc-500 font-medium">Your Balance</p>
+        <p className={`text-3xl font-bold mt-1 tabular-nums ${totalOwed > 0 ? 'text-red-600' : 'text-zinc-950'}`}>
           {formatCurrency(totalOwed, currency)}
         </p>
-        <p className="text-xs text-zinc-400 mt-1">
+        <p className="text-[11px] text-zinc-400 mt-1">
           {unpaidFines?.length ?? 0} unpaid fine{(unpaidFines?.length ?? 0) !== 1 ? 's' : ''}
         </p>
         {totalOwed > 0 && (
           <Link href="/payments/pay" className="block mt-4">
-            <Button className="w-full" size="lg">
-              <CreditCard className="h-4 w-4" />
+            <Button className="w-full bg-zinc-900 hover:bg-zinc-800 text-white" size="default">
+              <CreditCard className="h-4 w-4 mr-1.5" />
               Pay Outstanding Fines
             </Button>
           </Link>
         )}
         {totalOwed === 0 && (
-          <p className="text-green-600/70 text-sm mt-2">🎉 All clear! No outstanding fines.</p>
+          <p className="text-emerald-700 text-xs mt-2 font-medium">All fines settled. Zero outstanding balance.</p>
         )}
       </div>
 
       {/* Quick links */}
-      <div className="grid grid-cols-1 gap-3">
+      <div className="grid grid-cols-1 gap-2.5">
         <Link href="/payments/history">
-          <div className="glass-card rounded-2xl p-4 flex items-center justify-between hover:border-violet-200 transition-all cursor-pointer">
+          <div className="glass-card rounded-xl p-3.5 flex items-center justify-between bg-white border border-zinc-200 hover:border-zinc-300 transition-colors cursor-pointer">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center">
-                <History className="h-5 w-5 text-violet-600" />
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 flex items-center justify-center">
+                <History className="h-4 w-4 text-zinc-700" />
               </div>
               <div>
-                <p className="font-medium text-zinc-900">Payment History</p>
-                <p className="text-xs text-zinc-400">View all your past payments</p>
+                <p className="font-semibold text-xs text-zinc-900">Payment History</p>
+                <p className="text-[11px] text-zinc-400">View all your past transactions</p>
               </div>
             </div>
             <ArrowRight className="h-4 w-4 text-zinc-400" />
@@ -84,25 +84,25 @@ export default async function PaymentsPage() {
 
       {/* Recent payments */}
       {(recentPayments?.length ?? 0) > 0 && (
-        <div className="glass-card rounded-2xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-zinc-200 flex items-center justify-between">
-            <h3 className="font-semibold text-zinc-900">Recent Payments</h3>
-            <Link href="/payments/history" className="text-xs text-violet-600 hover:text-violet-700 transition-colors">
-              View all →
+        <div className="glass-card rounded-xl overflow-hidden bg-white border border-zinc-200">
+          <div className="px-4 py-3 border-b border-zinc-100 flex items-center justify-between">
+            <h3 className="font-semibold text-zinc-900 text-xs">Recent Payments</h3>
+            <Link href="/payments/history" className="text-xs text-zinc-900 hover:underline font-medium">
+              View all
             </Link>
           </div>
           {recentPayments?.map((p) => (
-            <div key={p.id} className="flex items-center justify-between px-5 py-3 border-b border-zinc-200 last:border-0">
+            <div key={p.id} className="flex items-center justify-between px-4 py-3 border-b border-zinc-100 last:border-0">
               <div>
-                <p className="text-sm font-medium text-zinc-900">{formatCurrency(p.amount, currency)}</p>
-                <p className="text-xs text-zinc-400">{new Date(p.created_at).toLocaleDateString('en-IN')}</p>
+                <p className="text-xs font-semibold text-zinc-950 tabular-nums">{formatCurrency(p.amount, currency)}</p>
+                <p className="text-[10px] text-zinc-400">{new Date(p.created_at).toLocaleDateString('en-IN')}</p>
               </div>
-              <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                p.status === 'successful' ? 'bg-green-50 text-green-600' :
-                p.status === 'failed' ? 'bg-red-50 text-red-600' :
-                'bg-yellow-50 text-yellow-600'
+              <span className={`text-[10px] font-medium px-2 py-0.5 rounded capitalize ${
+                p.status === 'successful' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
+                p.status === 'failed' ? 'bg-red-50 text-red-700 border border-red-200' :
+                'bg-amber-50 text-amber-700 border border-amber-200'
               }`}>
-                {p.status === 'successful' ? '🟢' : p.status === 'failed' ? '🔴' : '🟡'} {p.status}
+                {p.status}
               </span>
             </div>
           ))}

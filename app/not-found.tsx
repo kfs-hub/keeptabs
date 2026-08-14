@@ -1,26 +1,28 @@
 import Link from 'next/link'
+import { FileQuestion, ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-auth-gradient flex items-center justify-center p-4">
-      <div className="fixed top-0 left-0 w-96 h-96 bg-violet-300/12 rounded-full blur-3xl pointer-events-none" />
-      <div className="fixed bottom-0 right-0 w-80 h-80 bg-violet-200/15 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="relative z-10 text-center space-y-6 max-w-md">
-        <div className="text-8xl animate-bounce">🚨</div>
-        <div className="space-y-2">
-          <h1 className="text-6xl font-black text-zinc-900">404</h1>
-          <p className="text-xl font-semibold gradient-text">This page broke the rules too.</p>
-          <p className="text-zinc-400 text-sm mt-2">
-            Fined ₹404 for going somewhere that doesn&apos;t exist.
+    <div className="min-h-screen bg-zinc-50 flex items-center justify-center p-4">
+      <div className="text-center space-y-5 max-w-sm">
+        <div className="mx-auto w-12 h-12 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-600">
+          <FileQuestion className="h-6 w-6" />
+        </div>
+        <div className="space-y-1.5">
+          <h1 className="text-3xl font-bold tracking-tight text-zinc-900">404</h1>
+          <p className="text-sm font-medium text-zinc-800">Page not found</p>
+          <p className="text-xs text-zinc-500">
+            The page you are looking for doesn&apos;t exist or has been moved.
           </p>
         </div>
-        <Link href="/dashboard">
-          <Button size="lg" className="mt-2">
-            🏠 Back to Safety
-          </Button>
-        </Link>
+        <div className="pt-2">
+          <Link href="/dashboard">
+            <Button variant="default" size="default" className="gap-2">
+              <ArrowLeft className="h-4 w-4" /> Return to Dashboard
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   )

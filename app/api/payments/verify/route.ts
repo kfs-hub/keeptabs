@@ -97,8 +97,8 @@ export async function POST(req: Request) {
       user_id: user.id,
       group_id: p.group_id,
       type: 'payment_successful',
-      title: '🎉 Payment Confirmed!',
-      message: `Your payment of ₹${p.amount} was successful. Debt cleared! 🏆`,
+      title: 'Payment Confirmed',
+      message: `Your payment of ₹${p.amount} was successful. Debt cleared.`,
       metadata: { payment_id: paymentDbId },
     })
 

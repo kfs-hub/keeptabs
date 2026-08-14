@@ -49,9 +49,9 @@ export function AdminMembersClient({
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold text-zinc-900">👥 Manage Members</h2>
+      <h2 className="text-sm font-semibold text-zinc-900">Manage Members</h2>
 
-      <div className="glass-card rounded-2xl overflow-hidden divide-y divide-zinc-100">
+      <div className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-xs divide-y divide-zinc-100">
         {members.map((m) => {
           const p = m.profiles as any
           const isMe = m.user_id === currentUserId

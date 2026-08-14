@@ -65,21 +65,21 @@ export function getFineStatusColor(status: string): string {
 
 export function getFineStatusEmoji(status: string): string {
   switch (status) {
-    case 'paid': return '🟢'
-    case 'unpaid': return '🔴'
-    case 'disputed': return '🟡'
-    case 'cancelled': return '⚪'
-    default: return '⚪'
+    case 'paid': return '●'
+    case 'unpaid': return '●'
+    case 'disputed': return '●'
+    case 'cancelled': return '●'
+    default: return '●'
   }
 }
 
 export function getPaymentStatusEmoji(status: string): string {
   switch (status) {
-    case 'successful': return '🟢'
-    case 'processing': return '🟡'
-    case 'failed': return '🔴'
-    case 'refunded': return '⚪'
-    default: return '⚪'
+    case 'successful': return '●'
+    case 'processing': return '●'
+    case 'failed': return '●'
+    case 'refunded': return '●'
+    default: return '●'
   }
 }
 

@@ -103,7 +103,7 @@ export async function issueFineAction(formData: FormData): Promise<IssueFineResu
     user_id: parsed.data.fined_user_id,
     group_id: groupId,
     type: 'fine_received',
-    title: '🚨 You just got fined!',
+    title: 'You received a fine',
     message: `You were fined ₹${parsed.data.amount} for: ${ruleName}`,
     metadata: { fine_id: (fine as any).id },
   })
@@ -161,8 +161,8 @@ export async function createDisputeAction(formData: FormData): Promise<{ error?:
   for (const a of admins ?? []) {
     await admin.from('notifications').insert({
       user_id: (a as any).user_id, group_id: f.group_id, type: 'dispute_submitted',
-      title: '⚖️ Fine Disputed',
-      message: `${myName} is disputing their ₹${f.amount} fine`,
+      title: 'Fine Disputed',
+      message: `${myName} submitted a dispute for their ₹${f.amount} fine`,
       metadata: { fine_id: fineId },
     })
   }

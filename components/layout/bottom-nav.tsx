@@ -24,7 +24,7 @@ export function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200/80 bg-white/90 backdrop-blur-md">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-200 bg-white/95 backdrop-blur-md">
       <div className="flex items-center justify-around px-2 h-15">
         {mobileNavItems.map((item) => {
           const isActive = pathname === item.href || (pathname.startsWith(item.href + '/') && item.href !== '/dashboard')
@@ -34,24 +34,17 @@ export function BottomNav() {
               href={item.href}
               className="flex-1 flex flex-col items-center justify-center gap-1 h-full relative"
             >
-              <motion.div
-                whileTap={{ scale: 0.88 }}
+              <div
                 className={cn(
-                  'flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl transition-colors duration-150',
-                  isActive ? 'text-sky-700 font-semibold' : 'text-slate-400 hover:text-slate-600'
+                  'flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg transition-colors duration-150',
+                  isActive ? 'text-zinc-950 font-semibold' : 'text-zinc-400 hover:text-zinc-700'
                 )}
               >
-                <div className={cn('p-1 rounded-lg transition-colors', isActive && 'bg-sky-50 text-sky-700')}>
+                <div className={cn('p-1 rounded-md transition-colors', isActive && 'bg-zinc-100 text-zinc-950')}>
                   {item.icon}
                 </div>
                 <span className="text-[10px] font-medium">{item.label}</span>
-                {isActive && (
-                  <motion.div
-                    layoutId="bottom-nav-indicator"
-                    className="absolute top-0 w-8 h-0.5 rounded-full bg-sky-500 shadow-xs shadow-sky-400/50"
-                  />
-                )}
-              </motion.div>
+              </div>
             </Link>
           )
         })}

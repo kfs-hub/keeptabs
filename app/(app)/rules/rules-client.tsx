@@ -46,8 +46,8 @@ export function RulesClient({ rules, ruleStats, groupId, currency, isAdmin }: Ru
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">📜 Rules</h1>
-          <p className="text-zinc-400 text-sm mt-1">
+          <h1 className="text-xl font-bold text-zinc-950">Rules</h1>
+          <p className="text-zinc-500 text-xs mt-0.5">
             {activeRules.length} active rule{activeRules.length !== 1 ? 's' : ''}
           </p>
         </div>
@@ -59,30 +59,27 @@ export function RulesClient({ rules, ruleStats, groupId, currency, isAdmin }: Ru
         )}
       </div>
 
-      {/* Hall of Shame */}
+      {/* Most Broken Rules */}
       {hallOfShame.length > 0 && (
-        <div className="glass-card rounded-2xl p-5 border border-red-500/10">
-          <h3 className="text-sm font-semibold text-zinc-500 uppercase tracking-widest mb-4">
-            🔥 Hall of Shame — Most Broken Rules
+        <div className="glass-card rounded-xl p-4 bg-white border border-zinc-200">
+          <h3 className="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider mb-3">
+            Most Frequently Broken Rules
           </h3>
-          <div className="grid sm:grid-cols-3 gap-3">
+          <div className="grid sm:grid-cols-3 gap-2.5">
             {hallOfShame.map((rule, i) => (
-              <motion.div
+              <div
                 key={rule.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
-                className="bg-red-500/5 border border-red-500/15 rounded-xl p-4 text-center"
+                className="bg-zinc-50 border border-zinc-200 rounded-lg p-3 text-center"
               >
-                <div className="text-2xl mb-1">
-                  {i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'}
+                <div className="text-xs font-semibold text-zinc-600 mb-0.5">
+                  Rank #{i + 1}
                 </div>
-                <p className="text-sm font-semibold text-zinc-900 line-clamp-1">{rule.name}</p>
-                <p className="text-xs text-zinc-400 mt-1">
+                <p className="text-xs font-semibold text-zinc-950 line-clamp-1">{rule.name}</p>
+                <p className="text-[11px] text-zinc-400 mt-1">
                   Broken {ruleStats[rule.id]?.count ?? 0}× ·{' '}
                   {formatCurrency(ruleStats[rule.id]?.total ?? 0, currency)}
                 </p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -90,10 +87,10 @@ export function RulesClient({ rules, ruleStats, groupId, currency, isAdmin }: Ru
 
       {/* Rules Tabs */}
       {rules.length === 0 ? (
-        <div className="glass-card rounded-2xl p-12 text-center">
-          <ScrollText className="h-12 w-12 text-zinc-300 mx-auto mb-4" />
-          <p className="text-zinc-500">No rules yet.</p>
-          <p className="text-zinc-400 text-sm mt-1">📜 Pure anarchy.</p>
+        <div className="glass-card rounded-xl p-10 text-center bg-white border border-zinc-200">
+          <ScrollText className="h-10 w-10 text-zinc-300 mx-auto mb-3" />
+          <p className="text-zinc-700 font-medium text-sm">No rules defined</p>
+          <p className="text-zinc-400 text-xs mt-0.5">Create your first group rule to start tracking fines.</p>
           {isAdmin && (
             <Button onClick={() => setShowForm(true)} className="mt-4" size="sm">
               Create First Rule

@@ -39,18 +39,18 @@ export default async function MembersPage() {
     <div className="max-w-2xl mx-auto space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">👥 Members</h1>
-          <p className="text-zinc-400 text-sm mt-1">{members?.length ?? 0} members in {group?.name}</p>
+          <h1 className="text-xl font-bold text-zinc-950">Members</h1>
+          <p className="text-zinc-500 text-xs mt-0.5">{members?.length ?? 0} members in {group?.name}</p>
         </div>
       </div>
 
       {!members?.length ? (
-        <div className="glass-card rounded-2xl p-12 text-center">
+        <div className="glass-card rounded-xl p-10 text-center bg-white border border-zinc-200">
           <Users className="h-10 w-10 text-zinc-300 mx-auto mb-3" />
-          <p className="text-zinc-400">No members found.</p>
+          <p className="text-zinc-500 text-sm">No members found</p>
         </div>
       ) : (
-        <div className="glass-card rounded-2xl overflow-hidden divide-y divide-zinc-100">
+        <div className="glass-card rounded-xl overflow-hidden divide-y divide-zinc-100 bg-white border border-zinc-200">
           {members.map((m) => {
             const p = m.profiles as any
             const balance = balanceMap[m.user_id] ?? 0
@@ -59,35 +59,37 @@ export default async function MembersPage() {
               <Link
                 key={m.user_id}
                 href={`/members/${m.user_id}`}
-                className="flex items-center gap-4 px-5 py-4 hover:bg-zinc-50 transition-colors"
+                className="flex items-center gap-3.5 px-4 py-3.5 hover:bg-zinc-50 transition-colors"
               >
-                <Avatar className="h-11 w-11 shrink-0">
+                <Avatar className="h-9 w-9 shrink-0 ring-1 ring-zinc-100">
                   <AvatarImage src={p?.avatar_url ?? undefined} />
-                  <AvatarFallback>{getInitials(p?.display_name ?? '?')}</AvatarFallback>
+                  <AvatarFallback className="text-xs bg-zinc-100 text-zinc-700 font-medium">
+                    {getInitials(p?.display_name ?? '?')}
+                  </AvatarFallback>
                 </Avatar>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-semibold text-zinc-900">{p?.display_name}</span>
-                    {isMe && <Badge variant="default" className="text-[10px]">You</Badge>}
+                    <span className="font-semibold text-zinc-950 text-xs">{p?.display_name}</span>
+                    {isMe && <Badge variant="default" className="text-[9px] py-0 px-1.5">You</Badge>}
                     <Badge
                       variant={m.role === 'owner' ? 'owner' : m.role === 'admin' ? 'admin' : 'member'}
-                      className="text-[10px]"
+                      className="text-[9px] py-0 px-1.5 capitalize"
                     >
                       {m.role}
                     </Badge>
                   </div>
-                  <p className="text-xs text-zinc-400 mt-0.5">@{p?.username}</p>
+                  <p className="text-[11px] text-zinc-400 mt-0.5">@{p?.username}</p>
                 </div>
 
                 <div className="text-right shrink-0">
                   {balance > 0 ? (
-                    <p className="text-sm font-semibold text-red-600">{formatCurrency(balance, currency)}</p>
+                    <p className="text-xs font-semibold text-red-600 tabular-nums">{formatCurrency(balance, currency)}</p>
                   ) : (
-                    <p className="text-sm text-green-600/70">✅ Clear</p>
+                    <p className="text-xs font-medium text-emerald-600">Settled</p>
                   )}
-                  <p className="text-xs text-zinc-300 mt-0.5">
-                    {balance > 0 ? 'outstanding' : 'no debt'}
+                  <p className="text-[10px] text-zinc-400 mt-0.5">
+                    {balance > 0 ? 'outstanding' : 'zero balance'}
                   </p>
                 </div>
               </Link>

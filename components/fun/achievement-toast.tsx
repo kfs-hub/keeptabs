@@ -31,12 +31,11 @@ export function AchievementToastListener({ userId, groupId }: AchievementToastPr
           const notif = payload.new as any
           if (notif.type === 'achievement_earned') {
             toast(notif.message, {
-              icon: '🏆',
-              duration: 6000,
+              duration: 5000,
               style: {
-                background: 'rgba(124, 58, 237, 0.2)',
-                border: '1px solid rgba(167, 139, 250, 0.4)',
-                color: '#f1f0ff',
+                background: '#ffffff',
+                border: '1px solid #e4e4e7',
+                color: '#18181b',
               },
             })
           }

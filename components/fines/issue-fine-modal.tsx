@@ -93,9 +93,9 @@ export function IssueFineModal({
   const activeRules = rules.filter((r) => r.is_active)
 
   const stepTitles: Record<Step, string> = {
-    who: '👤 Who broke the rule?',
-    what: '📜 What did they do?',
-    review: '⚖️ Review Fine',
+    who: 'Select Member',
+    what: 'Select Rule & Amount',
+    review: 'Review Fine',
   }
 
   return (
@@ -312,7 +312,7 @@ export function IssueFineModal({
                 size="lg"
                 disabled={!amount || amount <= 0}
               >
-                🚨 Issue Fine — {formatCurrency(amount, currency)}
+                Issue Fine — {formatCurrency(amount, currency)}
               </Button>
             </motion.div>
           )}

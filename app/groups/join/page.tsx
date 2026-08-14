@@ -23,7 +23,7 @@ export default function JoinGroupPage() {
       if (result.error) {
         toast.error(result.error)
       } else {
-        toast.success('You joined the group! Welcome aboard! 🎉')
+        toast.success('Successfully joined group')
         router.push('/dashboard')
       }
     } catch (err) {

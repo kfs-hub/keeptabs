@@ -36,11 +36,13 @@ export default function ResetPasswordPage() {
 
   if (done) {
     return (
-      <Card>
+      <Card className="border-zinc-200 bg-white shadow-xs">
         <CardContent className="p-6 text-center space-y-4">
-          <div className="text-5xl">📬</div>
-          <h2 className="text-xl font-semibold text-zinc-900">Email sent!</h2>
-          <p className="text-zinc-500 text-sm">
+          <div className="w-12 h-12 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-800 mx-auto">
+            <Mail className="h-6 w-6" />
+          </div>
+          <h2 className="text-lg font-bold text-zinc-900">Email sent</h2>
+          <p className="text-zinc-500 text-xs">
             Check your inbox for a password reset link. It expires in 24 hours.
           </p>
           <Link href="/login">
@@ -55,11 +57,11 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <Card>
+    <Card className="border-zinc-200 bg-white shadow-xs">
       <CardHeader className="p-6 pb-0">
-        <CardTitle className="text-xl">Reset your password 🔑</CardTitle>
-        <CardDescription>
-          Enter your email and we&apos;ll send you a reset link.
+        <CardTitle className="text-lg font-bold text-zinc-900">Reset Password</CardTitle>
+        <CardDescription className="text-xs text-zinc-500">
+          Enter your email and we&apos;ll send you a password reset link
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
@@ -74,7 +76,7 @@ export default function ResetPasswordPage() {
               required
             />
           </div>
-          <Button type="submit" className="w-full" size="lg" loading={loading}>
+          <Button type="submit" className="w-full" size="default" loading={loading}>
             <Mail className="h-4 w-4" />
             Send Reset Link
           </Button>
@@ -83,7 +85,7 @@ export default function ResetPasswordPage() {
         <div className="mt-6 text-center">
           <Link
             href="/login"
-            className="text-sm text-violet-600 hover:text-violet-700 flex items-center justify-center gap-1 transition-colors"
+            className="text-xs text-zinc-600 hover:text-zinc-900 inline-flex items-center gap-1 font-medium transition-colors"
           >
             <ArrowLeft className="h-3 w-3" />
             Back to Login
