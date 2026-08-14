@@ -38,17 +38,17 @@ export function BottomNav() {
                 whileTap={{ scale: 0.88 }}
                 className={cn(
                   'flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl transition-colors duration-150',
-                  isActive ? 'text-indigo-600 font-semibold' : 'text-slate-400 hover:text-slate-600'
+                  isActive ? 'text-sky-700 font-semibold' : 'text-slate-400 hover:text-slate-600'
                 )}
               >
-                <div className={cn('p-1 rounded-lg transition-colors', isActive && 'bg-indigo-50 text-indigo-600')}>
+                <div className={cn('p-1 rounded-lg transition-colors', isActive && 'bg-sky-50 text-sky-700')}>
                   {item.icon}
                 </div>
                 <span className="text-[10px] font-medium">{item.label}</span>
                 {isActive && (
                   <motion.div
                     layoutId="bottom-nav-indicator"
-                    className="absolute top-0 w-8 h-0.5 rounded-full bg-indigo-600"
+                    className="absolute top-0 w-8 h-0.5 rounded-full bg-sky-500 shadow-xs shadow-sky-400/50"
                   />
                 )}
               </motion.div>

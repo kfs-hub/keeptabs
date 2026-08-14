@@ -7,51 +7,51 @@
 ============================================================================= */
 
 :root {
-  /* Brand — Calm Indigo & Ocean Slate */
-  --brand-primary: #4338ca;      /* indigo-700 — crisp, accessible, calm */
-  --brand-secondary: #3730a3;    /* indigo-800 — hover/pressed */
-  --brand-accent: #4f46e5;       /* indigo-600 — interactive elements & highlights */
-  --brand-subtle: #eef2ff;       /* indigo-50 — tinted soft fills */
-  --brand-border: #c7d2fe;       /* indigo-200 — delicate accent borders */
+  /* Brand — Nordic Frost & Deep Sea Slate */
+  --brand-primary: #0284c7;      /* sky-600 — crisp arctic blue */
+  --brand-secondary: #0369a1;    /* sky-700 — deep ocean blue */
+  --brand-accent: #06b6d4;       /* cyan-500 — icy accent */
+  --brand-subtle: #f0f9ff;       /* sky-50 — frosty subtle tint */
+  --brand-border: #bae6fd;       /* sky-200 — delicate ice border */
 
   /* Surfaces & Canvas */
-  --bg-base: #f8fafc;            /* slate-50 — warm calm alabaster canvas */
+  --bg-base: #f1f5f9;            /* slate-100 / cool icy canvas */
   --bg-surface: #ffffff;         /* pure crisp elevated card surface */
-  --bg-muted: #f1f5f9;           /* slate-100 — secondary surface */
+  --bg-muted: #e2e8f0;           /* slate-200 — secondary surface */
   --bg-subtle: #f8fafc;          /* slate-50 — tertiary item hover */
 
   /* Borders & Dividers */
-  --border: #e2e8f0;             /* slate-200 — delicate, clean borders */
-  --border-strong: #cbd5e1;      /* slate-300 — focused / active borders */
-  --border-subtle: #f1f5f9;      /* slate-100 — soft internal dividers */
+  --border: #dbe4ee;             /* cool slate border */
+  --border-strong: #cbd5e1;      /* slate-300 — active borders */
+  --border-subtle: #edf2f7;      /* frosty internal dividers */
 
   /* Typography */
-  --text-primary: #0f172a;        /* slate-900 — deep readable slate */
-  --text-secondary: #475569;      /* slate-600 — calm descriptive body */
-  --text-muted: #94a3b8;          /* slate-400 — timestamps & placeholders */
+  --text-primary: #0b192c;        /* deep sea navy */
+  --text-secondary: #334155;      /* slate-700 */
+  --text-muted: #94a3b8;          /* slate-400 */
 
-  /* Status Colors (Calm, desaturated, harmonious) */
-  --color-success: #059669;       /* emerald-600 */
-  --color-success-bg: #ecfdf5;    /* emerald-50 */
-  --color-success-border: #a7f3d0;/* emerald-200 */
+  /* Status Colors */
+  --color-success: #059669;       /* cool emerald */
+  --color-success-bg: #ecfdf5;
+  --color-success-border: #a7f3d0;
 
-  --color-warning: #d97706;       /* amber-600 */
-  --color-warning-bg: #fffbeb;    /* amber-50 */
-  --color-warning-border: #fde68a;/* amber-200 */
+  --color-warning: #d97706;       /* arctic amber */
+  --color-warning-bg: #fffbeb;
+  --color-warning-border: #fde68a;
 
-  --color-error: #e11d48;         /* rose-600 */
-  --color-error-bg: #fff1f2;      /* rose-50 */
-  --color-error-border: #fecdd3;  /* rose-200 */
+  --color-error: #e11d48;         /* coral rose */
+  --color-error-bg: #fff1f2;
+  --color-error-border: #fecdd3;
 
-  --color-info: #2563eb;          /* blue-600 */
-  --color-info-bg: #eff6ff;       /* blue-50 */
-  --color-info-border: #bfdbfe;   /* blue-200 */
+  --color-info: #0284c7;          /* ice blue */
+  --color-info-bg: #f0f9ff;
+  --color-info-border: #bae6fd;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.03);
-  --shadow-md: 0 2px 8px -1px rgba(15, 23, 42, 0.04), 0 1px 3px 0 rgba(15, 23, 42, 0.02);
-  --shadow-lg: 0 8px 24px -4px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
-  --shadow-popover: 0 14px 36px -4px rgba(15, 23, 42, 0.1), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 3px 0 rgba(15, 30, 60, 0.03);
+  --shadow-md: 0 3px 12px -2px rgba(15, 30, 60, 0.05), 0 1px 3px 0 rgba(15, 30, 60, 0.02);
+  --shadow-lg: 0 10px 28px -4px rgba(15, 30, 60, 0.08), 0 2px 8px -1px rgba(15, 30, 60, 0.03);
+  --shadow-popover: 0 16px 40px -4px rgba(15, 30, 60, 0.12), 0 4px 14px -2px rgba(15, 30, 60, 0.05);
 
   /* Layout Spacing */
   --sidebar-width: 250px;
@@ -107,19 +107,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* =============================================================================
-   Page Backgrounds
+   Page Backgrounds — Nordic Frost
 ============================================================================= */
 .bg-app-gradient {
-  background-color: var(--bg-base);
-  background-image: radial-gradient(at 100% 0%, rgba(238, 242, 255, 0.6) 0px, transparent 50%),
-                    radial-gradient(at 0% 100%, rgba(241, 245, 249, 0.6) 0px, transparent 50%);
+  background-color: #f1f5f9;
+  background-image: 
+    radial-gradient(at 100% 0%, rgba(186, 230, 253, 0.45) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(207, 250, 254, 0.45) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(241, 245, 249, 0.5) 0px, transparent 100%);
   background-attachment: fixed;
 }
 
 .bg-auth-gradient {
-  background-color: var(--bg-base);
-  background-image: radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 60%),
-                    radial-gradient(circle at 100% 100%, rgba(14, 165, 233, 0.04) 0%, transparent 50%);
+  background-color: #f1f5f9;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.08) 0%, transparent 50%);
 }
 
 /* =============================================================================
@@ -144,7 +147,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glass-card:hover {
-  border-color: var(--border-strong);
+  border-color: #cbd5e1;
   box-shadow: var(--shadow-md);
 }
 
@@ -152,7 +155,7 @@ h1, h2, h3, h4, h5, h6 {
    Gradient Text & Signature Accents
 ============================================================================= */
 .gradient-text {
-  background: linear-gradient(135deg, #3730a3 0%, #4f46e5 50%, #0284c7 100%);
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #0b192c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -169,17 +172,17 @@ h1, h2, h3, h4, h5, h6 {
    Buttons & Badges
 ============================================================================= */
 .btn-brand {
-  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
   color: #ffffff;
   font-weight: 500;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 1px 2px rgba(67, 56, 202, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 1px 2px rgba(2, 132, 199, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transition: all 0.15s ease;
 }
 
 .btn-brand:hover {
-  background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%);
-  box-shadow: 0 2px 8px rgba(67, 56, 202, 0.28);
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
 }
 
 /* Status Badges */
@@ -218,8 +221,8 @@ input, textarea, select {
 }
 
 input:focus, textarea:focus, select:focus {
-  border-color: var(--brand-accent) !important;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12) !important;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14) !important;
   outline: none !important;
 }
 
@@ -244,9 +247,9 @@ input::placeholder, textarea::placeholder {
    Tailwind v4 Theme Tokens
 ============================================================================= */
 @theme inline {
-  --color-brand: #4338ca;
-  --color-brand-light: #4f46e5;
-  --color-brand-dark: #3730a3;
+  --color-brand: #0284c7;
+  --color-brand-light: #38bdf8;
+  --color-brand-dark: #0369a1;
   --color-surface: #ffffff;
   --color-elevated: #ffffff;
   --color-muted: #94a3b8;

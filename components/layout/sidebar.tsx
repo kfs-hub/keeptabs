@@ -61,12 +61,12 @@ export function Sidebar({ profile, groupName, role, groups, activeGroup }: Sideb
       {/* Logo & Group Switcher */}
       <div className="p-4 border-b border-slate-100 space-y-3">
         <Link href="/dashboard" className="flex items-center gap-2.5 px-1 py-0.5 group">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-800 flex items-center justify-center text-sm shadow-sm shadow-indigo-600/20 text-white font-bold transition-transform group-hover:scale-105">
-            💸
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-500 via-sky-600 to-blue-700 flex items-center justify-center text-sm shadow-sm shadow-sky-600/25 text-white font-bold transition-transform group-hover:scale-105">
+            ❄️
           </div>
           <div>
-            <div className="font-semibold text-slate-900 text-sm tracking-tight">Keep Tabs</div>
-            <div className="text-[11px] text-slate-400 font-medium">Fine & Tab Tracker</div>
+            <div className="font-bold text-slate-900 text-sm tracking-tight">Keep Tabs</div>
+            <div className="text-[11px] text-sky-600 font-medium">Fine & Tab Tracker</div>
           </div>
         </Link>
 
@@ -90,19 +90,19 @@ export function Sidebar({ profile, groupName, role, groups, activeGroup }: Sideb
                 className={cn(
                   'flex items-center gap-3 px-3 py-2.25 rounded-xl text-sm font-medium transition-all duration-150',
                   isActive
-                    ? 'bg-indigo-50/80 text-indigo-700 font-semibold shadow-xs'
+                    ? 'bg-sky-50 text-sky-800 font-semibold shadow-xs border border-sky-200/70'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                 )}
               >
                 <span className={cn(
                   'transition-colors',
-                  isActive ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-600'
+                  isActive ? 'text-sky-600' : 'text-slate-400 group-hover:text-slate-600'
                 )}>
                   {item.icon}
                 </span>
                 <span>{item.label}</span>
                 {isActive && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-600" />
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-sky-500 shadow-xs shadow-sky-400/50" />
                 )}
               </motion.div>
             </Link>
@@ -115,7 +115,7 @@ export function Sidebar({ profile, groupName, role, groups, activeGroup }: Sideb
         <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-white border border-slate-200/80 shadow-2xs">
           <Avatar className="h-8 w-8 shrink-0 ring-1 ring-slate-100">
             <AvatarImage src={profile.avatar_url ?? undefined} />
-            <AvatarFallback className="text-xs bg-indigo-50 text-indigo-700 font-medium">
+            <AvatarFallback className="text-xs bg-sky-50 text-sky-700 font-semibold">
               {getInitials(profile.display_name)}
             </AvatarFallback>
           </Avatar>

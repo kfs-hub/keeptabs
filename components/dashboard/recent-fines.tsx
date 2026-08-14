@@ -48,7 +48,7 @@ export function RecentFines({ fines, currency = 'INR' }: RecentFinesProps) {
           <h3 className="font-semibold text-slate-900 text-sm">Recent Fines</h3>
           <p className="text-[11px] text-slate-400 font-normal">Latest activity across members</p>
         </div>
-        <Link href="/fines" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 transition-colors">
+        <Link href="/fines" className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1 transition-colors">
           View All <ArrowRight className="h-3 w-3" />
         </Link>
       </div>

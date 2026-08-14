@@ -68,7 +68,7 @@ export function Leaderboard({ entries, currency = 'INR', settings }: Leaderboard
           <h3 className="font-semibold text-slate-900 text-sm">🏆 Leaderboard</h3>
           <p className="text-[11px] text-slate-400 font-normal">Ranked by total outstanding debt</p>
         </div>
-        <span className="text-xs text-indigo-600 font-medium bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100">
+        <span className="text-xs text-sky-700 font-medium bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200/60">
           {entries.length} members
         </span>
       </div>

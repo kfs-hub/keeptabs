@@ -30,8 +30,8 @@ export function Header({ profile, group, unreadNotifications, groups }: HeaderPr
     <header className="sticky top-0 z-30 h-14 border-b border-slate-200/80 bg-white/85 backdrop-blur-md flex items-center px-4 sm:px-6 gap-3">
       {/* Mobile: Logo */}
       <Link href="/dashboard" className="md:hidden flex items-center gap-2 shrink-0">
-        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-800 flex items-center justify-center text-xs text-white font-bold shadow-xs">
-          💸
+        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-500 to-sky-700 flex items-center justify-center text-xs text-white font-bold shadow-xs">
+          ❄️
         </div>
       </Link>
 
@@ -52,10 +52,10 @@ export function Header({ profile, group, unreadNotifications, groups }: HeaderPr
         {/* User Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl hover:bg-slate-100/80 transition-colors border border-transparent hover:border-slate-200/60 cursor-pointer">
+            <button className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl hover:bg-sky-50/70 transition-colors border border-transparent hover:border-sky-200/60 cursor-pointer">
               <Avatar className="h-7 w-7 ring-1 ring-slate-200">
                 <AvatarImage src={profile.avatar_url ?? undefined} />
-                <AvatarFallback className="text-[11px] bg-indigo-50 text-indigo-700 font-semibold">
+                <AvatarFallback className="text-[11px] bg-sky-50 text-sky-700 font-semibold">
                   {getInitials(profile.display_name)}
                 </AvatarFallback>
               </Avatar>
