@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import crypto from 'crypto'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { createNotification } from '@/lib/notifications/create-notification'
 import { revalidatePath } from 'next/cache'
 
 // Admin client to bypass RLS when marking fines paid
@@ -93,9 +94,9 @@ export async function POST(req: Request) {
     }
 
     // 8. Send notification to user
-    await admin.from('notifications').insert({
-      user_id: user.id,
-      group_id: p.group_id,
+    await createNotification({
+      userId: user.id,
+      groupId: p.group_id,
       type: 'payment_successful',
       title: 'Payment Confirmed',
       message: `Your payment of ₹${p.amount} was successful. Debt cleared.`,

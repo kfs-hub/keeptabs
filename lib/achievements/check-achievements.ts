@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createNotification } from '@/lib/notifications/create-notification'
 
 /**
  * Check and award any newly-earned achievements for a user in a group.
@@ -119,9 +120,9 @@ export async function checkAndAwardAchievements(
         newlyEarned.push({ id: a.id, name: a.name, icon: a.icon })
 
         // Notify the user
-        await supabase.from('notifications').insert({
-          user_id: userId,
-          group_id: groupId,
+        await createNotification({
+          userId: userId,
+          groupId: groupId,
           type: 'achievement_earned',
           title: `Achievement Unlocked`,
           message: `${a.name} — ${a.description}`,

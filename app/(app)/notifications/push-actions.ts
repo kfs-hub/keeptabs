@@ -13,6 +13,14 @@ export interface PushSubscriptionData {
 }
 
 /**
+ * Returns the VAPID public key from the server environment.
+ */
+export async function getVapidPublicKeyAction() {
+  const key = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || process.env.VAPID_PUBLIC_KEY
+  return { key: key || null }
+}
+
+/**
  * Saves or updates a browser push subscription for the logged-in user.
  */
 export async function subscribeToPushAction(subscription: PushSubscriptionData) {

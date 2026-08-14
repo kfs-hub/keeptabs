@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { createNotification } from '@/lib/notifications/create-notification'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
@@ -31,7 +32,7 @@ async function writeAuditLog(groupId: string, actorId: string, action: string, t
   })
 }
 
-// ── Dispute Actions ──────────────────────────────────────────────────────────
+// ── Dispute Management ────────────────────────────────────────────────────────
 
 export async function approveDisputeAction(disputeId: string, fineId: string, groupId: string): Promise<ActionResult> {
   try {
@@ -44,7 +45,14 @@ export async function approveDisputeAction(disputeId: string, fineId: string, gr
 
     const { data: dispute } = await admin.from('disputes').select('submitted_by').eq('id', disputeId).single()
     if (dispute) {
-      await admin.from('notifications').insert({ user_id: (dispute as any).submitted_by, group_id: groupId, type: 'dispute_resolved', title: 'Dispute Reviewed', message: 'Your dispute was denied — the fine stands.', metadata: { fine_id: fineId } })
+      await createNotification({
+        userId: (dispute as any).submitted_by,
+        groupId: groupId,
+        type: 'dispute_resolved',
+        title: 'Dispute Reviewed',
+        message: 'Your dispute was denied — the fine stands.',
+        metadata: { fine_id: fineId },
+      })
     }
 
     await writeAuditLog(groupId, user.id, 'dispute_approved', 'dispute', disputeId)
@@ -64,7 +72,14 @@ export async function cancelDisputeAction(disputeId: string, fineId: string, gro
 
     const { data: dispute } = await admin.from('disputes').select('submitted_by').eq('id', disputeId).single()
     if (dispute) {
-      await admin.from('notifications').insert({ user_id: (dispute as any).submitted_by, group_id: groupId, type: 'dispute_resolved', title: 'Dispute Accepted', message: 'Your dispute was accepted — fine cancelled.', metadata: { fine_id: fineId } })
+      await createNotification({
+        userId: (dispute as any).submitted_by,
+        groupId: groupId,
+        type: 'dispute_resolved',
+        title: 'Dispute Accepted',
+        message: 'Your dispute was accepted — fine cancelled.',
+        metadata: { fine_id: fineId },
+      })
     }
 
     await writeAuditLog(groupId, user.id, 'dispute_cancelled', 'dispute', disputeId)
@@ -85,7 +100,14 @@ export async function modifyDisputedFineAction(disputeId: string, fineId: string
 
     const { data: dispute } = await admin.from('disputes').select('submitted_by').eq('id', disputeId).single()
     if (dispute) {
-      await admin.from('notifications').insert({ user_id: (dispute as any).submitted_by, group_id: groupId, type: 'dispute_resolved', title: 'Fine Modified', message: `Your dispute was reviewed — fine adjusted to ₹${newAmount}.`, metadata: { fine_id: fineId } })
+      await createNotification({
+        userId: (dispute as any).submitted_by,
+        groupId: groupId,
+        type: 'dispute_resolved',
+        title: 'Fine Modified',
+        message: `Your dispute was reviewed — fine adjusted to ₹${newAmount}.`,
+        metadata: { fine_id: fineId },
+      })
     }
 
     await writeAuditLog(groupId, user.id, 'fine_modified', 'fine', fineId, { new_amount: newAmount })

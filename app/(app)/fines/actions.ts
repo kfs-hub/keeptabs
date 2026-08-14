@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { createNotification } from '@/lib/notifications/create-notification'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
@@ -99,9 +100,9 @@ export async function issueFineAction(formData: FormData): Promise<IssueFineResu
   }
 
   // 10. Notify fined user
-  await admin.from('notifications').insert({
-    user_id: parsed.data.fined_user_id,
-    group_id: groupId,
+  await createNotification({
+    userId: parsed.data.fined_user_id,
+    groupId: groupId,
     type: 'fine_received',
     title: 'You received a fine',
     message: `You were fined ₹${parsed.data.amount} for: ${ruleName}`,
@@ -159,8 +160,10 @@ export async function createDisputeAction(formData: FormData): Promise<{ error?:
   const myName = (myProfile as any)?.display_name ?? 'Someone'
 
   for (const a of admins ?? []) {
-    await admin.from('notifications').insert({
-      user_id: (a as any).user_id, group_id: f.group_id, type: 'dispute_submitted',
+    await createNotification({
+      userId: (a as any).user_id,
+      groupId: f.group_id,
+      type: 'dispute_submitted',
       title: 'Fine Disputed',
       message: `${myName} submitted a dispute for their ₹${f.amount} fine`,
       metadata: { fine_id: fineId },

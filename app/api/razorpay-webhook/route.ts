@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import crypto from 'crypto'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { createClient as createSupabaseAdminClient } from '@supabase/supabase-js'
+import { createNotification } from '@/lib/notifications/create-notification'
 
 // Use service role for webhook — bypasses RLS for trusted server-side operations
 function getAdminClient() {
@@ -143,9 +144,9 @@ async function handlePaymentCaptured(supabase: ReturnType<typeof getAdminClient>
   const userName = profile?.display_name ?? 'A member'
 
   // 5. Notify the payer
-  await supabase.from('notifications').insert({
-    user_id: paymentRecord.user_id,
-    group_id: paymentRecord.group_id,
+  await createNotification({
+    userId: paymentRecord.user_id,
+    groupId: paymentRecord.group_id,
     type: 'payment_successful',
     title: 'Payment Successful',
     message: `Your payment was confirmed. Debt cleared.`,
@@ -161,9 +162,9 @@ async function handlePaymentCaptured(supabase: ReturnType<typeof getAdminClient>
     .neq('user_id', paymentRecord.user_id)
 
   for (const admin of admins ?? []) {
-    await supabase.from('notifications').insert({
-      user_id: admin.user_id,
-      group_id: paymentRecord.group_id,
+    await createNotification({
+      userId: admin.user_id,
+      groupId: paymentRecord.group_id,
       type: 'payment_received',
       title: 'Payment Received',
       message: `${userName} has paid their fines.`,
@@ -194,9 +195,9 @@ async function handlePaymentFailed(supabase: ReturnType<typeof getAdminClient>, 
     .eq('id', paymentRecord.id)
 
   // Notify user
-  await supabase.from('notifications').insert({
-    user_id: paymentRecord.user_id,
-    group_id: paymentRecord.group_id,
+  await createNotification({
+    userId: paymentRecord.user_id,
+    groupId: paymentRecord.group_id,
     type: 'payment_failed',
     title: 'Payment Failed',
     message: `Your payment could not be processed. Please try again.`,

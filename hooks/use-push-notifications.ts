@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { toast } from 'sonner'
 import {
+  getVapidPublicKeyAction,
   subscribeToPushAction,
   unsubscribeFromPushAction,
   sendTestPushNotificationAction,
@@ -59,14 +60,19 @@ export function usePushNotifications() {
       return false
     }
 
-    const vapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
-    if (!vapidKey) {
-      toast.error('VAPID public key is not configured.')
-      return false
-    }
-
     setIsLoading(true)
     try {
+      let vapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
+      if (!vapidKey) {
+        const res = await getVapidPublicKeyAction()
+        vapidKey = res.key ?? undefined
+      }
+
+      if (!vapidKey) {
+        toast.error('VAPID public key is not configured in environment variables.')
+        setIsLoading(false)
+        return false
+      }
       // Request browser permission
       const result = await Notification.requestPermission()
       setPermission(result)
