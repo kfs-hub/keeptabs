@@ -24,29 +24,31 @@ export function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-200 bg-white/95 backdrop-blur-md">
-      <div className="flex items-center justify-around px-2 h-16">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200/80 bg-white/90 backdrop-blur-md">
+      <div className="flex items-center justify-around px-2 h-15">
         {mobileNavItems.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
+          const isActive = pathname === item.href || (pathname.startsWith(item.href + '/') && item.href !== '/dashboard')
           return (
             <Link
               key={item.href}
               href={item.href}
-              className="flex-1 flex flex-col items-center justify-center gap-1 h-full"
+              className="flex-1 flex flex-col items-center justify-center gap-1 h-full relative"
             >
               <motion.div
-                whileTap={{ scale: 0.85 }}
+                whileTap={{ scale: 0.88 }}
                 className={cn(
-                  'flex flex-col items-center gap-1 px-2 py-1.5 rounded-xl transition-colors duration-150',
-                  isActive ? 'text-violet-700' : 'text-zinc-400'
+                  'flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl transition-colors duration-150',
+                  isActive ? 'text-indigo-600 font-semibold' : 'text-slate-400 hover:text-slate-600'
                 )}
               >
-                {item.icon}
+                <div className={cn('p-1 rounded-lg transition-colors', isActive && 'bg-indigo-50 text-indigo-600')}>
+                  {item.icon}
+                </div>
                 <span className="text-[10px] font-medium">{item.label}</span>
                 {isActive && (
                   <motion.div
                     layoutId="bottom-nav-indicator"
-                    className="absolute bottom-1 w-1 h-1 rounded-full bg-violet-600"
+                    className="absolute top-0 w-8 h-0.5 rounded-full bg-indigo-600"
                   />
                 )}
               </motion.div>

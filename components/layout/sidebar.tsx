@@ -57,14 +57,17 @@ export function Sidebar({ profile, groupName, role, groups, activeGroup }: Sideb
   )
 
   return (
-    <aside className="hidden md:flex flex-col w-60 shrink-0 border-r border-zinc-200 bg-white h-screen sticky top-0">
+    <aside className="hidden md:flex flex-col w-64 shrink-0 border-r border-slate-200/80 bg-white h-screen sticky top-0 shadow-[1px_0_3px_rgba(15,23,42,0.02)]">
       {/* Logo & Group Switcher */}
-      <div className="p-4 border-b border-zinc-200 space-y-3">
-        <Link href="/dashboard" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-violet-700 flex items-center justify-center text-base">
+      <div className="p-4 border-b border-slate-100 space-y-3">
+        <Link href="/dashboard" className="flex items-center gap-2.5 px-1 py-0.5 group">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-800 flex items-center justify-center text-sm shadow-sm shadow-indigo-600/20 text-white font-bold transition-transform group-hover:scale-105">
             💸
           </div>
-          <div className="font-bold text-zinc-900 text-sm">Keep Tabs</div>
+          <div>
+            <div className="font-semibold text-slate-900 text-sm tracking-tight">Keep Tabs</div>
+            <div className="text-[11px] text-slate-400 font-medium">Fine & Tab Tracker</div>
+          </div>
         </Link>
 
         {groups && activeGroup && (
@@ -74,26 +77,32 @@ export function Sidebar({ profile, groupName, role, groups, activeGroup }: Sideb
 
       {/* Nav Items */}
       <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+        <div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          Navigation
+        </div>
         {visibleItems.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
+          const isActive = pathname === item.href || (pathname.startsWith(item.href + '/') && item.href !== '/dashboard')
           return (
             <Link key={item.href} href={item.href}>
               <motion.div
                 whileHover={{ x: 2 }}
                 whileTap={{ scale: 0.98 }}
                 className={cn(
-                  'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150',
+                  'flex items-center gap-3 px-3 py-2.25 rounded-xl text-sm font-medium transition-all duration-150',
                   isActive
-                    ? 'bg-violet-50 text-violet-700 border border-violet-200'
-                    : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'
+                    ? 'bg-indigo-50/80 text-indigo-700 font-semibold shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                 )}
               >
-                <span className={cn(isActive ? 'text-violet-700' : 'text-zinc-400')}>
+                <span className={cn(
+                  'transition-colors',
+                  isActive ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-600'
+                )}>
                   {item.icon}
                 </span>
-                {item.label}
+                <span>{item.label}</span>
                 {isActive && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-violet-600" />
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-600" />
                 )}
               </motion.div>
             </Link>
@@ -102,25 +111,25 @@ export function Sidebar({ profile, groupName, role, groups, activeGroup }: Sideb
       </nav>
 
       {/* User Profile */}
-      <div className="p-3 border-t border-zinc-200">
-        <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-zinc-50">
-          <Avatar className="h-8 w-8 shrink-0">
+      <div className="p-3 border-t border-slate-100 bg-slate-50/50">
+        <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-white border border-slate-200/80 shadow-2xs">
+          <Avatar className="h-8 w-8 shrink-0 ring-1 ring-slate-100">
             <AvatarImage src={profile.avatar_url ?? undefined} />
-            <AvatarFallback className="text-xs">
+            <AvatarFallback className="text-xs bg-indigo-50 text-indigo-700 font-medium">
               {getInitials(profile.display_name)}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <div className="text-sm font-medium text-zinc-900 truncate">{profile.display_name}</div>
-            <div className="text-xs text-zinc-400 truncate">@{profile.username}</div>
+            <div className="text-xs font-semibold text-slate-900 truncate">{profile.display_name}</div>
+            <div className="text-[11px] text-slate-400 truncate">@{profile.username}</div>
           </div>
           <form action={logoutAction}>
             <button
               type="submit"
-              className="text-zinc-400 hover:text-red-600 transition-colors p-1 rounded"
+              className="text-slate-400 hover:text-rose-600 transition-colors p-1.5 rounded-lg hover:bg-slate-100 cursor-pointer"
               title="Sign out"
             >
-              <LogOut className="h-4 w-4" />
+              <LogOut className="h-3.5 w-3.5" />
             </button>
           </form>
         </div>

@@ -21,35 +21,34 @@ export function FineOfTheWeek({ fine, currency = 'INR' }: FineOfTheWeekProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.97 }}
+      initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="glass-card rounded-2xl p-5 border border-yellow-500/15 relative overflow-hidden"
+      transition={{ duration: 0.35, delay: 0.2 }}
+      className="glass-card rounded-2xl p-5 border border-amber-200/80 bg-gradient-to-br from-white via-amber-50/20 to-amber-50/40 relative overflow-hidden"
     >
-      {/* Glow */}
-      <div className="absolute top-0 right-0 w-40 h-40 bg-yellow-500/5 rounded-full blur-3xl pointer-events-none" />
-
       <div className="relative space-y-3">
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-yellow-600/80 font-semibold uppercase tracking-widest">
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] text-amber-800 font-semibold uppercase tracking-wider bg-amber-100/70 border border-amber-200/60 px-2 py-0.5 rounded-full">
             ⭐ Fine of the Week
           </span>
+          <span className="text-[11px] text-slate-400 font-normal">Past 7 Days</span>
         </div>
 
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="font-bold text-zinc-900 text-lg">{fine.finedUserName}</p>
-            <p className="text-sm text-zinc-500">{fine.ruleName}</p>
+            <p className="font-semibold text-slate-900 text-base">{fine.finedUserName}</p>
+            <p className="text-xs text-slate-500 font-medium">{fine.ruleName}</p>
             {fine.description && (
-              <p className="text-xs text-zinc-400 italic mt-1 line-clamp-2">
+              <p className="text-xs text-slate-500 italic mt-1.5 line-clamp-2 bg-white/80 p-2 rounded-xl border border-amber-100">
                 &quot;{fine.description}&quot;
               </p>
             )}
-            <p className="text-xs text-zinc-300 mt-2">
+            <p className="text-[11px] text-slate-400 mt-2">
               Reported by {fine.reporterName} · {formatDate(fine.createdAt)}
             </p>
           </div>
           <div className="text-right shrink-0">
-            <p className="text-2xl font-bold text-yellow-600">
+            <p className="text-xl sm:text-2xl font-bold text-amber-700 tabular-nums">
               {formatCurrency(fine.amount, currency)}
             </p>
           </div>

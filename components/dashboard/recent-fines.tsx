@@ -34,18 +34,21 @@ export function RecentFines({ fines, currency = 'INR' }: RecentFinesProps) {
   if (fines.length === 0) {
     return (
       <div className="glass-card rounded-2xl p-8 text-center">
-        <div className="text-4xl mb-3">🎉</div>
-        <p className="text-zinc-500">No fines yet.</p>
-        <p className="text-zinc-400 text-sm">Somehow you guys are behaving.</p>
+        <div className="text-3xl mb-2">🎉</div>
+        <p className="text-slate-600 font-medium text-sm">No recent fines</p>
+        <p className="text-slate-400 text-xs">Everything is quiet in the group.</p>
       </div>
     )
   }
 
   return (
     <div className="glass-card rounded-2xl overflow-hidden">
-      <div className="px-5 py-4 border-b border-zinc-200 flex items-center justify-between">
-        <h3 className="font-semibold text-zinc-900">Recent Fines</h3>
-        <Link href="/fines" className="text-xs text-violet-600 hover:text-violet-700 flex items-center gap-1 transition-colors">
+      <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
+        <div>
+          <h3 className="font-semibold text-slate-900 text-sm">Recent Fines</h3>
+          <p className="text-[11px] text-slate-400 font-normal">Latest activity across members</p>
+        </div>
+        <Link href="/fines" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 transition-colors">
           View All <ArrowRight className="h-3 w-3" />
         </Link>
       </div>
@@ -55,28 +58,28 @@ export function RecentFines({ fines, currency = 'INR' }: RecentFinesProps) {
           <motion.div
             key={fine.id}
             variants={item}
-            className="flex items-center gap-3 px-5 py-3.5 border-b border-zinc-200 last:border-0 hover:bg-zinc-50 transition-colors"
+            className="flex items-center gap-3 px-5 py-3 border-b border-slate-100/80 last:border-0 hover:bg-slate-50/80 transition-colors"
           >
-            <Avatar className="h-9 w-9 shrink-0">
+            <Avatar className="h-8 w-8 shrink-0 ring-1 ring-slate-100">
               <AvatarImage src={fine.fined_user?.avatar_url ?? undefined} />
-              <AvatarFallback className="text-xs">
+              <AvatarFallback className="text-[10px] bg-slate-100 text-slate-600 font-medium">
                 {getInitials(fine.fined_user?.display_name ?? '?')}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-zinc-900">
+                <span className="text-xs font-semibold text-slate-900 truncate">
                   {fine.fined_user?.display_name}
                 </span>
-                <Badge variant={statusVariants[fine.status]} className="text-[10px]">
+                <Badge variant={statusVariants[fine.status]} className="text-[9px] py-0 px-2">
                   {fine.status}
                 </Badge>
               </div>
-              <p className="text-xs text-zinc-400 truncate">
+              <p className="text-[11px] text-slate-400 truncate mt-0.5">
                 {fine.rule?.name ?? 'Custom fine'} · {formatRelativeTime(fine.created_at)}
               </p>
             </div>
-            <span className="text-sm font-semibold text-zinc-900 shrink-0">
+            <span className="text-xs font-semibold text-slate-900 tabular-nums shrink-0">
               {formatCurrency(fine.amount, currency)}
             </span>
           </motion.div>

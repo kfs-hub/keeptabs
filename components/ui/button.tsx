@@ -4,33 +4,33 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600/30 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]',
   {
     variants: {
       variant: {
         default:
-          'bg-violet-700 text-white hover:bg-violet-800',
+          'bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 shadow-indigo-600/10 active:bg-indigo-800',
         destructive:
-          'bg-red-600 text-white hover:bg-red-700',
+          'bg-rose-600 text-white shadow-sm hover:bg-rose-700 shadow-rose-600/10 active:bg-rose-800',
         outline:
-          'border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900',
+          'border border-slate-200 bg-white text-slate-700 shadow-sm hover:bg-slate-50 hover:text-slate-900 hover:border-slate-300',
         secondary:
-          'bg-zinc-100 text-zinc-700 border border-zinc-200 hover:bg-zinc-200 hover:text-zinc-900',
-        ghost: 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900',
-        link: 'text-violet-700 underline-offset-4 hover:underline p-0 h-auto',
+          'bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 border border-slate-200/80',
+        ghost: 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+        link: 'text-indigo-600 underline-offset-4 hover:underline p-0 h-auto font-normal',
         success:
-          'bg-green-50 text-green-700 border border-green-200 hover:bg-green-100',
+          'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100',
         warning:
           'bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100',
       },
       size: {
-        default: 'h-10 px-5 py-2',
-        sm: 'h-8 px-3 py-1.5 text-xs rounded-md',
-        lg: 'h-12 px-8 py-3 text-base',
-        xl: 'h-14 px-10 py-4 text-lg',
-        icon: 'h-10 w-10 p-0',
-        'icon-sm': 'h-8 w-8 p-0 rounded-md',
-        'icon-lg': 'h-12 w-12 p-0',
+        default: 'h-9 px-4 py-2 text-sm',
+        sm: 'h-7.5 px-2.5 py-1 text-xs rounded-lg',
+        lg: 'h-11 px-6 py-2.5 text-base',
+        xl: 'h-12 px-8 py-3 text-base',
+        icon: 'h-9 w-9 p-0',
+        'icon-sm': 'h-7.5 w-7.5 p-0 rounded-lg',
+        'icon-lg': 'h-11 w-11 p-0',
       },
     },
     defaultVariants: {

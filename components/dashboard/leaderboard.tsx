@@ -54,27 +54,32 @@ export function Leaderboard({ entries, currency = 'INR', settings }: Leaderboard
   if (entries.length === 0) {
     return (
       <div className="glass-card rounded-2xl p-8 text-center">
-        <div className="text-4xl mb-3">🏆</div>
-        <p className="text-zinc-500">Leaderboard is empty. No fines yet!</p>
-        <p className="text-zinc-400 text-sm mt-1">🎉 Somehow you guys are behaving.</p>
+        <div className="text-3xl mb-2">🏆</div>
+        <p className="text-slate-600 font-medium text-sm">Leaderboard is empty</p>
+        <p className="text-slate-400 text-xs mt-1">No fines have been recorded yet.</p>
       </div>
     )
   }
 
   return (
     <div className="glass-card rounded-2xl overflow-hidden">
-      <div className="px-5 py-4 border-b border-zinc-200 flex items-center justify-between">
-        <h3 className="font-semibold text-zinc-900">🏆 Leaderboard</h3>
-        <span className="text-xs text-zinc-400">Sorted by most owed</span>
+      <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
+        <div>
+          <h3 className="font-semibold text-slate-900 text-sm">🏆 Leaderboard</h3>
+          <p className="text-[11px] text-slate-400 font-normal">Ranked by total outstanding debt</p>
+        </div>
+        <span className="text-xs text-indigo-600 font-medium bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100">
+          {entries.length} members
+        </span>
       </div>
 
       <motion.div variants={container} initial="hidden" animate="show">
         {/* Header row */}
-        <div className="grid grid-cols-[40px_1fr_100px_100px] gap-2 px-5 py-2 text-xs text-zinc-400 font-medium border-b border-zinc-200">
+        <div className="grid grid-cols-[36px_1fr_90px_90px] gap-2 px-5 py-2 text-[11px] text-slate-400 font-semibold uppercase tracking-wider border-b border-slate-100 bg-slate-50/50">
           <span>Rank</span>
           <span>Member</span>
-          <span className="text-right">Owes</span>
-          <span className="text-right">Paid</span>
+          <span className="text-right">Owed</span>
+          <span className="text-right">Settled</span>
         </div>
 
         {entries.map((entry, index) => {
@@ -83,43 +88,43 @@ export function Leaderboard({ entries, currency = 'INR', settings }: Leaderboard
             <motion.div
               key={entry.userId}
               variants={item}
-              className={`grid grid-cols-[40px_1fr_100px_100px] gap-2 px-5 py-3.5 items-center border-b border-zinc-200 last:border-0 hover:bg-zinc-50 transition-colors ${
-                index === 0 ? 'bg-red-500/5' : ''
+              className={`grid grid-cols-[36px_1fr_90px_90px] gap-2 px-5 py-3 items-center border-b border-slate-100/80 last:border-0 hover:bg-slate-50/80 transition-colors ${
+                index === 0 && entry.totalOwed > 0 ? 'bg-rose-50/20' : ''
               }`}
             >
               {/* Rank */}
-              <div className="text-xl text-center">
+              <div className="text-center font-semibold text-xs">
                 {rankMedals[index] ?? (
-                  <span className="text-sm text-zinc-400 font-mono">#{index + 1}</span>
+                  <span className="text-xs text-slate-400 font-mono">#{index + 1}</span>
                 )}
               </div>
 
               {/* Member */}
-              <div className="flex items-center gap-3 min-w-0">
-                <Avatar className="h-8 w-8 shrink-0">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Avatar className="h-7 w-7 shrink-0 ring-1 ring-slate-100">
                   <AvatarImage src={entry.avatarUrl ?? undefined} />
-                  <AvatarFallback className="text-xs">
+                  <AvatarFallback className="text-[10px] bg-slate-100 text-slate-600 font-medium">
                     {getInitials(entry.displayName)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="min-w-0">
-                  <div className="text-sm font-medium text-zinc-900 truncate">{entry.displayName}</div>
+                  <div className="text-xs font-semibold text-slate-900 truncate">{entry.displayName}</div>
                   {rankLabel && (
-                    <div className="text-xs text-zinc-400 truncate">{rankLabel}</div>
+                    <div className="text-[10px] text-slate-400 truncate">{rankLabel}</div>
                   )}
                 </div>
               </div>
 
               {/* Owes */}
               <div className="text-right">
-                <span className={`text-sm font-semibold ${entry.totalOwed > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                <span className={`text-xs font-semibold tabular-nums ${entry.totalOwed > 0 ? 'text-rose-600' : 'text-emerald-600'}`}>
                   {formatCurrency(entry.totalOwed, currency)}
                 </span>
               </div>
 
               {/* Paid */}
               <div className="text-right">
-                <span className="text-sm text-zinc-500">
+                <span className="text-xs text-slate-500 tabular-nums font-medium">
                   {formatCurrency(entry.totalPaid, currency)}
                 </span>
               </div>

@@ -1,40 +1,61 @@
 @import "tailwindcss";
 
 /* =============================================================================
-   Keep Tabs — Global Styles
-   Light, airy, minimal. Neutral surfaces, one confident accent, quiet borders.
+   Keep Tabs — Design System
+   Calm, professional, neat, and aesthetically pleasing.
+   Soft slate neutrals, serene indigo/ocean accents, crisp surfaces, and refined typography.
 ============================================================================= */
 
 :root {
-  /* Brand */
-  --brand-primary: #6d28d9;      /* violet-700 — accessible on white */
-  --brand-secondary: #5b21b6;    /* violet-800 (hover/active) */
-  --brand-accent: #7c3aed;       /* violet-600 (lighter touches, icons) */
-  --brand-subtle: #f5f3ff;       /* violet-50 (tinted fills) */
+  /* Brand — Calm Indigo & Ocean Slate */
+  --brand-primary: #4338ca;      /* indigo-700 — crisp, accessible, calm */
+  --brand-secondary: #3730a3;    /* indigo-800 — hover/pressed */
+  --brand-accent: #4f46e5;       /* indigo-600 — interactive elements & highlights */
+  --brand-subtle: #eef2ff;       /* indigo-50 — tinted soft fills */
+  --brand-border: #c7d2fe;       /* indigo-200 — delicate accent borders */
 
-  /* Surfaces */
-  --bg-base: #fafafa;
-  --bg-surface: #ffffff;
-  --bg-muted: #f4f4f5;
+  /* Surfaces & Canvas */
+  --bg-base: #f8fafc;            /* slate-50 — warm calm alabaster canvas */
+  --bg-surface: #ffffff;         /* pure crisp elevated card surface */
+  --bg-muted: #f1f5f9;           /* slate-100 — secondary surface */
+  --bg-subtle: #f8fafc;          /* slate-50 — tertiary item hover */
 
-  /* Borders */
-  --border: #e4e4e7;
-  --border-strong: #d4d4d8;
+  /* Borders & Dividers */
+  --border: #e2e8f0;             /* slate-200 — delicate, clean borders */
+  --border-strong: #cbd5e1;      /* slate-300 — focused / active borders */
+  --border-subtle: #f1f5f9;      /* slate-100 — soft internal dividers */
 
-  /* Text */
-  --text-primary: #18181b;
-  --text-secondary: #52525b;
-  --text-muted: #a1a1aa;
+  /* Typography */
+  --text-primary: #0f172a;        /* slate-900 — deep readable slate */
+  --text-secondary: #475569;      /* slate-600 — calm descriptive body */
+  --text-muted: #94a3b8;          /* slate-400 — timestamps & placeholders */
 
-  /* Status Colors */
-  --color-success: #16a34a;
-  --color-warning: #d97706;
-  --color-error: #dc2626;
-  --color-info: #2563eb;
+  /* Status Colors (Calm, desaturated, harmonious) */
+  --color-success: #059669;       /* emerald-600 */
+  --color-success-bg: #ecfdf5;    /* emerald-50 */
+  --color-success-border: #a7f3d0;/* emerald-200 */
 
-  /* Spacing */
-  --sidebar-width: 240px;
-  --header-height: 60px;
+  --color-warning: #d97706;       /* amber-600 */
+  --color-warning-bg: #fffbeb;    /* amber-50 */
+  --color-warning-border: #fde68a;/* amber-200 */
+
+  --color-error: #e11d48;         /* rose-600 */
+  --color-error-bg: #fff1f2;      /* rose-50 */
+  --color-error-border: #fecdd3;  /* rose-200 */
+
+  --color-info: #2563eb;          /* blue-600 */
+  --color-info-bg: #eff6ff;       /* blue-50 */
+  --color-info-border: #bfdbfe;   /* blue-200 */
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+  --shadow-md: 0 2px 8px -1px rgba(15, 23, 42, 0.04), 0 1px 3px 0 rgba(15, 23, 42, 0.02);
+  --shadow-lg: 0 8px 24px -4px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+  --shadow-popover: 0 14px 36px -4px rgba(15, 23, 42, 0.1), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+
+  /* Layout Spacing */
+  --sidebar-width: 250px;
+  --header-height: 58px;
   --bottom-nav-height: 64px;
 }
 
@@ -46,28 +67,30 @@ html {
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* Tighter, more deliberate heading rhythm */
-h1, h2, h3 {
-  letter-spacing: -0.02em;
+/* Heading Typography */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.025em;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
-/* Money reads cleanest with tabular figures */
+/* Tabular numbers for financial amounts */
 .font-mono, .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
 
 /* =============================================================================
-   Custom Scrollbar
+   Scrollbars
 ============================================================================= */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -75,30 +98,32 @@ h1, h2, h3 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(24, 24, 27, 0.15);
-  border-radius: 3px;
+  background: #cbd5e1;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(24, 24, 27, 0.3);
+  background: #94a3b8;
 }
 
 /* =============================================================================
-   Page Backgrounds — quiet, no glow
+   Page Backgrounds
 ============================================================================= */
 .bg-app-gradient {
-  background: var(--bg-base);
+  background-color: var(--bg-base);
+  background-image: radial-gradient(at 100% 0%, rgba(238, 242, 255, 0.6) 0px, transparent 50%),
+                    radial-gradient(at 0% 100%, rgba(241, 245, 249, 0.6) 0px, transparent 50%);
+  background-attachment: fixed;
 }
 
 .bg-auth-gradient {
-  background:
-    radial-gradient(ellipse at 20% 0%, rgba(109, 40, 217, 0.06) 0%, transparent 55%),
-    var(--bg-base);
+  background-color: var(--bg-base);
+  background-image: radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 60%),
+                    radial-gradient(circle at 100% 100%, rgba(14, 165, 233, 0.04) 0%, transparent 50%);
 }
 
 /* =============================================================================
    Card / Surface Utilities
-   (kept as class names so every page already using them updates automatically)
 ============================================================================= */
 .glass {
   background: var(--bg-surface);
@@ -108,68 +133,66 @@ h1, h2, h3 {
 .glass-popover {
   background: var(--bg-surface);
   border: 1px solid var(--border);
-  box-shadow: 0 12px 32px rgba(24, 24, 27, 0.12);
+  box-shadow: var(--shadow-popover);
 }
 
 .glass-card {
   background: var(--bg-surface);
   border: 1px solid var(--border);
-  box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
   border-color: var(--border-strong);
-  box-shadow: 0 4px 12px rgba(24, 24, 27, 0.06);
+  box-shadow: var(--shadow-md);
 }
 
 /* =============================================================================
-   Gradient Text — used sparingly, as the one signature flourish
+   Gradient Text & Signature Accents
 ============================================================================= */
 .gradient-text {
-  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  background: linear-gradient(135deg, #3730a3 0%, #4f46e5 50%, #0284c7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-text-warm {
-  background: linear-gradient(135deg, #d97706 0%, #dc2626 100%);
+  background: linear-gradient(135deg, #d97706 0%, #e11d48 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 /* =============================================================================
-   Brand Button (legacy hook — Button component now defines its own variants,
-   kept here in case any page references .btn-brand directly)
+   Buttons & Badges
 ============================================================================= */
 .btn-brand {
-  background: var(--brand-primary);
-  color: white;
-  font-weight: 600;
-  border: 1px solid var(--brand-primary);
-  transition: background 0.15s ease;
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  color: #ffffff;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 2px rgba(67, 56, 202, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: all 0.15s ease;
 }
 
 .btn-brand:hover {
-  background: var(--brand-secondary);
-  border-color: var(--brand-secondary);
+  background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%);
+  box-shadow: 0 2px 8px rgba(67, 56, 202, 0.28);
 }
 
-/* =============================================================================
-   Status Badges
-============================================================================= */
+/* Status Badges */
 .badge-unpaid {
-  background: #fef2f2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #e11d48;
+  border: 1px solid #fecdd3;
 }
 
 .badge-paid {
-  background: #f0fdf4;
-  color: #16a34a;
-  border: 1px solid #bbf7d0;
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
 }
 
 .badge-disputed {
@@ -179,23 +202,24 @@ h1, h2, h3 {
 }
 
 .badge-cancelled {
-  background: var(--bg-muted);
-  color: var(--text-muted);
-  border: 1px solid var(--border);
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
 }
 
 /* =============================================================================
-   Input Styling
+   Form Inputs
 ============================================================================= */
 input, textarea, select {
   background: var(--bg-surface) !important;
   border-color: var(--border) !important;
   color: var(--text-primary) !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
 }
 
 input:focus, textarea:focus, select:focus {
-  border-color: var(--brand-primary) !important;
-  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12) !important;
+  border-color: var(--brand-accent) !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12) !important;
   outline: none !important;
 }
 
@@ -204,92 +228,26 @@ input::placeholder, textarea::placeholder {
 }
 
 /* =============================================================================
-   Fine Issued Animation
+   Keyframe Animations
 ============================================================================= */
 @keyframes fine-bounce {
-  0% { transform: scale(0.3) rotate(-10deg); opacity: 0; }
-  50% { transform: scale(1.1) rotate(2deg); opacity: 1; }
-  70% { transform: scale(0.95) rotate(-1deg); }
-  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  0% { transform: scale(0.6) translateY(10px); opacity: 0; }
+  60% { transform: scale(1.02) translateY(-2px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
 .fine-issued-animation {
-  animation: fine-bounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: fine-bounce 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* =============================================================================
-   Page Transition
-============================================================================= */
-.page-transition-enter {
-  opacity: 0;
-  transform: translateY(8px);
-}
-
-.page-transition-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-/* =============================================================================
-   Skeleton Loader
-============================================================================= */
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-.skeleton, .shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--bg-muted) 25%,
-    #ececee 50%,
-    var(--bg-muted) 75%
-  );
-  background-size: 200% auto;
-  animation: shimmer 1.5s linear infinite;
-  border-radius: 8px;
-}
-
-/* =============================================================================
-   Recharts Theme Override
-============================================================================= */
-.recharts-text, .recharts-cartesian-axis-tick-value {
-  fill: var(--text-secondary) !important;
-}
-
-.recharts-cartesian-grid line {
-  stroke: var(--border) !important;
-}
-
-.recharts-tooltip-wrapper .recharts-default-tooltip {
-  background: var(--bg-surface) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 8px !important;
-  color: var(--text-primary) !important;
-  box-shadow: 0 4px 16px rgba(24, 24, 27, 0.1) !important;
-}
-
-/* =============================================================================
-   Scrollbar for modals
-============================================================================= */
-.modal-scroll::-webkit-scrollbar {
-  width: 4px;
-}
-
-.modal-scroll::-webkit-scrollbar-thumb {
-  background: var(--border-strong);
-  border-radius: 2px;
-}
-
-/* =============================================================================
-   Tailwind v4 Custom Tokens (extends @theme)
+   Tailwind v4 Theme Tokens
 ============================================================================= */
 @theme inline {
-  --color-brand: #6d28d9;
-  --color-brand-light: #7c3aed;
-  --color-brand-dark: #5b21b6;
+  --color-brand: #4338ca;
+  --color-brand-light: #4f46e5;
+  --color-brand-dark: #3730a3;
   --color-surface: #ffffff;
   --color-elevated: #ffffff;
-  --color-muted: #a1a1aa;
+  --color-muted: #94a3b8;
 }

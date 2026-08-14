@@ -22,17 +22,17 @@ export function IssueFineButton({ members, rules, groupId, currency = 'INR' }: I
     <>
       {/* FAB */}
       <motion.button
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.94 }}
+        whileHover={{ scale: 1.05, y: -2 }}
+        whileTap={{ scale: 0.95 }}
         onClick={() => setModalOpen(true)}
         className="fixed bottom-20 right-5 md:bottom-8 md:right-8 z-40
-          w-14 h-14 rounded-full bg-gradient-to-br from-violet-500 to-violet-700
-          flex items-center justify-center shadow-lg shadow-violet-500/20
-          border border-violet-400/30 text-white"
+          w-13 h-13 rounded-2xl bg-gradient-to-tr from-indigo-700 via-indigo-600 to-indigo-500
+          flex items-center justify-center shadow-lg shadow-indigo-600/25
+          border border-indigo-400/30 text-white cursor-pointer group"
         aria-label="Issue a fine"
         title="Issue a Fine"
       >
-        <Plus className="h-6 w-6" />
+        <Plus className="h-6 w-6 transition-transform duration-200 group-hover:rotate-90" />
       </motion.button>
 
       <IssueFineModal

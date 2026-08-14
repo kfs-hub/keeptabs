@@ -3,23 +3,23 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const badgeVariants = cva(
-  'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors duration-150',
+  'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors duration-150',
   {
     variants: {
       variant: {
-        default: 'bg-violet-50 text-violet-700 border border-violet-200',
-        unpaid: 'badge-unpaid',
-        paid: 'badge-paid',
-        disputed: 'badge-disputed',
-        cancelled: 'badge-cancelled',
-        success: 'bg-green-50 text-green-700 border border-green-200',
-        warning: 'bg-amber-50 text-amber-700 border border-amber-200',
-        error: 'bg-red-50 text-red-700 border border-red-200',
-        info: 'bg-blue-50 text-blue-700 border border-blue-200',
-        ghost: 'bg-zinc-100 text-zinc-500 border border-zinc-200',
-        admin: 'bg-violet-50 text-violet-700 border border-violet-200',
-        owner: 'bg-amber-50 text-amber-700 border border-amber-200',
-        member: 'bg-zinc-100 text-zinc-500 border border-zinc-200',
+        default: 'bg-indigo-50 text-indigo-700 border border-indigo-200/80',
+        unpaid: 'bg-rose-50 text-rose-700 border border-rose-200/80',
+        paid: 'bg-emerald-50 text-emerald-700 border border-emerald-200/80',
+        disputed: 'bg-amber-50 text-amber-700 border border-amber-200/80',
+        cancelled: 'bg-slate-100 text-slate-600 border border-slate-200/80',
+        success: 'bg-emerald-50 text-emerald-700 border border-emerald-200/80',
+        warning: 'bg-amber-50 text-amber-700 border border-amber-200/80',
+        error: 'bg-rose-50 text-rose-700 border border-rose-200/80',
+        info: 'bg-sky-50 text-sky-700 border border-sky-200/80',
+        ghost: 'bg-slate-100 text-slate-600 border border-slate-200/80',
+        admin: 'bg-indigo-50 text-indigo-700 border border-indigo-200/80 font-semibold',
+        owner: 'bg-amber-50 text-amber-800 border border-amber-200/80 font-semibold',
+        member: 'bg-slate-100 text-slate-600 border border-slate-200/80',
       },
     },
     defaultVariants: {

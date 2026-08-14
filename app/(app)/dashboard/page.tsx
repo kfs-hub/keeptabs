@@ -167,21 +167,23 @@ export default async function DashboardPage() {
       <AchievementToastListener userId={userId} groupId={groupId} />
 
       {/* Page Title */}
-      <div>
-        <h1 className="text-2xl font-bold text-zinc-900">
-          Welcome back 👋
-        </h1>
-        <p className="text-zinc-400 text-sm mt-1">
-          Here&apos;s what&apos;s happening in <span className="text-zinc-500">{group.name}</span>
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-1 border-b border-slate-100">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+            Dashboard
+          </h1>
+          <p className="text-slate-500 text-xs sm:text-sm mt-0.5">
+            Active tab overview for <span className="font-semibold text-slate-800">{group.name}</span>
+          </p>
+        </div>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <StatsCard title="Total Outstanding" value={formatCurrency(totalOwed, currency)} icon="💰" subtitle="Across all members" delay={0} />
-        <StatsCard title="Total Collected" value={formatCurrency(totalCollected, currency)} icon="✅" subtitle="All time" delay={0.05} />
-        <StatsCard title="Unpaid Fines" value={unpaidCount.toString()} icon="🔴" subtitle="Need attention" delay={0.1} />
-        <StatsCard title="This Month" value={formatCurrency(thisMonth, currency)} icon="📅" subtitle="Total fines issued" delay={0.15} />
+        <StatsCard title="Outstanding" value={formatCurrency(totalOwed, currency)} icon="💰" subtitle="Group total" delay={0} />
+        <StatsCard title="Collected" value={formatCurrency(totalCollected, currency)} icon="✅" subtitle="All-time settled" delay={0.04} />
+        <StatsCard title="Unpaid Fines" value={unpaidCount.toString()} icon="⚠️" subtitle="Pending review" delay={0.08} />
+        <StatsCard title="This Month" value={formatCurrency(thisMonth, currency)} icon="📅" subtitle="Issued in current cycle" delay={0.12} />
       </div>
 
       {/* Main Content */}
@@ -202,14 +204,16 @@ export default async function DashboardPage() {
 
           {/* Most Wanted */}
           {leaderboard[0]?.totalOwed > 0 && (
-            <div className="glass-card rounded-2xl p-5 border border-red-500/10">
-              <div className="text-center space-y-2">
-                <p className="text-xs text-zinc-400 uppercase tracking-widest">🚨 Most Wanted</p>
-                <p className="text-lg font-bold text-zinc-900">{leaderboard[0].displayName}</p>
-                <p className="text-3xl font-mono font-bold text-red-600">
+            <div className="glass-card rounded-2xl p-5 border border-rose-200/80 bg-rose-50/20 relative overflow-hidden">
+              <div className="text-center space-y-1.5">
+                <span className="text-[10px] text-rose-700 font-bold uppercase tracking-widest bg-rose-100/80 border border-rose-200 px-2.5 py-0.5 rounded-full inline-block">
+                  🚨 Highest Outstanding
+                </span>
+                <p className="text-base font-bold text-slate-900 mt-1">{leaderboard[0].displayName}</p>
+                <p className="text-2xl font-bold text-rose-600 tabular-nums">
                   {formatCurrency(leaderboard[0].totalOwed, currency)}
                 </p>
-                <p className="text-xs text-zinc-400">outstanding balance</p>
+                <p className="text-[11px] text-slate-400">Total unpaid fines in group</p>
               </div>
             </div>
           )}
