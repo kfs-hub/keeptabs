@@ -77,20 +77,20 @@ export function RuleCard({
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-semibold text-white">{rule.name}</h3>
+              <h3 className="font-semibold text-zinc-900">{rule.name}</h3>
               {!rule.is_active && (
                 <Badge variant="ghost" className="text-[10px]">Disabled</Badge>
               )}
             </div>
             {rule.description && (
-              <p className="text-sm text-white/40 mt-1 line-clamp-2">{rule.description}</p>
+              <p className="text-sm text-zinc-400 mt-1 line-clamp-2">{rule.description}</p>
             )}
           </div>
 
           {isAdmin && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="p-1.5 rounded-lg text-white/30 hover:text-white hover:bg-white/5 transition-all shrink-0">
+                <button className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-900 hover:bg-zinc-50 transition-all shrink-0">
                   <MoreVertical className="h-4 w-4" />
                 </button>
               </DropdownMenuTrigger>
@@ -109,7 +109,7 @@ export function RuleCard({
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={() => setShowDeleteDialog(true)}
-                  className="text-red-400 hover:text-red-300"
+                  className="text-red-600 hover:text-red-700"
                 >
                   <Trash2 className="h-4 w-4" />
                   Delete Rule
@@ -121,20 +121,20 @@ export function RuleCard({
 
         <div className="flex items-center gap-4 text-sm">
           <div>
-            <span className="text-white/40 text-xs">Fine: </span>
-            <span className="font-semibold text-violet-400">
+            <span className="text-zinc-400 text-xs">Fine: </span>
+            <span className="font-semibold text-violet-600">
               {formatCurrency(rule.default_amount, currency)}
             </span>
           </div>
-          <div className="text-white/20">·</div>
+          <div className="text-zinc-300">·</div>
           <div>
-            <span className="text-white/40 text-xs">Broken: </span>
-            <span className="font-semibold text-white">{fineCount}×</span>
+            <span className="text-zinc-400 text-xs">Broken: </span>
+            <span className="font-semibold text-zinc-900">{fineCount}×</span>
           </div>
-          <div className="text-white/20">·</div>
+          <div className="text-zinc-300">·</div>
           <div>
-            <span className="text-white/40 text-xs">Generated: </span>
-            <span className="font-semibold text-green-400">
+            <span className="text-zinc-400 text-xs">Generated: </span>
+            <span className="font-semibold text-green-600">
               {formatCurrency(totalGenerated, currency)}
             </span>
           </div>
@@ -154,7 +154,7 @@ export function RuleCard({
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30"
+              className="bg-red-100 text-red-600 border border-red-200 hover:bg-red-500/30"
             >
               Delete Rule
             </AlertDialogAction>

@@ -80,8 +80,8 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
   return (
     <div className="max-w-lg mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">⚙️ Settings</h1>
-        <p className="text-white/40 text-sm mt-1">Manage your profile and account.</p>
+        <h1 className="text-2xl font-bold text-zinc-900">⚙️ Settings</h1>
+        <p className="text-zinc-400 text-sm mt-1">Manage your profile and account.</p>
       </div>
 
       {/* Avatar */}
@@ -90,7 +90,7 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
         animate={{ opacity: 1, y: 0 }}
         className="glass-card rounded-2xl p-6"
       >
-        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">Profile Picture</h2>
+        <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4">Profile Picture</h2>
         <div className="flex items-center gap-5">
           <div className="relative group">
             <Avatar className="h-20 w-20 ring-2 ring-violet-500/30">
@@ -113,8 +113,8 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
             />
           </div>
           <div>
-            <p className="text-white font-semibold">{profile.display_name}</p>
-            <p className="text-white/40 text-sm">@{profile.username}</p>
+            <p className="text-zinc-900 font-semibold">{profile.display_name}</p>
+            <p className="text-zinc-400 text-sm">@{profile.username}</p>
             <Button
               variant="outline"
               size="sm"
@@ -127,7 +127,7 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
             </Button>
           </div>
         </div>
-        <p className="text-xs text-white/25 mt-3">JPEG, PNG, WebP, or GIF · Max 2MB</p>
+        <p className="text-xs text-zinc-300 mt-3">JPEG, PNG, WebP, or GIF · Max 2MB</p>
       </motion.div>
 
       {/* Profile info */}
@@ -137,7 +137,7 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
         transition={{ delay: 0.05 }}
         className="glass-card rounded-2xl p-6"
       >
-        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">Profile Info</h2>
+        <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4">Profile Info</h2>
         <form onSubmit={handleProfileSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <Label htmlFor="display_name">Display Name</Label>
@@ -152,7 +152,7 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
           <div className="space-y-1.5">
             <Label htmlFor="username">Username</Label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 text-sm">@</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">@</span>
               <Input
                 id="username"
                 name="username"
@@ -179,7 +179,7 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
         transition={{ delay: 0.1 }}
         className="glass-card rounded-2xl p-6"
       >
-        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">Change Password</h2>
+        <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4">Change Password</h2>
         <form onSubmit={handlePasswordSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <Label htmlFor="password">New Password</Label>
@@ -196,7 +196,7 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-500 transition-colors"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
@@ -227,27 +227,27 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
         transition={{ delay: 0.15 }}
         className="glass-card rounded-2xl p-6"
       >
-        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">Your Groups</h2>
+        <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4">Your Groups</h2>
         <div className="space-y-2 mb-4">
           {groups.map((g) => (
             <div
               key={g.id}
               className={`flex items-center justify-between p-3 rounded-xl border transition-all ${
                 g.id === activeGroupId
-                  ? 'border-violet-500/30 bg-violet-500/5'
-                  : 'border-white/5 bg-white/3'
+                  ? 'border-violet-200 bg-violet-500/5'
+                  : 'border-zinc-200 bg-zinc-50'
               }`}
             >
               <div>
-                <p className="text-sm font-medium text-white">{g.name}</p>
-                <p className="text-xs text-white/35 mt-0.5">
+                <p className="text-sm font-medium text-zinc-900">{g.name}</p>
+                <p className="text-xs text-zinc-400 mt-0.5">
                   <Badge
                     variant={g.role === 'owner' ? 'owner' : g.role === 'admin' ? 'admin' : 'member'}
                     className="text-[9px] mr-1"
                   >
                     {g.role}
                   </Badge>
-                  Code: <span className="font-mono text-violet-400/70">{g.invite_code}</span>
+                  Code: <span className="font-mono text-violet-600/70">{g.invite_code}</span>
                 </p>
               </div>
               {g.id === activeGroupId && (
@@ -280,7 +280,7 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
         transition={{ delay: 0.2 }}
         className="glass-card rounded-2xl p-6 border border-red-500/10"
       >
-        <h2 className="text-sm font-semibold text-red-400/70 uppercase tracking-wider mb-4">Account</h2>
+        <h2 className="text-sm font-semibold text-red-600/70 uppercase tracking-wider mb-4">Account</h2>
         <form action={logoutAction}>
           <Button type="submit" variant="destructive" className="w-full">
             <LogOut className="h-4 w-4" />

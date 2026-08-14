@@ -168,11 +168,11 @@ export default async function DashboardPage() {
 
       {/* Page Title */}
       <div>
-        <h1 className="text-2xl font-bold text-white">
+        <h1 className="text-2xl font-bold text-zinc-900">
           Welcome back 👋
         </h1>
-        <p className="text-white/40 text-sm mt-1">
-          Here&apos;s what&apos;s happening in <span className="text-white/60">{group.name}</span>
+        <p className="text-zinc-400 text-sm mt-1">
+          Here&apos;s what&apos;s happening in <span className="text-zinc-500">{group.name}</span>
         </p>
       </div>
 
@@ -204,12 +204,12 @@ export default async function DashboardPage() {
           {leaderboard[0]?.totalOwed > 0 && (
             <div className="glass-card rounded-2xl p-5 border border-red-500/10">
               <div className="text-center space-y-2">
-                <p className="text-xs text-white/40 uppercase tracking-widest">🚨 Most Wanted</p>
-                <p className="text-lg font-bold text-white">{leaderboard[0].displayName}</p>
-                <p className="text-3xl font-mono font-bold text-red-400">
+                <p className="text-xs text-zinc-400 uppercase tracking-widest">🚨 Most Wanted</p>
+                <p className="text-lg font-bold text-zinc-900">{leaderboard[0].displayName}</p>
+                <p className="text-3xl font-mono font-bold text-red-600">
                   {formatCurrency(leaderboard[0].totalOwed, currency)}
                 </p>
-                <p className="text-xs text-white/30">outstanding balance</p>
+                <p className="text-xs text-zinc-400">outstanding balance</p>
               </div>
             </div>
           )}

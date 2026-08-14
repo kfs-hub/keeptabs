@@ -40,8 +40,8 @@ export default function SignupPage() {
       <Card>
         <CardContent className="p-6 text-center space-y-4">
           <div className="text-5xl">📧</div>
-          <h2 className="text-xl font-semibold text-white">Check your email!</h2>
-          <p className="text-white/50 text-sm">
+          <h2 className="text-xl font-semibold text-zinc-900">Check your email!</h2>
+          <p className="text-zinc-500 text-sm">
             We sent a confirmation link to your email. Click it to activate your account.
           </p>
           <Link href="/login">
@@ -119,7 +119,7 @@ export default function SignupPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-500 transition-colors"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
@@ -131,16 +131,16 @@ export default function SignupPage() {
             Create Account
           </Button>
 
-          <p className="text-xs text-white/30 text-center">
+          <p className="text-xs text-zinc-400 text-center">
             By signing up, you agree to our group rules. No excuses.
           </p>
         </form>
 
-        <div className="mt-6 text-center text-sm text-white/40">
+        <div className="mt-6 text-center text-sm text-zinc-400">
           Already have an account?{' '}
           <Link
             href="/login"
-            className="text-violet-400 hover:text-violet-300 font-medium transition-colors"
+            className="text-violet-600 hover:text-violet-700 font-medium transition-colors"
           >
             Sign in
           </Link>

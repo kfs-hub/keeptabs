@@ -38,17 +38,17 @@ export default async function PaymentsPage() {
   return (
     <div className="max-w-lg mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">💳 Payments</h1>
-        <p className="text-white/40 text-sm mt-1">Manage your fines and payment history.</p>
+        <h1 className="text-2xl font-bold text-zinc-900">💳 Payments</h1>
+        <p className="text-zinc-400 text-sm mt-1">Manage your fines and payment history.</p>
       </div>
 
       {/* Balance card */}
-      <div className={`glass-card rounded-2xl p-6 border ${totalOwed > 0 ? 'border-red-500/20' : 'border-green-500/20'}`}>
-        <p className="text-sm text-white/50">Your Balance</p>
-        <p className={`text-4xl font-bold mt-1 ${totalOwed > 0 ? 'text-red-400' : 'text-green-400'}`}>
+      <div className={`glass-card rounded-2xl p-6 border ${totalOwed > 0 ? 'border-red-200' : 'border-green-200'}`}>
+        <p className="text-sm text-zinc-500">Your Balance</p>
+        <p className={`text-4xl font-bold mt-1 ${totalOwed > 0 ? 'text-red-600' : 'text-green-600'}`}>
           {formatCurrency(totalOwed, currency)}
         </p>
-        <p className="text-xs text-white/30 mt-1">
+        <p className="text-xs text-zinc-400 mt-1">
           {unpaidFines?.length ?? 0} unpaid fine{(unpaidFines?.length ?? 0) !== 1 ? 's' : ''}
         </p>
         {totalOwed > 0 && (
@@ -60,24 +60,24 @@ export default async function PaymentsPage() {
           </Link>
         )}
         {totalOwed === 0 && (
-          <p className="text-green-400/70 text-sm mt-2">🎉 All clear! No outstanding fines.</p>
+          <p className="text-green-600/70 text-sm mt-2">🎉 All clear! No outstanding fines.</p>
         )}
       </div>
 
       {/* Quick links */}
       <div className="grid grid-cols-1 gap-3">
         <Link href="/payments/history">
-          <div className="glass-card rounded-2xl p-4 flex items-center justify-between hover:border-violet-500/30 transition-all cursor-pointer">
+          <div className="glass-card rounded-2xl p-4 flex items-center justify-between hover:border-violet-200 transition-all cursor-pointer">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center">
-                <History className="h-5 w-5 text-violet-400" />
+              <div className="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center">
+                <History className="h-5 w-5 text-violet-600" />
               </div>
               <div>
-                <p className="font-medium text-white">Payment History</p>
-                <p className="text-xs text-white/40">View all your past payments</p>
+                <p className="font-medium text-zinc-900">Payment History</p>
+                <p className="text-xs text-zinc-400">View all your past payments</p>
               </div>
             </div>
-            <ArrowRight className="h-4 w-4 text-white/30" />
+            <ArrowRight className="h-4 w-4 text-zinc-400" />
           </div>
         </Link>
       </div>
@@ -85,22 +85,22 @@ export default async function PaymentsPage() {
       {/* Recent payments */}
       {(recentPayments?.length ?? 0) > 0 && (
         <div className="glass-card rounded-2xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-white/5 flex items-center justify-between">
-            <h3 className="font-semibold text-white">Recent Payments</h3>
-            <Link href="/payments/history" className="text-xs text-violet-400 hover:text-violet-300 transition-colors">
+          <div className="px-5 py-4 border-b border-zinc-200 flex items-center justify-between">
+            <h3 className="font-semibold text-zinc-900">Recent Payments</h3>
+            <Link href="/payments/history" className="text-xs text-violet-600 hover:text-violet-700 transition-colors">
               View all →
             </Link>
           </div>
           {recentPayments?.map((p) => (
-            <div key={p.id} className="flex items-center justify-between px-5 py-3 border-b border-white/5 last:border-0">
+            <div key={p.id} className="flex items-center justify-between px-5 py-3 border-b border-zinc-200 last:border-0">
               <div>
-                <p className="text-sm font-medium text-white">{formatCurrency(p.amount, currency)}</p>
-                <p className="text-xs text-white/40">{new Date(p.created_at).toLocaleDateString('en-IN')}</p>
+                <p className="text-sm font-medium text-zinc-900">{formatCurrency(p.amount, currency)}</p>
+                <p className="text-xs text-zinc-400">{new Date(p.created_at).toLocaleDateString('en-IN')}</p>
               </div>
               <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                p.status === 'successful' ? 'bg-green-500/15 text-green-400' :
-                p.status === 'failed' ? 'bg-red-500/15 text-red-400' :
-                'bg-yellow-500/15 text-yellow-400'
+                p.status === 'successful' ? 'bg-green-50 text-green-600' :
+                p.status === 'failed' ? 'bg-red-50 text-red-600' :
+                'bg-yellow-50 text-yellow-600'
               }`}>
                 {p.status === 'successful' ? '🟢' : p.status === 'failed' ? '🔴' : '🟡'} {p.status}
               </span>

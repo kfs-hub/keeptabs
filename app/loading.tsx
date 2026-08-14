@@ -3,7 +3,7 @@ export default function Loading() {
     <div className="min-h-screen bg-app-gradient flex items-center justify-center">
       <div className="text-center space-y-4">
         <div className="text-5xl animate-pulse">💸</div>
-        <p className="text-white/50 text-sm font-medium tracking-wide">
+        <p className="text-zinc-500 text-sm font-medium tracking-wide">
           Counting everyone&apos;s crimes…
         </p>
         <div className="flex items-center justify-center gap-1.5 mt-2">

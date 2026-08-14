@@ -30,26 +30,26 @@ export function FineOfTheWeek({ fine, currency = 'INR' }: FineOfTheWeekProps) {
 
       <div className="relative space-y-3">
         <div className="flex items-center gap-2">
-          <span className="text-xs text-yellow-400/80 font-semibold uppercase tracking-widest">
+          <span className="text-xs text-yellow-600/80 font-semibold uppercase tracking-widest">
             ⭐ Fine of the Week
           </span>
         </div>
 
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="font-bold text-white text-lg">{fine.finedUserName}</p>
-            <p className="text-sm text-white/60">{fine.ruleName}</p>
+            <p className="font-bold text-zinc-900 text-lg">{fine.finedUserName}</p>
+            <p className="text-sm text-zinc-500">{fine.ruleName}</p>
             {fine.description && (
-              <p className="text-xs text-white/40 italic mt-1 line-clamp-2">
+              <p className="text-xs text-zinc-400 italic mt-1 line-clamp-2">
                 &quot;{fine.description}&quot;
               </p>
             )}
-            <p className="text-xs text-white/25 mt-2">
+            <p className="text-xs text-zinc-300 mt-2">
               Reported by {fine.reporterName} · {formatDate(fine.createdAt)}
             </p>
           </div>
           <div className="text-right shrink-0">
-            <p className="text-2xl font-bold text-yellow-400">
+            <p className="text-2xl font-bold text-yellow-600">
               {formatCurrency(fine.amount, currency)}
             </p>
           </div>

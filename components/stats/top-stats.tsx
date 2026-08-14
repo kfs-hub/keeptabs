@@ -26,7 +26,7 @@ export function TopStats({ stats, currency = 'INR' }: { stats: TopStat[]; curren
         >
           <div className="text-3xl shrink-0">{stat.icon}</div>
           <div className="min-w-0">
-            <p className="text-xs text-white/40 font-medium">{stat.label}</p>
+            <p className="text-xs text-zinc-400 font-medium">{stat.label}</p>
             <div className="flex items-center gap-2 mt-0.5">
               {stat.avatarUrl !== undefined && stat.name && (
                 <Avatar className="h-6 w-6">
@@ -35,10 +35,10 @@ export function TopStats({ stats, currency = 'INR' }: { stats: TopStat[]; curren
                   </AvatarFallback>
                 </Avatar>
               )}
-              <p className="text-white font-semibold text-sm truncate">{stat.value}</p>
+              <p className="text-zinc-900 font-semibold text-sm truncate">{stat.value}</p>
             </div>
             {stat.subtitle && (
-              <p className="text-xs text-white/30 mt-0.5 truncate">{stat.subtitle}</p>
+              <p className="text-xs text-zinc-400 mt-0.5 truncate">{stat.subtitle}</p>
             )}
           </div>
         </motion.div>

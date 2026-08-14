@@ -49,9 +49,9 @@ export function AdminMembersClient({
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold text-white">👥 Manage Members</h2>
+      <h2 className="text-lg font-semibold text-zinc-900">👥 Manage Members</h2>
 
-      <div className="glass-card rounded-2xl overflow-hidden divide-y divide-white/5">
+      <div className="glass-card rounded-2xl overflow-hidden divide-y divide-zinc-100">
         {members.map((m) => {
           const p = m.profiles as any
           const isMe = m.user_id === currentUserId
@@ -71,7 +71,7 @@ export function AdminMembersClient({
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="font-semibold text-white text-sm">{p?.display_name}</span>
+                  <span className="font-semibold text-zinc-900 text-sm">{p?.display_name}</span>
                   {isMe && <Badge variant="default" className="text-[10px]">You</Badge>}
                   <Badge
                     variant={isOwnerRow ? 'owner' : m.role === 'admin' ? 'admin' : 'member'}
@@ -80,11 +80,11 @@ export function AdminMembersClient({
                     {m.role}
                   </Badge>
                 </div>
-                <p className="text-xs text-white/35 mt-0.5">
+                <p className="text-xs text-zinc-400 mt-0.5">
                   @{p?.username} · Joined {formatDate(m.joined_at)}
                 </p>
                 {balance > 0 && (
-                  <p className="text-xs text-red-400/70 mt-0.5">{formatCurrency(balance, currency)} outstanding</p>
+                  <p className="text-xs text-red-600/70 mt-0.5">{formatCurrency(balance, currency)} outstanding</p>
                 )}
               </div>
 
@@ -100,8 +100,8 @@ export function AdminMembersClient({
                       title={m.role === 'admin' ? 'Demote to member' : 'Promote to admin'}
                     >
                       {m.role === 'admin'
-                        ? <ShieldOff className="h-4 w-4 text-yellow-400" />
-                        : <ShieldCheck className="h-4 w-4 text-violet-400" />
+                        ? <ShieldOff className="h-4 w-4 text-yellow-600" />
+                        : <ShieldCheck className="h-4 w-4 text-violet-600" />
                       }
                     </Button>
                   )}
@@ -112,7 +112,7 @@ export function AdminMembersClient({
                     onClick={() => setRemoveConfirm(m)}
                     title="Remove member"
                   >
-                    <UserMinus className="h-4 w-4 text-red-400" />
+                    <UserMinus className="h-4 w-4 text-red-600" />
                   </Button>
                 </div>
               )}
@@ -133,7 +133,7 @@ export function AdminMembersClient({
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => handleRemove(removeConfirm)}
-              className="bg-red-500/20 text-red-400 border-red-500/30 hover:bg-red-500/30"
+              className="bg-red-100 text-red-600 border-red-200 hover:bg-red-500/30"
             >
               Remove Member
             </AlertDialogAction>

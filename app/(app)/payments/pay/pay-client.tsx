@@ -86,8 +86,8 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
     return (
       <div className="max-w-lg mx-auto pt-10 text-center space-y-5">
         <div className="text-6xl">🎉</div>
-        <h2 className="text-2xl font-bold text-white">You&apos;re all clear!</h2>
-        <p className="text-white/50">No outstanding fines. You&apos;re officially a responsible adult.</p>
+        <h2 className="text-2xl font-bold text-zinc-900">You&apos;re all clear!</h2>
+        <p className="text-zinc-500">No outstanding fines. You&apos;re officially a responsible adult.</p>
         <Button variant="outline" onClick={() => router.push('/dashboard')}>Back to Dashboard</Button>
       </div>
     )
@@ -98,16 +98,16 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
     <div className="max-w-lg mx-auto space-y-5">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white">💳 Pay Your Fines</h1>
-        <p className="text-white/40 text-sm mt-1">Select fines to pay — or pay them all at once.</p>
+        <h1 className="text-2xl font-bold text-zinc-900">💳 Pay Your Fines</h1>
+        <p className="text-zinc-400 text-sm mt-1">Select fines to pay — or pay them all at once.</p>
       </div>
 
       {/* Total owed card */}
       <div className="glass-card rounded-2xl p-5 border border-red-500/15">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-white/50">Total Outstanding</p>
-            <p className="text-3xl font-bold text-red-400">{formatCurrency(totalOwed, currency)}</p>
+            <p className="text-sm text-zinc-500">Total Outstanding</p>
+            <p className="text-3xl font-bold text-red-600">{formatCurrency(totalOwed, currency)}</p>
           </div>
           <span className="text-4xl">💰</span>
         </div>
@@ -117,15 +117,15 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
       <div className="flex items-center justify-between px-1">
         <button
           onClick={toggleAll}
-          className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
+          className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 transition-colors"
         >
           {allSelected
-            ? <CheckSquare className="h-4 w-4 text-violet-400" />
+            ? <CheckSquare className="h-4 w-4 text-violet-600" />
             : <Square className="h-4 w-4" />
           }
           {allSelected ? 'Deselect All' : 'Select All'}
         </button>
-        <span className="text-sm text-white/40">
+        <span className="text-sm text-zinc-400">
           {selected.size} of {fines.length} selected
         </span>
       </div>
@@ -145,7 +145,7 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
               variants={{ hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0 } }}
               onClick={() => toggleFine(fine.id)}
               className={`glass-card rounded-xl p-4 cursor-pointer transition-all border ${
-                isSelected ? 'border-violet-500/40 bg-violet-500/5' : 'border-white/5'
+                isSelected ? 'border-violet-500/40 bg-violet-500/5' : 'border-zinc-200'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -156,18 +156,18 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
                 />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium text-white truncate">
+                    <p className="text-sm font-medium text-zinc-900 truncate">
                       {fine.rule?.name ?? 'Custom fine'}
                     </p>
-                    <span className="text-base font-bold text-white ml-2 shrink-0">
+                    <span className="text-base font-bold text-zinc-900 ml-2 shrink-0">
                       {formatCurrency(fine.amount, currency)}
                     </span>
                   </div>
-                  <p className="text-xs text-white/40 mt-0.5">
+                  <p className="text-xs text-zinc-400 mt-0.5">
                     {formatDate(fine.created_at)} · Reported by {fine.reporter?.display_name}
                   </p>
                   {fine.description && (
-                    <p className="text-xs text-white/30 italic mt-0.5 truncate">
+                    <p className="text-xs text-zinc-400 italic mt-0.5 truncate">
                       &quot;{fine.description}&quot;
                     </p>
                   )}
@@ -188,17 +188,17 @@ export function PayClient({ fines, totalOwed, groupId, currency, userName, userE
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="sticky bottom-24 md:bottom-6 glass-card rounded-2xl p-5 border border-violet-500/20 shadow-2xl shadow-violet-500/10 space-y-4"
+            className="sticky bottom-24 md:bottom-6 glass-card rounded-2xl p-5 border border-violet-200 shadow-lg space-y-4"
           >
             <div className="space-y-2">
-              <div className="flex items-center justify-between text-sm text-white/50">
+              <div className="flex items-center justify-between text-sm text-zinc-500">
                 <span>{selected.size} fine{selected.size !== 1 ? 's' : ''} selected</span>
                 <span>Subtotal</span>
               </div>
               <Separator />
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-white">Total to Pay</span>
-                <span className="text-2xl font-bold text-white">{formatCurrency(selectedTotal, currency)}</span>
+                <span className="font-semibold text-zinc-900">Total to Pay</span>
+                <span className="text-2xl font-bold text-zinc-900">{formatCurrency(selectedTotal, currency)}</span>
               </div>
             </div>
 

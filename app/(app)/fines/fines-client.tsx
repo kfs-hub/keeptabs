@@ -97,8 +97,8 @@ export function FinesClient({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">🚨 Fines</h1>
-          <p className="text-white/40 text-sm mt-1">{total} total</p>
+          <h1 className="text-2xl font-bold text-zinc-900">🚨 Fines</h1>
+          <p className="text-zinc-400 text-sm mt-1">{total} total</p>
         </div>
       </div>
 
@@ -106,7 +106,7 @@ export function FinesClient({
       <div className="glass-card rounded-2xl p-4 space-y-3">
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
           <Input
             placeholder="Search by description..."
             defaultValue={searchParams.get('search') ?? ''}
@@ -167,9 +167,9 @@ export function FinesClient({
       {/* Fine list */}
       {fines.length === 0 ? (
         <div className="glass-card rounded-2xl p-12 text-center">
-          <AlertTriangle className="h-10 w-10 text-white/20 mx-auto mb-3" />
-          <p className="text-white/50">No fines found.</p>
-          <p className="text-white/30 text-sm mt-1">🎉 Either everyone&apos;s being good, or the filters are too strict.</p>
+          <AlertTriangle className="h-10 w-10 text-zinc-300 mx-auto mb-3" />
+          <p className="text-zinc-500">No fines found.</p>
+          <p className="text-zinc-400 text-sm mt-1">🎉 Either everyone&apos;s being good, or the filters are too strict.</p>
         </div>
       ) : (
         <motion.div variants={container} initial="hidden" animate="show" className="space-y-3">
@@ -185,25 +185,25 @@ export function FinesClient({
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <span className="font-semibold text-white">{fine.fined_user?.display_name}</span>
+                        <span className="font-semibold text-zinc-900">{fine.fined_user?.display_name}</span>
                         <Badge variant={statusVariants[fine.status]} className="ml-2 text-[10px]">
                           {statusEmoji[fine.status]} {fine.status}
                         </Badge>
                       </div>
-                      <span className="text-lg font-bold text-white shrink-0">
+                      <span className="text-lg font-bold text-zinc-900 shrink-0">
                         {formatCurrency(fine.amount, currency)}
                       </span>
                     </div>
 
-                    <p className="text-sm text-white/60 mt-0.5">
+                    <p className="text-sm text-zinc-500 mt-0.5">
                       {fine.rule?.name ?? 'Custom fine'}
                     </p>
 
                     {fine.description && (
-                      <p className="text-xs text-white/40 mt-1 italic">&quot;{fine.description}&quot;</p>
+                      <p className="text-xs text-zinc-400 mt-1 italic">&quot;{fine.description}&quot;</p>
                     )}
 
-                    <div className="flex items-center flex-wrap gap-x-3 gap-y-1 mt-2 text-xs text-white/30">
+                    <div className="flex items-center flex-wrap gap-x-3 gap-y-1 mt-2 text-xs text-zinc-400">
                       <span>Reported by {fine.reporter?.display_name}</span>
                       <span>·</span>
                       <span>{formatDate(fine.created_at)}</span>
@@ -212,7 +212,7 @@ export function FinesClient({
                           <span>·</span>
                           <button
                             onClick={() => setEvidenceUrl(fine.evidence_url!)}
-                            className="text-violet-400 hover:text-violet-300 transition-colors"
+                            className="text-violet-600 hover:text-violet-700 transition-colors"
                           >
                             📎 Evidence
                           </button>
@@ -245,7 +245,7 @@ export function FinesClient({
           <Button variant="outline" size="icon-sm" disabled={page <= 1} onClick={() => goToPage(page - 1)}>
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <span className="text-sm text-white/50">Page {page} of {totalPages}</span>
+          <span className="text-sm text-zinc-500">Page {page} of {totalPages}</span>
           <Button variant="outline" size="icon-sm" disabled={page >= totalPages} onClick={() => goToPage(page + 1)}>
             <ChevronRight className="h-4 w-4" />
           </Button>
@@ -260,7 +260,7 @@ export function FinesClient({
           </DialogHeader>
           <div className="space-y-4">
             {disputeFine && (
-              <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3 text-sm text-yellow-300">
+              <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 text-sm text-yellow-700">
                 Disputing <strong>{formatCurrency(disputeFine.amount, currency)}</strong> fine for{' '}
                 <em>{disputeFine.rule?.name ?? 'Custom fine'}</em>
               </div>
@@ -274,7 +274,7 @@ export function FinesClient({
                 rows={3}
                 maxLength={500}
               />
-              <p className="text-xs text-white/30">{disputeReason.length}/500</p>
+              <p className="text-xs text-zinc-400">{disputeReason.length}/500</p>
             </div>
           </div>
           <DialogFooter>

@@ -16,18 +16,18 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      'flex h-10 w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white',
-      'focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20',
+      'flex h-10 w-full items-center justify-between rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-900',
+      'focus:outline-none focus:border-violet-600 focus:ring-2 focus:ring-violet-600/15',
       'disabled:cursor-not-allowed disabled:opacity-50',
       '[&>span]:line-clamp-1',
-      'transition-all duration-200',
+      'transition-colors duration-150',
       className
     )}
     {...props}
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <ChevronDown className="h-4 w-4 text-white/40 shrink-0" />
+      <ChevronDown className="h-4 w-4 text-zinc-400 shrink-0" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ))
@@ -69,8 +69,8 @@ const SelectContent = React.forwardRef<
     <SelectPrimitive.Content
       ref={ref}
       className={cn(
-        'relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-xl glass-popover border border-white/10',
-        'shadow-2xl shadow-black/50',
+        'relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-lg glass-popover border border-zinc-200',
+        'shadow-lg',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
         'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
@@ -105,7 +105,7 @@ const SelectLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Label
     ref={ref}
-    className={cn('py-1.5 pl-8 pr-2 text-xs text-white/40 font-medium', className)}
+    className={cn('py-1.5 pl-8 pr-2 text-xs text-zinc-400 font-medium', className)}
     {...props}
   />
 ))
@@ -118,9 +118,9 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex w-full cursor-default select-none items-center rounded-lg py-2 pl-8 pr-2 text-sm text-white/80',
-      'hover:bg-white/10 hover:text-white',
-      'focus:bg-white/10 focus:text-white focus:outline-none',
+      'relative flex w-full cursor-default select-none items-center rounded-md py-2 pl-8 pr-2 text-sm text-zinc-700',
+      'hover:bg-zinc-100 hover:text-zinc-900',
+      'focus:bg-zinc-100 focus:text-zinc-900 focus:outline-none',
       'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       'transition-colors duration-150',
       className
@@ -129,7 +129,7 @@ const SelectItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <SelectPrimitive.ItemIndicator>
-        <Check className="h-4 w-4 text-violet-400" />
+        <Check className="h-4 w-4 text-violet-700" />
       </SelectPrimitive.ItemIndicator>
     </span>
     <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
@@ -143,7 +143,7 @@ const SelectSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Separator
     ref={ref}
-    className={cn('-mx-1 my-1 h-px bg-white/10', className)}
+    className={cn('-mx-1 my-1 h-px bg-zinc-200', className)}
     {...props}
   />
 ))

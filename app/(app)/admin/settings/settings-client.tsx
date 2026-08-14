@@ -52,30 +52,30 @@ export function AdminSettingsClient({ group, groupId }: AdminSettingsClientProps
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-white">⚙️ Group Settings</h2>
+      <h2 className="text-lg font-semibold text-zinc-900">⚙️ Group Settings</h2>
 
       {/* Invite code */}
       <div className="glass-card rounded-2xl p-5 space-y-3">
-        <h3 className="text-sm font-medium text-white/70">Invite Code</h3>
+        <h3 className="text-sm font-medium text-zinc-600">Invite Code</h3>
         <div className="flex items-center gap-3">
-          <div className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5">
-            <span className="text-xl font-mono font-bold tracking-widest text-violet-300">
+          <div className="flex-1 bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-2.5">
+            <span className="text-xl font-mono font-bold tracking-widest text-violet-700">
               {inviteCode}
             </span>
           </div>
           <Button variant="outline" size="icon" onClick={copyCode} title="Copy">
-            {copied ? <Check className="h-4 w-4 text-green-400" /> : <Copy className="h-4 w-4" />}
+            {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
           </Button>
           <Button variant="warning" size="icon" onClick={handleRegen} loading={regen} title="Regenerate">
             <RefreshCw className="h-4 w-4" />
           </Button>
         </div>
-        <p className="text-xs text-white/30">Regenerating will invalidate the old code.</p>
+        <p className="text-xs text-zinc-400">Regenerating will invalidate the old code.</p>
       </div>
 
       {/* Group settings form */}
       <form onSubmit={handleSubmit} className="glass-card rounded-2xl p-5 space-y-5">
-        <h3 className="text-sm font-medium text-white/70">Group Info</h3>
+        <h3 className="text-sm font-medium text-zinc-600">Group Info</h3>
 
         <div className="grid sm:grid-cols-2 gap-4">
           <div className="space-y-1.5">
@@ -113,8 +113,8 @@ export function AdminSettingsClient({ group, groupId }: AdminSettingsClientProps
         <Separator />
 
         <div className="space-y-3">
-          <h3 className="text-sm font-medium text-white/70">🏆 Leaderboard Labels</h3>
-          <p className="text-xs text-white/30">Customise the fun labels shown on the leaderboard.</p>
+          <h3 className="text-sm font-medium text-zinc-600">🏆 Leaderboard Labels</h3>
+          <p className="text-xs text-zinc-400">Customise the fun labels shown on the leaderboard.</p>
 
           {[
             { key: 'first',  placeholder: '💀 Biggest Criminal' },

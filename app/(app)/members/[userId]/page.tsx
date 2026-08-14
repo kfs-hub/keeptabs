@@ -76,7 +76,7 @@ export default async function MemberProfilePage({
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Back */}
-      <Link href="/members" className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white transition-colors">
+      <Link href="/members" className="inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-900 transition-colors">
         <ArrowLeft className="h-3.5 w-3.5" />
         Members
       </Link>
@@ -90,7 +90,7 @@ export default async function MemberProfilePage({
           </Avatar>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-xl font-bold text-white">{profile?.display_name}</h1>
+              <h1 className="text-xl font-bold text-zinc-900">{profile?.display_name}</h1>
               {isMe && <Badge variant="default" className="text-[10px]">You</Badge>}
               <Badge
                 variant={targetMembership.role === 'owner' ? 'owner' : targetMembership.role === 'admin' ? 'admin' : 'member'}
@@ -99,24 +99,24 @@ export default async function MemberProfilePage({
                 {targetMembership.role}
               </Badge>
             </div>
-            <p className="text-white/40 text-sm">@{profile?.username}</p>
-            <p className="text-white/25 text-xs mt-1">
+            <p className="text-zinc-400 text-sm">@{profile?.username}</p>
+            <p className="text-zinc-300 text-xs mt-1">
               Joined {formatDate(targetMembership.joined_at)}
             </p>
           </div>
         </div>
 
         {/* Quick stats */}
-        <div className="grid grid-cols-4 gap-3 mt-5 pt-5 border-t border-white/5">
+        <div className="grid grid-cols-4 gap-3 mt-5 pt-5 border-t border-zinc-200">
           {[
-            { label: 'Fines', value: myFines.length, color: 'text-white' },
-            { label: 'Owes', value: formatCurrency(totalOwed, currency), color: totalOwed > 0 ? 'text-red-400' : 'text-green-400' },
-            { label: 'Paid', value: formatCurrency(totalPaid, currency), color: 'text-green-400' },
-            { label: 'Reported', value: reportedFines.length, color: 'text-white/60' },
+            { label: 'Fines', value: myFines.length, color: 'text-zinc-900' },
+            { label: 'Owes', value: formatCurrency(totalOwed, currency), color: totalOwed > 0 ? 'text-red-600' : 'text-green-600' },
+            { label: 'Paid', value: formatCurrency(totalPaid, currency), color: 'text-green-600' },
+            { label: 'Reported', value: reportedFines.length, color: 'text-zinc-500' },
           ].map((s) => (
             <div key={s.label} className="text-center">
               <p className={`text-lg font-bold ${s.color}`}>{s.value}</p>
-              <p className="text-xs text-white/30">{s.label}</p>
+              <p className="text-xs text-zinc-400">{s.label}</p>
             </div>
           ))}
         </div>
@@ -125,7 +125,7 @@ export default async function MemberProfilePage({
       {/* Achievements */}
       {(userAchievements?.length ?? 0) > 0 && (
         <div className="glass-card rounded-2xl p-5">
-          <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">🏆 Achievements</h3>
+          <h3 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4">🏆 Achievements</h3>
           <div className="flex flex-wrap gap-2">
             {userAchievements?.map((ua) => {
               const a = ua.achievements as any
@@ -133,7 +133,7 @@ export default async function MemberProfilePage({
                 <div
                   key={ua.achievement_id}
                   title={`${a?.name}: ${a?.description}`}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-violet-500/10 border border-violet-500/20 text-xs text-white/70 cursor-default hover:bg-violet-500/20 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-violet-50 border border-violet-200 text-xs text-zinc-600 cursor-default hover:bg-violet-100 transition-colors"
                 >
                   <span className="text-base">{a?.icon}</span>
                   <span>{a?.name}</span>
@@ -146,26 +146,26 @@ export default async function MemberProfilePage({
 
       {/* Recent fines received */}
       <div className="glass-card rounded-2xl overflow-hidden">
-        <div className="px-5 py-4 border-b border-white/5">
-          <h3 className="font-semibold text-white">Recent Fines</h3>
+        <div className="px-5 py-4 border-b border-zinc-200">
+          <h3 className="font-semibold text-zinc-900">Recent Fines</h3>
         </div>
         {!receivedFines?.length ? (
-          <div className="p-8 text-center text-white/30 text-sm">No fines yet 🎉</div>
+          <div className="p-8 text-center text-zinc-400 text-sm">No fines yet 🎉</div>
         ) : (
-          <div className="divide-y divide-white/5">
+          <div className="divide-y divide-zinc-100">
             {receivedFines.map((f) => (
               <div key={f.id} className="flex items-center justify-between px-5 py-3.5 gap-3">
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-white">
+                  <p className="text-sm font-medium text-zinc-900">
                     {(f.rules as any)?.name ?? 'Custom fine'}
                   </p>
-                  <p className="text-xs text-white/35 mt-0.5">
+                  <p className="text-xs text-zinc-400 mt-0.5">
                     By {(f.reporter as any)?.display_name} · {formatDate(f.created_at)}
                   </p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-sm font-semibold text-white">{formatCurrency(f.amount, currency)}</p>
-                  <p className="text-xs text-white/40">{statusEmoji[f.status]} {f.status}</p>
+                  <p className="text-sm font-semibold text-zinc-900">{formatCurrency(f.amount, currency)}</p>
+                  <p className="text-xs text-zinc-400">{statusEmoji[f.status]} {f.status}</p>
                 </div>
               </div>
             ))}

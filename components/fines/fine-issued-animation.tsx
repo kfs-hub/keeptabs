@@ -37,7 +37,7 @@ export function FineIssuedAnimation({
             exit={{ scale: 0.8, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 260, damping: 20 }}
             onClick={(e) => e.stopPropagation()}
-            className="glass border border-red-500/30 rounded-3xl p-8 max-w-sm w-full text-center space-y-5 shadow-2xl shadow-red-500/20"
+            className="glass border border-red-200 rounded-3xl p-8 max-w-sm w-full text-center space-y-5 shadow-xl shadow-red-500/10"
           >
             {/* Siren emoji with pulse */}
             <motion.div
@@ -49,10 +49,10 @@ export function FineIssuedAnimation({
             </motion.div>
 
             <div className="space-y-1">
-              <p className="text-sm text-red-400 font-semibold uppercase tracking-[0.2em]">
+              <p className="text-sm text-red-600 font-semibold uppercase tracking-[0.2em]">
                 Fine Issued
               </p>
-              <h2 className="text-2xl font-bold text-white">
+              <h2 className="text-2xl font-bold text-zinc-900">
                 {userName} has been fined
               </h2>
             </div>
@@ -62,9 +62,9 @@ export function FineIssuedAnimation({
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="bg-red-500/10 border border-red-500/20 rounded-2xl py-4"
+              className="bg-red-50 border border-red-200 rounded-2xl py-4"
             >
-              <p className="text-5xl font-mono font-bold text-red-400">
+              <p className="text-5xl font-mono font-bold text-red-600">
                 {formatCurrency(amount, currency)}
               </p>
             </motion.div>
@@ -74,9 +74,9 @@ export function FineIssuedAnimation({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.35 }}
-                className="text-white/50 text-sm"
+                className="text-zinc-500 text-sm"
               >
-                Reason: <span className="text-white/80 italic">&quot;{ruleName}&quot;</span>
+                Reason: <span className="text-zinc-700 italic">&quot;{ruleName}&quot;</span>
               </motion.p>
             )}
 

@@ -41,10 +41,10 @@ export function SelectGroupCard({
   return (
     <Card
       onClick={handleSelect}
-      className={`cursor-pointer transition-all duration-200 border hover:border-violet-500/50 hover:bg-white/5 ${
+      className={`cursor-pointer transition-all duration-200 border hover:border-violet-500/50 hover:bg-zinc-50 ${
         isActive
           ? 'bg-violet-600/10 border-violet-500/40 shadow-lg shadow-violet-500/10'
-          : 'bg-white/3 border-white/10'
+          : 'bg-zinc-50 border-zinc-200'
       }`}
     >
       <CardContent className="p-4 flex items-center justify-between gap-4">
@@ -54,16 +54,16 @@ export function SelectGroupCard({
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h3 className="font-semibold text-white truncate text-base">{groupName}</h3>
+              <h3 className="font-semibold text-zinc-900 truncate text-base">{groupName}</h3>
               {isActive && (
-                <span className="text-[10px] bg-violet-500/20 text-violet-300 border border-violet-500/30 px-2 py-0.5 rounded-full font-medium shrink-0 flex items-center gap-1">
+                <span className="text-[10px] bg-violet-100 text-violet-700 border border-violet-200 px-2 py-0.5 rounded-full font-medium shrink-0 flex items-center gap-1">
                   <Check className="h-3 w-3" /> Active
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-2 mt-1 text-xs text-white/40">
+            <div className="flex items-center gap-2 mt-1 text-xs text-zinc-400">
               <span className="capitalize flex items-center gap-1">
-                {['admin', 'owner'].includes(role) && <Shield className="h-3 w-3 text-amber-400" />}
+                {['admin', 'owner'].includes(role) && <Shield className="h-3 w-3 text-amber-600" />}
                 {role}
               </span>
               <span>•</span>

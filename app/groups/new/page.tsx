@@ -50,16 +50,16 @@ export default function NewGroupPage() {
         <CardContent className="p-8 text-center space-y-6">
           <div className="text-6xl">🎉</div>
           <div>
-            <h2 className="text-2xl font-bold text-white">Group Created!</h2>
-            <p className="text-white/50 mt-2">Share this code with your friends to invite them.</p>
+            <h2 className="text-2xl font-bold text-zinc-900">Group Created!</h2>
+            <p className="text-zinc-500 mt-2">Share this code with your friends to invite them.</p>
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-2">
-            <p className="text-white/40 text-xs uppercase tracking-widest">Invite Code</p>
+          <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 space-y-2">
+            <p className="text-zinc-400 text-xs uppercase tracking-widest">Invite Code</p>
             <div className="text-4xl font-mono font-bold gradient-text tracking-widest">
               {created.inviteCode}
             </div>
             <Button onClick={copyInviteCode} variant="outline" size="sm" className="gap-2">
-              {copied ? <Check className="h-4 w-4 text-green-400" /> : <Copy className="h-4 w-4" />}
+              {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
               {copied ? 'Copied!' : 'Copy Code'}
             </Button>
           </div>
@@ -74,8 +74,8 @@ export default function NewGroupPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-bold text-white">Create a Group</h1>
-        <p className="text-white/50 mt-1">Set up your friend group&apos;s fine tracker.</p>
+        <h1 className="text-2xl font-bold text-zinc-900">Create a Group</h1>
+        <p className="text-zinc-500 mt-1">Set up your friend group&apos;s fine tracker.</p>
       </div>
       <Card>
         <CardContent className="p-6">

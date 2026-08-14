@@ -50,7 +50,7 @@ export function PaymentSuccess({ amount, fineCount, currency = 'INR' }: PaymentS
         initial={{ opacity: 0, scale: 0.8, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-        className="glass-card rounded-3xl p-10 max-w-sm w-full text-center space-y-6 border border-green-500/20"
+        className="glass-card rounded-3xl p-10 max-w-sm w-full text-center space-y-6 border border-green-200"
       >
         {/* Trophy animation */}
         <motion.div
@@ -62,15 +62,15 @@ export function PaymentSuccess({ amount, fineCount, currency = 'INR' }: PaymentS
         </motion.div>
 
         <div className="space-y-2">
-          <h2 className="text-3xl font-bold text-white">DEBT CLEARED</h2>
-          <p className="text-white/50">You are officially broke but responsible.</p>
+          <h2 className="text-3xl font-bold text-zinc-900">DEBT CLEARED</h2>
+          <p className="text-zinc-500">You are officially broke but responsible.</p>
         </div>
 
-        <div className="bg-green-500/10 border border-green-500/20 rounded-2xl py-5">
-          <p className="text-4xl font-mono font-bold text-green-400">
+        <div className="bg-green-50 border border-green-200 rounded-2xl py-5">
+          <p className="text-4xl font-mono font-bold text-green-600">
             {formatCurrency(amount, currency)}
           </p>
-          <p className="text-sm text-white/40 mt-1">
+          <p className="text-sm text-zinc-400 mt-1">
             {fineCount} fine{fineCount !== 1 ? 's' : ''} paid
           </p>
         </div>

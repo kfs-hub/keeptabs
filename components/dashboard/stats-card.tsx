@@ -25,7 +25,7 @@ export function StatsCard({ title, value, subtitle, icon, trend, className, dela
       )}
     >
       <div className="flex items-start justify-between">
-        <p className="text-sm text-white/50 font-medium">{title}</p>
+        <p className="text-sm text-zinc-500 font-medium">{title}</p>
         <span className="text-2xl">{icon}</span>
       </div>
       <motion.div
@@ -33,13 +33,13 @@ export function StatsCard({ title, value, subtitle, icon, trend, className, dela
         animate={{ scale: 1 }}
         transition={{ duration: 0.3, delay: delay + 0.1 }}
       >
-        <p className="text-3xl font-bold text-white tracking-tight">{value}</p>
+        <p className="text-3xl font-bold text-zinc-900 tracking-tight">{value}</p>
       </motion.div>
-      {subtitle && <p className="text-xs text-white/30">{subtitle}</p>}
+      {subtitle && <p className="text-xs text-zinc-400">{subtitle}</p>}
       {trend && (
         <div className={cn(
           'text-xs font-medium flex items-center gap-1',
-          trend.value >= 0 ? 'text-red-400' : 'text-green-400'
+          trend.value >= 0 ? 'text-red-600' : 'text-green-600'
         )}>
           {trend.value >= 0 ? '↑' : '↓'} {Math.abs(trend.value)}% {trend.label}
         </div>

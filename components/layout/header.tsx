@@ -27,17 +27,17 @@ interface HeaderProps {
 
 export function Header({ profile, group, unreadNotifications, groups }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-30 h-14 border-b border-white/5 bg-[#0a0a14]/80 backdrop-blur-md flex items-center px-4 gap-3">
+    <header className="sticky top-0 z-30 h-14 border-b border-zinc-200 bg-white/80 backdrop-blur-md flex items-center px-4 gap-3">
       {/* Mobile: Logo */}
       <Link href="/dashboard" className="md:hidden flex items-center gap-2 shrink-0">
-        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center text-sm">
+        <div className="w-7 h-7 rounded-lg bg-violet-700 flex items-center justify-center text-sm">
           💸
         </div>
       </Link>
 
       {/* Group Switcher */}
       <div className="flex items-center gap-2">
-        <span className="hidden md:inline text-white/20 text-sm">/</span>
+        <span className="hidden md:inline text-zinc-300 text-sm">/</span>
         <GroupSwitcher groups={groups} activeGroup={group} compact />
       </div>
 
@@ -52,21 +52,21 @@ export function Header({ profile, group, unreadNotifications, groups }: HeaderPr
         {/* User Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-white/5 transition-all">
+            <button className="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-zinc-100 transition-colors">
               <Avatar className="h-7 w-7">
                 <AvatarImage src={profile.avatar_url ?? undefined} />
                 <AvatarFallback className="text-xs">
                   {getInitials(profile.display_name)}
                 </AvatarFallback>
               </Avatar>
-              <span className="hidden sm:block text-sm text-white/70">{profile.display_name}</span>
-              <ChevronDown className="h-3 w-3 text-white/30" />
+              <span className="hidden sm:block text-sm text-zinc-600">{profile.display_name}</span>
+              <ChevronDown className="h-3 w-3 text-zinc-400" />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
             <DropdownMenuLabel>
-              <div className="font-medium text-white">{profile.display_name}</div>
-              <div className="text-white/40 text-xs">@{profile.username}</div>
+              <div className="font-medium text-zinc-900">{profile.display_name}</div>
+              <div className="text-zinc-400 text-xs">@{profile.username}</div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
@@ -78,7 +78,7 @@ export function Header({ profile, group, unreadNotifications, groups }: HeaderPr
             <DropdownMenuSeparator />
             <form action={logoutAction}>
               <DropdownMenuItem asChild>
-                <button type="submit" className="w-full text-red-400 hover:text-red-300">
+                <button type="submit" className="w-full text-red-600 hover:text-red-700">
                   Sign Out
                 </button>
               </DropdownMenuItem>

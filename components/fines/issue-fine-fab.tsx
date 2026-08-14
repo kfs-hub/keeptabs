@@ -27,7 +27,7 @@ export function IssueFineButton({ members, rules, groupId, currency = 'INR' }: I
         onClick={() => setModalOpen(true)}
         className="fixed bottom-20 right-5 md:bottom-8 md:right-8 z-40
           w-14 h-14 rounded-full bg-gradient-to-br from-violet-500 to-violet-700
-          flex items-center justify-center shadow-2xl shadow-violet-500/50
+          flex items-center justify-center shadow-lg shadow-violet-500/20
           border border-violet-400/30 text-white"
         aria-label="Issue a fine"
         title="Issue a Fine"

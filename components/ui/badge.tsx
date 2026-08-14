@@ -3,23 +3,23 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const badgeVariants = cva(
-  'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold transition-all duration-200',
+  'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors duration-150',
   {
     variants: {
       variant: {
-        default: 'bg-violet-500/20 text-violet-300 border border-violet-500/30',
+        default: 'bg-violet-50 text-violet-700 border border-violet-200',
         unpaid: 'badge-unpaid',
         paid: 'badge-paid',
         disputed: 'badge-disputed',
         cancelled: 'badge-cancelled',
-        success: 'bg-green-500/15 text-green-400 border border-green-500/25',
-        warning: 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/25',
-        error: 'bg-red-500/15 text-red-400 border border-red-500/25',
-        info: 'bg-blue-500/15 text-blue-400 border border-blue-500/25',
-        ghost: 'bg-white/5 text-white/50 border border-white/10',
-        admin: 'bg-violet-500/20 text-violet-300 border border-violet-500/30',
-        owner: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
-        member: 'bg-white/5 text-white/50 border border-white/10',
+        success: 'bg-green-50 text-green-700 border border-green-200',
+        warning: 'bg-amber-50 text-amber-700 border border-amber-200',
+        error: 'bg-red-50 text-red-700 border border-red-200',
+        info: 'bg-blue-50 text-blue-700 border border-blue-200',
+        ghost: 'bg-zinc-100 text-zinc-500 border border-zinc-200',
+        admin: 'bg-violet-50 text-violet-700 border border-violet-200',
+        owner: 'bg-amber-50 text-amber-700 border border-amber-200',
+        member: 'bg-zinc-100 text-zinc-500 border border-zinc-200',
       },
     },
     defaultVariants: {

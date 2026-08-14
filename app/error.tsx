@@ -19,11 +19,11 @@ export default function Error({
       <div className="text-center space-y-5 max-w-sm">
         <div className="text-6xl">💀</div>
         <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-white">Something went wrong</h2>
-          <p className="text-white/50 text-sm">
+          <h2 className="text-2xl font-bold text-zinc-900">Something went wrong</h2>
+          <p className="text-zinc-500 text-sm">
             An unexpected error occurred. Don&apos;t worry — it&apos;s not your fault.
             {error.digest && (
-              <span className="block mt-1 font-mono text-xs text-white/25">
+              <span className="block mt-1 font-mono text-xs text-zinc-300">
                 Error: {error.digest}
               </span>
             )}

@@ -31,10 +31,10 @@ interface PaymentHistoryClientProps {
 }
 
 const statusConfig: Record<string, { emoji: string; label: string; color: string }> = {
-  successful: { emoji: '🟢', label: 'Successful', color: 'text-green-400' },
-  processing: { emoji: '🟡', label: 'Processing', color: 'text-yellow-400' },
-  pending:    { emoji: '🟡', label: 'Pending',    color: 'text-yellow-400' },
-  failed:     { emoji: '🔴', label: 'Failed',     color: 'text-red-400' },
+  successful: { emoji: '🟢', label: 'Successful', color: 'text-green-600' },
+  processing: { emoji: '🟡', label: 'Processing', color: 'text-yellow-600' },
+  pending:    { emoji: '🟡', label: 'Pending',    color: 'text-yellow-600' },
+  failed:     { emoji: '🔴', label: 'Failed',     color: 'text-red-600' },
   refunded:   { emoji: '⚪', label: 'Refunded',   color: 'text-gray-400' },
 }
 
@@ -86,8 +86,8 @@ export function PaymentHistoryClient({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">💳 Payment History</h1>
-          <p className="text-white/40 text-sm mt-1">{total} total payment{total !== 1 ? 's' : ''}</p>
+          <h1 className="text-2xl font-bold text-zinc-900">💳 Payment History</h1>
+          <p className="text-zinc-400 text-sm mt-1">{total} total payment{total !== 1 ? 's' : ''}</p>
         </div>
 
         {/* Status filter */}
@@ -111,9 +111,9 @@ export function PaymentHistoryClient({
       {/* Empty state */}
       {payments.length === 0 ? (
         <div className="glass-card rounded-2xl p-12 text-center">
-          <History className="h-12 w-12 text-white/20 mx-auto mb-3" />
-          <p className="text-white/50">No payments yet.</p>
-          <p className="text-white/30 text-sm mt-1">Your payment records will appear here.</p>
+          <History className="h-12 w-12 text-zinc-300 mx-auto mb-3" />
+          <p className="text-zinc-500">No payments yet.</p>
+          <p className="text-zinc-400 text-sm mt-1">Your payment records will appear here.</p>
         </div>
       ) : (
         <motion.div variants={container} initial="hidden" animate="show" className="space-y-3">
@@ -137,26 +137,26 @@ export function PaymentHistoryClient({
                       </Avatar>
                     )}
                     {(isOwn || !isAdmin) && (
-                      <div className="w-9 h-9 rounded-full bg-violet-500/20 flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-full bg-violet-100 flex items-center justify-center shrink-0">
                         <span className="text-lg">💳</span>
                       </div>
                     )}
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-semibold text-white">
+                        <span className="font-semibold text-zinc-900">
                           {formatCurrency(payment.amount, currency)}
                         </span>
                         <span className={`text-xs font-medium ${config.color}`}>
                           {config.emoji} {config.label}
                         </span>
                       </div>
-                      <p className="text-xs text-white/40 mt-0.5">
+                      <p className="text-xs text-zinc-400 mt-0.5">
                         {isAdmin && !isOwn && payment.profiles ? `${payment.profiles.display_name} · ` : ''}
                         {formatDate(payment.created_at)}
                       </p>
                       {fines.length > 0 && (
-                        <p className="text-xs text-white/30 mt-0.5">
+                        <p className="text-xs text-zinc-400 mt-0.5">
                           {fines.length} fine{fines.length !== 1 ? 's' : ''} covered
                         </p>
                       )}
@@ -166,7 +166,7 @@ export function PaymentHistoryClient({
                     {fines.length > 0 && (
                       <button
                         onClick={() => toggleExpand(payment.id)}
-                        className="p-1.5 rounded-lg text-white/30 hover:text-white hover:bg-white/5 transition-all"
+                        className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-900 hover:bg-zinc-50 transition-all"
                       >
                         {isExpanded
                           ? <ChevronUp className="h-4 w-4" />
@@ -183,21 +183,21 @@ export function PaymentHistoryClient({
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.2 }}
-                      className="border-t border-white/5 px-4 pb-4"
+                      className="border-t border-zinc-200 px-4 pb-4"
                     >
-                      <p className="text-xs text-white/30 uppercase tracking-wider pt-3 pb-2 font-medium">
+                      <p className="text-xs text-zinc-400 uppercase tracking-wider pt-3 pb-2 font-medium">
                         Fines Covered
                       </p>
                       <div className="space-y-2">
                         {fines.map((pf: any) => (
                           <div
                             key={pf.fine_id}
-                            className="flex items-center justify-between text-sm bg-white/3 rounded-lg px-3 py-2"
+                            className="flex items-center justify-between text-sm bg-zinc-50 rounded-lg px-3 py-2"
                           >
-                            <span className="text-white/70">
+                            <span className="text-zinc-600">
                               {pf.fines?.rules?.name ?? pf.fines?.description ?? 'Custom fine'}
                             </span>
-                            <span className="text-white font-medium">
+                            <span className="text-zinc-900 font-medium">
                               {formatCurrency(pf.amount, currency)}
                             </span>
                           </div>
@@ -206,7 +206,7 @@ export function PaymentHistoryClient({
 
                       {/* Payment ID — only visible to the payer */}
                       {isOwn && payment.razorpay_payment_id && (
-                        <p className="text-[10px] text-white/20 mt-3 font-mono truncate">
+                        <p className="text-[10px] text-zinc-300 mt-3 font-mono truncate">
                           Ref: {payment.razorpay_payment_id}
                         </p>
                       )}
@@ -230,7 +230,7 @@ export function PaymentHistoryClient({
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <span className="text-sm text-white/50">
+          <span className="text-sm text-zinc-500">
             Page {page} of {totalPages}
           </span>
           <Button

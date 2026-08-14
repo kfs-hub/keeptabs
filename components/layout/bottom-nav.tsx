@@ -24,7 +24,7 @@ export function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-[#0a0a14]/95 backdrop-blur-md">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-200 bg-white/95 backdrop-blur-md">
       <div className="flex items-center justify-around px-2 h-16">
         {mobileNavItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
@@ -38,7 +38,7 @@ export function BottomNav() {
                 whileTap={{ scale: 0.85 }}
                 className={cn(
                   'flex flex-col items-center gap-1 px-2 py-1.5 rounded-xl transition-colors duration-150',
-                  isActive ? 'text-violet-400' : 'text-white/30'
+                  isActive ? 'text-violet-700' : 'text-zinc-400'
                 )}
               >
                 {item.icon}
@@ -46,7 +46,7 @@ export function BottomNav() {
                 {isActive && (
                   <motion.div
                     layoutId="bottom-nav-indicator"
-                    className="absolute bottom-1 w-1 h-1 rounded-full bg-violet-400"
+                    className="absolute bottom-1 w-1 h-1 rounded-full bg-violet-600"
                   />
                 )}
               </motion.div>

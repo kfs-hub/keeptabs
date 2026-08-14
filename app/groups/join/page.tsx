@@ -37,8 +37,8 @@ export default function JoinGroupPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-bold text-white">Join a Group</h1>
-        <p className="text-white/50 mt-1">Enter your invite code to join your friends.</p>
+        <h1 className="text-2xl font-bold text-zinc-900">Join a Group</h1>
+        <p className="text-zinc-500 mt-1">Enter your invite code to join your friends.</p>
       </div>
       <Card>
         <CardContent className="p-6">
@@ -54,7 +54,7 @@ export default function JoinGroupPage() {
                 required
                 onChange={(e) => { e.target.value = e.target.value.toUpperCase() }}
               />
-              <p className="text-xs text-white/30">Ask a group member for the code.</p>
+              <p className="text-xs text-zinc-400">Ask a group member for the code.</p>
             </div>
             <Button type="submit" className="w-full" size="lg" loading={loading}>
               <Link2 className="h-4 w-4" />

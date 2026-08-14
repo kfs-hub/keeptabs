@@ -21,30 +21,30 @@ export function YourBalance({ amountOwed, unpaidCount, currency = 'INR' }: YourB
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4, delay: 0.2 }}
       className={`glass-card rounded-2xl p-6 relative overflow-hidden ${
-        !isClear ? 'border-red-500/20' : 'border-green-500/20'
+        !isClear ? 'border-red-200' : 'border-green-200'
       }`}
     >
       {/* Background glow */}
       {!isClear && (
-        <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-32 h-32 bg-red-50 rounded-full blur-2xl pointer-events-none" />
       )}
       {isClear && (
-        <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-32 h-32 bg-green-50 rounded-full blur-2xl pointer-events-none" />
       )}
 
       <div className="relative space-y-4">
         <div>
-          <p className="text-sm text-white/50">You owe</p>
-          <p className={`text-4xl font-bold mt-1 ${isClear ? 'text-green-400' : 'text-red-400'}`}>
+          <p className="text-sm text-zinc-500">You owe</p>
+          <p className={`text-4xl font-bold mt-1 ${isClear ? 'text-green-600' : 'text-red-600'}`}>
             {formatCurrency(amountOwed, currency)}
           </p>
           {!isClear && (
-            <p className="text-xs text-white/30 mt-1">
+            <p className="text-xs text-zinc-400 mt-1">
               {unpaidCount} unpaid fine{unpaidCount !== 1 ? 's' : ''}
             </p>
           )}
           {isClear && (
-            <p className="text-xs text-green-400/70 mt-1">🎉 You&apos;re all clear!</p>
+            <p className="text-xs text-green-600/70 mt-1">🎉 You&apos;re all clear!</p>
           )}
         </div>
 

@@ -72,9 +72,9 @@ export function DisputesClient({ disputes, groupId, currency }: DisputesClientPr
   return (
     <div className="space-y-5">
       <div className="flex items-center gap-2">
-        <h2 className="text-lg font-semibold text-white">⚖️ Disputes</h2>
+        <h2 className="text-lg font-semibold text-zinc-900">⚖️ Disputes</h2>
         {pending.length > 0 && (
-          <span className="px-2 py-0.5 text-xs rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 font-medium">
+          <span className="px-2 py-0.5 text-xs rounded-full bg-yellow-100 text-yellow-600 border border-yellow-200 font-medium">
             {pending.length} pending
           </span>
         )}
@@ -82,8 +82,8 @@ export function DisputesClient({ disputes, groupId, currency }: DisputesClientPr
 
       {disputes.length === 0 ? (
         <div className="glass-card rounded-2xl p-12 text-center">
-          <Scale className="h-10 w-10 text-white/20 mx-auto mb-3" />
-          <p className="text-white/50">No disputes. Everyone&apos;s accepted their fate.</p>
+          <Scale className="h-10 w-10 text-zinc-300 mx-auto mb-3" />
+          <p className="text-zinc-500">No disputes. Everyone&apos;s accepted their fate.</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -104,29 +104,29 @@ export function DisputesClient({ disputes, groupId, currency }: DisputesClientPr
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-semibold text-white text-sm">{d.submitter?.display_name}</p>
-                    <p className="text-xs text-white/40">{formatRelativeTime(d.created_at)}</p>
+                    <p className="font-semibold text-zinc-900 text-sm">{d.submitter?.display_name}</p>
+                    <p className="text-xs text-zinc-400">{formatRelativeTime(d.created_at)}</p>
                   </div>
                 </div>
                 <Badge variant="disputed" className="text-[10px] shrink-0">🟡 Pending</Badge>
               </div>
 
               {/* Fine details */}
-              <div className="bg-white/3 rounded-xl p-3 text-sm space-y-1">
+              <div className="bg-zinc-50 rounded-xl p-3 text-sm space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-white/60">{d.fine?.rule?.name ?? 'Custom fine'}</span>
-                  <span className="font-bold text-white">{formatCurrency(d.fine?.amount ?? 0, currency)}</span>
+                  <span className="text-zinc-500">{d.fine?.rule?.name ?? 'Custom fine'}</span>
+                  <span className="font-bold text-zinc-900">{formatCurrency(d.fine?.amount ?? 0, currency)}</span>
                 </div>
                 {d.fine?.description && (
-                  <p className="text-xs text-white/35 italic">&quot;{d.fine.description}&quot;</p>
+                  <p className="text-xs text-zinc-400 italic">&quot;{d.fine.description}&quot;</p>
                 )}
-                <p className="text-xs text-white/30">Reported by {d.fine?.reporter?.display_name}</p>
+                <p className="text-xs text-zinc-400">Reported by {d.fine?.reporter?.display_name}</p>
               </div>
 
               {/* Dispute reason */}
               <div className="bg-yellow-500/5 border border-yellow-500/15 rounded-xl p-3">
-                <p className="text-xs text-yellow-400/80 font-medium mb-1">Their argument:</p>
-                <p className="text-sm text-white/70 italic">&quot;{d.reason}&quot;</p>
+                <p className="text-xs text-yellow-600/80 font-medium mb-1">Their argument:</p>
+                <p className="text-sm text-zinc-600 italic">&quot;{d.reason}&quot;</p>
               </div>
 
               {/* Actions */}
@@ -168,17 +168,17 @@ export function DisputesClient({ disputes, groupId, currency }: DisputesClientPr
           {/* Resolved */}
           {resolved.length > 0 && (
             <div>
-              <p className="text-xs text-white/30 uppercase tracking-wider font-medium px-1 mb-2">
+              <p className="text-xs text-zinc-400 uppercase tracking-wider font-medium px-1 mb-2">
                 Resolved ({resolved.length})
               </p>
               <div className="space-y-2">
                 {resolved.map((d) => (
                   <div key={d.id} className="glass-card rounded-xl p-4 opacity-60 flex items-center justify-between gap-3">
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-white truncate">
+                      <p className="text-sm font-medium text-zinc-900 truncate">
                         {d.submitter?.display_name} · {d.fine?.rule?.name ?? 'Fine'}
                       </p>
-                      <p className="text-xs text-white/35">{d.resolution}</p>
+                      <p className="text-xs text-zinc-400">{d.resolution}</p>
                     </div>
                     <Badge
                       variant={d.status === 'cancelled' ? 'paid' : d.status === 'approved' ? 'unpaid' : 'disputed'}
@@ -205,7 +205,7 @@ export function DisputesClient({ disputes, groupId, currency }: DisputesClientPr
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => handleApprove(approveConfirm)} className="bg-red-500/20 text-red-400 border-red-500/30 hover:bg-red-500/30">
+            <AlertDialogAction onClick={() => handleApprove(approveConfirm)} className="bg-red-100 text-red-600 border-red-200 hover:bg-red-500/30">
               Deny Dispute
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -235,7 +235,7 @@ export function DisputesClient({ disputes, groupId, currency }: DisputesClientPr
         <DialogContent className="max-w-sm">
           <DialogHeader><DialogTitle>Modify Fine Amount</DialogTitle></DialogHeader>
           <div className="space-y-3">
-            <p className="text-sm text-white/50">
+            <p className="text-sm text-zinc-500">
               Current: {formatCurrency(modifyDispute?.fine?.amount ?? 0, currency)} for{' '}
               {modifyDispute?.submitter?.display_name}
             </p>

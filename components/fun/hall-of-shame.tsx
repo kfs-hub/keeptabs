@@ -18,7 +18,7 @@ interface HallOfShameProps {
 }
 
 const rankStyles = [
-  { border: 'border-yellow-500/30', bg: 'bg-yellow-500/5', badge: '👑 #1', badgeColor: 'text-yellow-400' },
+  { border: 'border-yellow-200', bg: 'bg-yellow-500/5', badge: '👑 #1', badgeColor: 'text-yellow-600' },
   { border: 'border-gray-400/20',   bg: 'bg-gray-500/5',   badge: '🥈 #2', badgeColor: 'text-gray-400' },
   { border: 'border-amber-700/20',  bg: 'bg-amber-900/5',  badge: '🥉 #3', badgeColor: 'text-amber-600' },
 ]
@@ -29,10 +29,10 @@ export function HallOfShame({ fines, currency = 'INR' }: HallOfShameProps) {
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2 px-1">
-        <h3 className="text-sm font-semibold text-white/60 uppercase tracking-widest">
+        <h3 className="text-sm font-semibold text-zinc-500 uppercase tracking-widest">
           🏛️ Hall of Shame
         </h3>
-        <span className="text-xs text-white/30">All-time legendary fines</span>
+        <span className="text-xs text-zinc-400">All-time legendary fines</span>
       </div>
 
       <div className="space-y-2">
@@ -53,14 +53,14 @@ export function HallOfShame({ fines, currency = 'INR' }: HallOfShameProps) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <p className="font-semibold text-white truncate">{fine.finedUserName}</p>
-                      <p className="text-xs text-white/50">{fine.ruleName}</p>
+                      <p className="font-semibold text-zinc-900 truncate">{fine.finedUserName}</p>
+                      <p className="text-xs text-zinc-500">{fine.ruleName}</p>
                       {fine.description && (
-                        <p className="text-xs text-white/35 italic mt-1 line-clamp-2">
+                        <p className="text-xs text-zinc-400 italic mt-1 line-clamp-2">
                           &quot;{fine.description}&quot;
                         </p>
                       )}
-                      <p className="text-[11px] text-white/20 mt-1.5">{formatDate(fine.createdAt)}</p>
+                      <p className="text-[11px] text-zinc-300 mt-1.5">{formatDate(fine.createdAt)}</p>
                     </div>
                     <p className={`text-lg font-bold shrink-0 ${style.badgeColor}`}>
                       {formatCurrency(fine.amount, currency)}

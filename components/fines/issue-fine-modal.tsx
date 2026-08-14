@@ -106,7 +106,7 @@ export function IssueFineModal({
             {step !== 'who' && (
               <button
                 onClick={() => setStep(step === 'review' ? 'what' : 'who')}
-                className="p-1 rounded-lg text-white/40 hover:text-white hover:bg-white/5 transition-all"
+                className="p-1 rounded-lg text-zinc-400 hover:text-zinc-900 hover:bg-zinc-50 transition-all"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -121,7 +121,7 @@ export function IssueFineModal({
                 className={`h-1 flex-1 rounded-full transition-all ${
                   ['who', 'what', 'review'].indexOf(step) >= i
                     ? 'bg-violet-500'
-                    : 'bg-white/10'
+                    : 'bg-zinc-100'
                 }`}
               />
             ))}
@@ -145,17 +145,17 @@ export function IssueFineModal({
                     setSelectedMember(member)
                     setStep('what')
                   }}
-                  className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 border border-white/5 hover:border-violet-500/30 transition-all text-left group"
+                  className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-zinc-50 border border-zinc-200 hover:border-violet-200 transition-all text-left group"
                 >
                   <Avatar className="h-10 w-10">
                     <AvatarImage src={member.avatar_url ?? undefined} />
                     <AvatarFallback>{getInitials(member.display_name)}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium text-white">{member.display_name}</p>
-                    <p className="text-xs text-white/40">@{member.username}</p>
+                    <p className="font-medium text-zinc-900">{member.display_name}</p>
+                    <p className="text-xs text-zinc-400">@{member.username}</p>
                   </div>
-                  <ChevronLeft className="ml-auto h-4 w-4 text-white/20 group-hover:text-violet-400 rotate-180 transition-colors" />
+                  <ChevronLeft className="ml-auto h-4 w-4 text-zinc-300 group-hover:text-violet-600 rotate-180 transition-colors" />
                 </button>
               ))}
             </motion.div>
@@ -171,7 +171,7 @@ export function IssueFineModal({
               className="space-y-2 mt-2"
             >
               {activeRules.length === 0 ? (
-                <div className="text-center py-8 text-white/40">
+                <div className="text-center py-8 text-zinc-400">
                   <AlertTriangle className="h-8 w-8 mx-auto mb-2" />
                   <p>No active rules. Create some rules first.</p>
                 </div>
@@ -184,15 +184,15 @@ export function IssueFineModal({
                       setCustomAmount(rule.default_amount.toString())
                       setStep('review')
                     }}
-                    className="w-full flex items-center justify-between gap-3 p-3 rounded-xl hover:bg-white/5 border border-white/5 hover:border-violet-500/30 transition-all text-left"
+                    className="w-full flex items-center justify-between gap-3 p-3 rounded-xl hover:bg-zinc-50 border border-zinc-200 hover:border-violet-200 transition-all text-left"
                   >
                     <div>
-                      <p className="font-medium text-white">{rule.name}</p>
+                      <p className="font-medium text-zinc-900">{rule.name}</p>
                       {rule.description && (
-                        <p className="text-xs text-white/40 line-clamp-1">{rule.description}</p>
+                        <p className="text-xs text-zinc-400 line-clamp-1">{rule.description}</p>
                       )}
                     </div>
-                    <span className="text-sm font-semibold text-violet-400 shrink-0">
+                    <span className="text-sm font-semibold text-violet-600 shrink-0">
                       {formatCurrency(rule.default_amount, currency)}
                     </span>
                   </button>
@@ -205,7 +205,7 @@ export function IssueFineModal({
                   setCustomAmount('')
                   setStep('review')
                 }}
-                className="w-full p-3 rounded-xl border border-dashed border-white/10 hover:border-violet-500/30 text-white/40 hover:text-white text-sm transition-all"
+                className="w-full p-3 rounded-xl border border-dashed border-zinc-200 hover:border-violet-200 text-zinc-400 hover:text-zinc-900 text-sm transition-all"
               >
                 + Custom Fine (no specific rule)
               </button>
@@ -222,15 +222,15 @@ export function IssueFineModal({
               className="space-y-4 mt-2"
             >
               {/* Summary */}
-              <div className="bg-white/3 rounded-xl p-4 space-y-2">
+              <div className="bg-zinc-50 rounded-xl p-4 space-y-2">
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10">
                     <AvatarImage src={selectedMember.avatar_url ?? undefined} />
                     <AvatarFallback>{getInitials(selectedMember.display_name)}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium text-white">{selectedMember.display_name}</p>
-                    <p className="text-xs text-white/40">
+                    <p className="font-medium text-zinc-900">{selectedMember.display_name}</p>
+                    <p className="text-xs text-zinc-400">
                       {selectedRule?.name ?? 'Custom fine'}
                     </p>
                   </div>
@@ -241,7 +241,7 @@ export function IssueFineModal({
               <div className="space-y-1.5">
                 <Label>Fine Amount</Label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">
                     {currency === 'INR' ? '₹' : currency}
                   </span>
                   <Input
@@ -272,20 +272,20 @@ export function IssueFineModal({
               <div className="space-y-1.5">
                 <Label>Evidence (optional)</Label>
                 {evidenceFile ? (
-                  <div className="flex items-center gap-2 p-3 bg-white/5 rounded-xl border border-white/10">
-                    <Upload className="h-4 w-4 text-green-400" />
-                    <span className="text-sm text-white/70 flex-1 truncate">{evidenceFile.name}</span>
+                  <div className="flex items-center gap-2 p-3 bg-zinc-50 rounded-xl border border-zinc-200">
+                    <Upload className="h-4 w-4 text-green-600" />
+                    <span className="text-sm text-zinc-600 flex-1 truncate">{evidenceFile.name}</span>
                     <button
                       onClick={() => setEvidenceFile(null)}
-                      className="text-white/30 hover:text-white/60"
+                      className="text-zinc-400 hover:text-zinc-500"
                     >
                       <X className="h-4 w-4" />
                     </button>
                   </div>
                 ) : (
-                  <label className="flex items-center gap-2 p-3 rounded-xl border border-dashed border-white/10 hover:border-violet-500/30 cursor-pointer transition-all">
-                    <Upload className="h-4 w-4 text-white/30" />
-                    <span className="text-sm text-white/40">Upload image evidence (optional)</span>
+                  <label className="flex items-center gap-2 p-3 rounded-xl border border-dashed border-zinc-200 hover:border-violet-200 cursor-pointer transition-all">
+                    <Upload className="h-4 w-4 text-zinc-400" />
+                    <span className="text-sm text-zinc-400">Upload image evidence (optional)</span>
                     <input
                       type="file"
                       accept="image/*"

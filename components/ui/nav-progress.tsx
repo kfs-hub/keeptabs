@@ -48,7 +48,7 @@ export function NavProgress() {
           transition={{ duration: 0.3 }}
         >
           <motion.div
-            className="h-full bg-gradient-to-r from-violet-500 via-violet-400 to-purple-400 shadow-[0_0_8px_rgba(124,58,237,0.8)]"
+            className="h-full bg-violet-700"
             initial={{ width: '0%' }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: progress === 100 ? 0.2 : 0.8, ease: 'easeOut' }}

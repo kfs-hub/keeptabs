@@ -30,9 +30,9 @@ function ChartCard({ title, subtitle, children }: { title: string; subtitle?: st
       transition={{ duration: 0.4 }}
       className="glass-card rounded-2xl overflow-hidden"
     >
-      <div className="px-5 py-4 border-b border-white/5">
-        <h3 className="font-semibold text-white text-sm">{title}</h3>
-        {subtitle && <p className="text-xs text-white/30 mt-0.5">{subtitle}</p>}
+      <div className="px-5 py-4 border-b border-zinc-200">
+        <h3 className="font-semibold text-zinc-900 text-sm">{title}</h3>
+        {subtitle && <p className="text-xs text-zinc-400 mt-0.5">{subtitle}</p>}
       </div>
       <div className="p-4">{children}</div>
     </motion.div>
@@ -46,12 +46,12 @@ export function StatsClient({ currency, overview, finesByPerson, finesByRule, fi
     return (
       <div className="max-w-3xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-white">📊 Statistics</h1>
+          <h1 className="text-2xl font-bold text-zinc-900">📊 Statistics</h1>
         </div>
         <div className="glass-card rounded-2xl p-14 text-center">
           <p className="text-4xl mb-3">📈</p>
-          <p className="text-white/50">No data yet.</p>
-          <p className="text-white/30 text-sm mt-1">Issue some fines and charts will appear here.</p>
+          <p className="text-zinc-500">No data yet.</p>
+          <p className="text-zinc-400 text-sm mt-1">Issue some fines and charts will appear here.</p>
         </div>
       </div>
     )
@@ -61,8 +61,8 @@ export function StatsClient({ currency, overview, finesByPerson, finesByRule, fi
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white">📊 Statistics</h1>
-        <p className="text-white/40 text-sm mt-1">Group crime analytics</p>
+        <h1 className="text-2xl font-bold text-zinc-900">📊 Statistics</h1>
+        <p className="text-zinc-400 text-sm mt-1">Group crime analytics</p>
       </div>
 
       {/* Overview cards */}

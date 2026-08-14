@@ -46,8 +46,8 @@ export function RulesClient({ rules, ruleStats, groupId, currency, isAdmin }: Ru
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">📜 Rules</h1>
-          <p className="text-white/40 text-sm mt-1">
+          <h1 className="text-2xl font-bold text-zinc-900">📜 Rules</h1>
+          <p className="text-zinc-400 text-sm mt-1">
             {activeRules.length} active rule{activeRules.length !== 1 ? 's' : ''}
           </p>
         </div>
@@ -62,7 +62,7 @@ export function RulesClient({ rules, ruleStats, groupId, currency, isAdmin }: Ru
       {/* Hall of Shame */}
       {hallOfShame.length > 0 && (
         <div className="glass-card rounded-2xl p-5 border border-red-500/10">
-          <h3 className="text-sm font-semibold text-white/60 uppercase tracking-widest mb-4">
+          <h3 className="text-sm font-semibold text-zinc-500 uppercase tracking-widest mb-4">
             🔥 Hall of Shame — Most Broken Rules
           </h3>
           <div className="grid sm:grid-cols-3 gap-3">
@@ -77,8 +77,8 @@ export function RulesClient({ rules, ruleStats, groupId, currency, isAdmin }: Ru
                 <div className="text-2xl mb-1">
                   {i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'}
                 </div>
-                <p className="text-sm font-semibold text-white line-clamp-1">{rule.name}</p>
-                <p className="text-xs text-white/40 mt-1">
+                <p className="text-sm font-semibold text-zinc-900 line-clamp-1">{rule.name}</p>
+                <p className="text-xs text-zinc-400 mt-1">
                   Broken {ruleStats[rule.id]?.count ?? 0}× ·{' '}
                   {formatCurrency(ruleStats[rule.id]?.total ?? 0, currency)}
                 </p>
@@ -91,9 +91,9 @@ export function RulesClient({ rules, ruleStats, groupId, currency, isAdmin }: Ru
       {/* Rules Tabs */}
       {rules.length === 0 ? (
         <div className="glass-card rounded-2xl p-12 text-center">
-          <ScrollText className="h-12 w-12 text-white/20 mx-auto mb-4" />
-          <p className="text-white/50">No rules yet.</p>
-          <p className="text-white/30 text-sm mt-1">📜 Pure anarchy.</p>
+          <ScrollText className="h-12 w-12 text-zinc-300 mx-auto mb-4" />
+          <p className="text-zinc-500">No rules yet.</p>
+          <p className="text-zinc-400 text-sm mt-1">📜 Pure anarchy.</p>
           {isAdmin && (
             <Button onClick={() => setShowForm(true)} className="mt-4" size="sm">
               Create First Rule
@@ -111,7 +111,7 @@ export function RulesClient({ rules, ruleStats, groupId, currency, isAdmin }: Ru
 
           <TabsContent value="active">
             {activeRules.length === 0 ? (
-              <div className="glass-card rounded-2xl p-8 text-center text-white/40">
+              <div className="glass-card rounded-2xl p-8 text-center text-zinc-400">
                 No active rules.
               </div>
             ) : (

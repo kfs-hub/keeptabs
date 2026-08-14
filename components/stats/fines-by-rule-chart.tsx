@@ -21,10 +21,10 @@ const CustomTooltip = ({ active, payload, currency }: any) => {
   if (!active || !payload?.length) return null
   const d = payload[0].payload
   return (
-    <div className="glass border border-white/10 rounded-xl px-4 py-3 shadow-2xl">
-      <p className="text-white font-semibold text-sm mb-1">{d.name}</p>
-      <p className="text-xs text-white/60">Broken: {d.count}×</p>
-      <p className="text-xs text-violet-400">Total: {formatCurrency(d.amount, currency)}</p>
+    <div className="glass border border-zinc-200 rounded-xl px-4 py-3 shadow-2xl">
+      <p className="text-zinc-900 font-semibold text-sm mb-1">{d.name}</p>
+      <p className="text-xs text-zinc-500">Broken: {d.count}×</p>
+      <p className="text-xs text-violet-600">Total: {formatCurrency(d.amount, currency)}</p>
     </div>
   )
 }
@@ -44,7 +44,7 @@ const renderLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: an
 
 export function FinesByRuleChart({ data, currency = 'INR' }: FinesByRuleChartProps) {
   if (!data.length) return (
-    <div className="h-64 flex items-center justify-center text-white/30 text-sm">No data yet</div>
+    <div className="h-64 flex items-center justify-center text-zinc-400 text-sm">No data yet</div>
   )
 
   return (

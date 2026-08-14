@@ -19,8 +19,8 @@ interface FinesByMonthChartProps {
 const CustomTooltip = ({ active, payload, label, currency }: any) => {
   if (!active || !payload?.length) return null
   return (
-    <div className="glass border border-white/10 rounded-xl px-4 py-3 shadow-2xl">
-      <p className="text-white font-semibold text-sm mb-2">{label}</p>
+    <div className="glass border border-zinc-200 rounded-xl px-4 py-3 shadow-2xl">
+      <p className="text-zinc-900 font-semibold text-sm mb-2">{label}</p>
       {payload.map((p: any, i: number) => (
         <p key={i} className="text-xs" style={{ color: p.stroke }}>
           {p.dataKey === 'amount'
@@ -34,7 +34,7 @@ const CustomTooltip = ({ active, payload, label, currency }: any) => {
 
 export function FinesByMonthChart({ data, currency = 'INR' }: FinesByMonthChartProps) {
   if (!data.length) return (
-    <div className="h-64 flex items-center justify-center text-white/30 text-sm">No data yet</div>
+    <div className="h-64 flex items-center justify-center text-zinc-400 text-sm">No data yet</div>
   )
 
   return (

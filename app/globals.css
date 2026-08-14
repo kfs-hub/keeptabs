@@ -1,39 +1,36 @@
 @import "tailwindcss";
 
 /* =============================================================================
-   Keep Tabs - Global Styles
-   Dark mode by default, glassmorphism, premium feel
+   Keep Tabs — Global Styles
+   Light, airy, minimal. Neutral surfaces, one confident accent, quiet borders.
 ============================================================================= */
 
 :root {
-  /* Brand Colors */
-  --brand-primary: #7c3aed;      /* violet-600 */
-  --brand-secondary: #6d28d9;    /* violet-700 */
-  --brand-accent: #a78bfa;       /* violet-400 */
-  --brand-glow: rgba(124, 58, 237, 0.4);
+  /* Brand */
+  --brand-primary: #6d28d9;      /* violet-700 — accessible on white */
+  --brand-secondary: #5b21b6;    /* violet-800 (hover/active) */
+  --brand-accent: #7c3aed;       /* violet-600 (lighter touches, icons) */
+  --brand-subtle: #f5f3ff;       /* violet-50 (tinted fills) */
 
-  /* Dark Background */
-  --bg-base: #0a0a0f;
-  --bg-surface: #0f0f1a;
-  --bg-elevated: #14142b;
-  --bg-card: rgba(255, 255, 255, 0.04);
-  --bg-card-hover: rgba(255, 255, 255, 0.07);
+  /* Surfaces */
+  --bg-base: #fafafa;
+  --bg-surface: #ffffff;
+  --bg-muted: #f4f4f5;
 
-  /* Glass */
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  /* Borders */
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
 
   /* Text */
-  --text-primary: #f1f0ff;
-  --text-secondary: #a09ec0;
-  --text-muted: #6b6891;
+  --text-primary: #18181b;
+  --text-secondary: #52525b;
+  --text-muted: #a1a1aa;
 
   /* Status Colors */
-  --color-success: #4ade80;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
-  --color-info: #60a5fa;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-error: #dc2626;
+  --color-info: #2563eb;
 
   /* Spacing */
   --sidebar-width: 240px;
@@ -41,9 +38,8 @@
   --bottom-nav-height: 64px;
 }
 
-/* Force dark mode as default */
 html {
-  color-scheme: dark;
+  color-scheme: light;
   background-color: var(--bg-base);
 }
 
@@ -54,6 +50,16 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+/* Tighter, more deliberate heading rhythm */
+h1, h2, h3 {
+  letter-spacing: -0.02em;
+}
+
+/* Money reads cleanest with tabular figures */
+.font-mono, .tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 
 /* =============================================================================
@@ -69,174 +75,132 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(124, 58, 237, 0.4);
+  background: rgba(24, 24, 27, 0.15);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(124, 58, 237, 0.7);
+  background: rgba(24, 24, 27, 0.3);
 }
 
 /* =============================================================================
-   Gradient Backgrounds
+   Page Backgrounds — quiet, no glow
 ============================================================================= */
 .bg-app-gradient {
-  background: radial-gradient(ellipse at top left, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
-              radial-gradient(ellipse at bottom right, rgba(109, 40, 217, 0.1) 0%, transparent 50%),
-              var(--bg-base);
+  background: var(--bg-base);
 }
 
 .bg-auth-gradient {
-  background: radial-gradient(ellipse at 30% 20%, rgba(124, 58, 237, 0.25) 0%, transparent 60%),
-              radial-gradient(ellipse at 70% 80%, rgba(167, 139, 250, 0.15) 0%, transparent 60%),
-              var(--bg-base);
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(109, 40, 217, 0.06) 0%, transparent 55%),
+    var(--bg-base);
 }
 
 /* =============================================================================
-   Glass Utilities
+   Card / Surface Utilities
+   (kept as class names so every page already using them updates automatically)
 ============================================================================= */
 .glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
 }
 
 .glass-popover {
-  background: rgba(18, 18, 34, 0.96);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 32px rgba(24, 24, 27, 0.12);
 }
 
 .glass-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .glass-card:hover {
-  background: var(--bg-card-hover);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  border-color: var(--border-strong);
+  box-shadow: 0 4px 12px rgba(24, 24, 27, 0.06);
 }
 
 /* =============================================================================
-   Gradient Text
+   Gradient Text — used sparingly, as the one signature flourish
 ============================================================================= */
 .gradient-text {
-  background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 50%, #6d28d9 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-text-warm {
-  background: linear-gradient(135deg, #fbbf24 0%, #f97316 50%, #ef4444 100%);
+  background: linear-gradient(135deg, #d97706 0%, #dc2626 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 /* =============================================================================
-   Brand Button
+   Brand Button (legacy hook — Button component now defines its own variants,
+   kept here in case any page references .btn-brand directly)
 ============================================================================= */
 .btn-brand {
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  background: var(--brand-primary);
   color: white;
   font-weight: 600;
-  border: 1px solid rgba(167, 139, 250, 0.3);
-  box-shadow: 0 0 20px rgba(124, 58, 237, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transition: all 0.2s ease;
+  border: 1px solid var(--brand-primary);
+  transition: background 0.15s ease;
 }
 
 .btn-brand:hover {
-  background: linear-gradient(135deg, #6d28d9, #5b21b6);
-  box-shadow: 0 0 30px rgba(124, 58, 237, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  transform: translateY(-1px);
-}
-
-.btn-brand:active {
-  transform: translateY(0);
+  background: var(--brand-secondary);
+  border-color: var(--brand-secondary);
 }
 
 /* =============================================================================
    Status Badges
 ============================================================================= */
 .badge-unpaid {
-  background: rgba(248, 113, 113, 0.15);
-  color: #f87171;
-  border: 1px solid rgba(248, 113, 113, 0.3);
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
 }
 
 .badge-paid {
-  background: rgba(74, 222, 128, 0.15);
-  color: #4ade80;
-  border: 1px solid rgba(74, 222, 128, 0.3);
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
 }
 
 .badge-disputed {
-  background: rgba(251, 191, 36, 0.15);
-  color: #fbbf24;
-  border: 1px solid rgba(251, 191, 36, 0.3);
+  background: #fffbeb;
+  color: #d97706;
+  border: 1px solid #fde68a;
 }
 
 .badge-cancelled {
-  background: rgba(156, 163, 175, 0.15);
-  color: #9ca3af;
-  border: 1px solid rgba(156, 163, 175, 0.3);
+  background: var(--bg-muted);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
 }
 
 /* =============================================================================
-   Input Styling (dark theme overrides)
+   Input Styling
 ============================================================================= */
 input, textarea, select {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
+  background: var(--bg-surface) !important;
+  border-color: var(--border) !important;
   color: var(--text-primary) !important;
 }
 
 input:focus, textarea:focus, select:focus {
   border-color: var(--brand-primary) !important;
-  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2) !important;
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12) !important;
   outline: none !important;
 }
 
 input::placeholder, textarea::placeholder {
   color: var(--text-muted) !important;
-}
-
-/* =============================================================================
-   Animated Background Particles (subtle)
-============================================================================= */
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
-  50% { transform: translateY(-20px) rotate(180deg); opacity: 0.6; }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.6); }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-.shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.05) 25%,
-    rgba(255, 255, 255, 0.1) 50%,
-    rgba(255, 255, 255, 0.05) 75%
-  );
-  background-size: 200% auto;
-  animation: shimmer 1.5s linear infinite;
 }
 
 /* =============================================================================
@@ -270,12 +234,17 @@ input::placeholder, textarea::placeholder {
 /* =============================================================================
    Skeleton Loader
 ============================================================================= */
-.skeleton {
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.skeleton, .shimmer {
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.05) 25%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(255, 255, 255, 0.05) 75%
+    var(--bg-muted) 25%,
+    #ececee 50%,
+    var(--bg-muted) 75%
   );
   background-size: 200% auto;
   animation: shimmer 1.5s linear infinite;
@@ -283,21 +252,22 @@ input::placeholder, textarea::placeholder {
 }
 
 /* =============================================================================
-   Recharts Dark Theme Override
+   Recharts Theme Override
 ============================================================================= */
 .recharts-text, .recharts-cartesian-axis-tick-value {
   fill: var(--text-secondary) !important;
 }
 
 .recharts-cartesian-grid line {
-  stroke: rgba(255, 255, 255, 0.05) !important;
+  stroke: var(--border) !important;
 }
 
 .recharts-tooltip-wrapper .recharts-default-tooltip {
-  background: var(--bg-elevated) !important;
-  border: 1px solid var(--glass-border) !important;
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border) !important;
   border-radius: 8px !important;
   color: var(--text-primary) !important;
+  box-shadow: 0 4px 16px rgba(24, 24, 27, 0.1) !important;
 }
 
 /* =============================================================================
@@ -308,7 +278,7 @@ input::placeholder, textarea::placeholder {
 }
 
 .modal-scroll::-webkit-scrollbar-thumb {
-  background: rgba(124, 58, 237, 0.3);
+  background: var(--border-strong);
   border-radius: 2px;
 }
 
@@ -316,10 +286,10 @@ input::placeholder, textarea::placeholder {
    Tailwind v4 Custom Tokens (extends @theme)
 ============================================================================= */
 @theme inline {
-  --color-brand: #7c3aed;
-  --color-brand-light: #a78bfa;
+  --color-brand: #6d28d9;
+  --color-brand-light: #7c3aed;
   --color-brand-dark: #5b21b6;
-  --color-surface: #0f0f1a;
-  --color-elevated: #14142b;
-  --color-muted: #6b6891;
+  --color-surface: #ffffff;
+  --color-elevated: #ffffff;
+  --color-muted: #a1a1aa;
 }

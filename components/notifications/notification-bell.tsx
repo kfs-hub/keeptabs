@@ -73,7 +73,7 @@ export function NotificationBell({ initialUnreadCount, userId, groupId }: Notifi
     <div className="relative">
       <button
         onClick={handleOpen}
-        className="relative p-2 rounded-xl text-white/50 hover:text-white hover:bg-white/5 transition-all"
+        className="relative p-2 rounded-xl text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 transition-all"
       >
         <Bell className="h-5 w-5" />
         {unreadCount > 0 && (
@@ -99,14 +99,14 @@ export function NotificationBell({ initialUnreadCount, userId, groupId }: Notifi
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.96 }}
               transition={{ duration: 0.15 }}
-              className="absolute right-0 top-12 z-50 w-80 glass-popover border border-white/10 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden"
+              className="absolute right-0 top-12 z-50 w-80 glass-popover border border-zinc-200 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden"
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-200">
                 <div>
-                  <span className="font-semibold text-sm text-white">Notifications</span>
+                  <span className="font-semibold text-sm text-zinc-900">Notifications</span>
                   {unreadCount > 0 && (
-                    <span className="ml-2 text-xs bg-violet-500/20 text-violet-400 border border-violet-500/30 px-1.5 py-0.5 rounded-full">
+                    <span className="ml-2 text-xs bg-violet-100 text-violet-600 border border-violet-200 px-1.5 py-0.5 rounded-full">
                       {unreadCount} new
                     </span>
                   )}
@@ -115,7 +115,7 @@ export function NotificationBell({ initialUnreadCount, userId, groupId }: Notifi
                   {unreadCount > 0 && (
                     <button
                       onClick={handleMarkAllRead}
-                      className="text-xs text-violet-400 hover:text-violet-300 transition-colors"
+                      className="text-xs text-violet-600 hover:text-violet-700 transition-colors"
                     >
                       Mark all read
                     </button>
@@ -126,14 +126,14 @@ export function NotificationBell({ initialUnreadCount, userId, groupId }: Notifi
               {/* Notification list */}
               <div className="max-h-80 overflow-y-auto">
                 {loading ? (
-                  <div className="py-8 text-center text-white/30 text-sm">Loading…</div>
+                  <div className="py-8 text-center text-zinc-400 text-sm">Loading…</div>
                 ) : notifications.length === 0 ? (
                   <div className="py-8 text-center space-y-2">
                     <p className="text-2xl">🔔</p>
-                    <p className="text-white/40 text-sm">No notifications yet.</p>
+                    <p className="text-zinc-400 text-sm">No notifications yet.</p>
                   </div>
                 ) : (
-                  <div className="divide-y divide-white/5">
+                  <div className="divide-y divide-zinc-100">
                     {notifications.map((n) => (
                       <NotificationItem key={n.id} notification={n} compact />
                     ))}
@@ -142,11 +142,11 @@ export function NotificationBell({ initialUnreadCount, userId, groupId }: Notifi
               </div>
 
               {/* Footer */}
-              <div className="border-t border-white/10 p-2">
+              <div className="border-t border-zinc-200 p-2">
                 <Link
                   href="/notifications"
                   onClick={() => setOpen(false)}
-                  className="block text-center text-sm text-violet-400 hover:text-violet-300 py-1.5 rounded-lg hover:bg-white/5 transition-all"
+                  className="block text-center text-sm text-violet-600 hover:text-violet-700 py-1.5 rounded-lg hover:bg-zinc-50 transition-all"
                 >
                   View all notifications →
                 </Link>

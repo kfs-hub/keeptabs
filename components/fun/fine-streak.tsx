@@ -16,10 +16,10 @@ interface FineStreakProps {
 }
 
 function getStreakColor(days: number): string {
-  if (days >= 30) return 'text-yellow-400'
+  if (days >= 30) return 'text-yellow-600'
   if (days >= 14) return 'text-orange-400'
-  if (days >= 7)  return 'text-red-400'
-  return 'text-white/40'
+  if (days >= 7)  return 'text-red-600'
+  return 'text-zinc-400'
 }
 
 function getStreakEmoji(days: number): string {
@@ -35,11 +35,11 @@ export function FineStreaks({ streaks }: FineStreakProps) {
 
   return (
     <div className="glass-card rounded-2xl overflow-hidden">
-      <div className="px-5 py-4 border-b border-white/5">
-        <h3 className="font-semibold text-white text-sm">🔥 Clean Streaks</h3>
-        <p className="text-xs text-white/30 mt-0.5">Days without a fine</p>
+      <div className="px-5 py-4 border-b border-zinc-200">
+        <h3 className="font-semibold text-zinc-900 text-sm">🔥 Clean Streaks</h3>
+        <p className="text-xs text-zinc-400 mt-0.5">Days without a fine</p>
       </div>
-      <div className="divide-y divide-white/5">
+      <div className="divide-y divide-zinc-100">
         {streaks.slice(0, 5).map((s, i) => (
           <motion.div
             key={s.userId}
@@ -52,7 +52,7 @@ export function FineStreaks({ streaks }: FineStreakProps) {
               <AvatarImage src={s.avatarUrl ?? undefined} />
               <AvatarFallback className="text-[10px]">{getInitials(s.displayName)}</AvatarFallback>
             </Avatar>
-            <span className="flex-1 text-sm text-white/70 truncate">{s.displayName}</span>
+            <span className="flex-1 text-sm text-zinc-600 truncate">{s.displayName}</span>
             <div className="flex items-center gap-1.5">
               <span className="text-base">{getStreakEmoji(s.streakDays)}</span>
               <span className={`text-sm font-bold tabular-nums ${getStreakColor(s.streakDays)}`}>

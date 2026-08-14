@@ -23,12 +23,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <div className="max-w-4xl mx-auto space-y-5">
       {/* Admin header */}
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center">
-          <Shield className="h-5 w-5 text-violet-400" />
+        <div className="w-10 h-10 rounded-xl bg-violet-100 border border-violet-200 flex items-center justify-center">
+          <Shield className="h-5 w-5 text-violet-600" />
         </div>
         <div>
-          <h1 className="text-xl font-bold text-white">Admin Panel</h1>
-          <p className="text-xs text-white/40">
+          <h1 className="text-xl font-bold text-zinc-900">Admin Panel</h1>
+          <p className="text-xs text-zinc-400">
             {role === 'owner' ? '👑 Group Owner' : '🛡️ Group Admin'}
           </p>
         </div>
@@ -40,7 +40,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <Link
             key={item.href}
             href={item.href}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/8 hover:border-violet-500/30 transition-all"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-zinc-50 border border-zinc-200 text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 hover:border-violet-200 transition-all"
           >
             {item.icon}
             {item.label}

@@ -65,7 +65,7 @@ export default function LoginPage() {
               <Label htmlFor="password">Password</Label>
               <Link
                 href="/reset-password"
-                className="text-xs text-violet-400 hover:text-violet-300 transition-colors"
+                className="text-xs text-violet-600 hover:text-violet-700 transition-colors"
               >
                 Forgot password?
               </Link>
@@ -83,7 +83,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-500 transition-colors"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
@@ -96,11 +96,11 @@ export default function LoginPage() {
           </Button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-white/40">
+        <div className="mt-6 text-center text-sm text-zinc-400">
           Don&apos;t have an account?{' '}
           <Link
             href="/signup"
-            className="text-violet-400 hover:text-violet-300 font-medium transition-colors"
+            className="text-violet-600 hover:text-violet-700 font-medium transition-colors"
           >
             Create one
           </Link>

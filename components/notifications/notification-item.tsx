@@ -40,7 +40,7 @@ export function NotificationItem({ notification, compact = false }: Notification
         config.accent,
         notification.read
           ? 'opacity-50'
-          : 'bg-white/3 hover:bg-white/5',
+          : 'bg-zinc-50 hover:bg-zinc-50',
         compact ? 'py-3' : 'py-4'
       )}
     >
@@ -54,18 +54,18 @@ export function NotificationItem({ notification, compact = false }: Notification
         <p className={cn(
           'font-medium leading-snug',
           compact ? 'text-sm' : 'text-sm',
-          notification.read ? 'text-white/50' : 'text-white'
+          notification.read ? 'text-zinc-500' : 'text-zinc-900'
         )}>
           {notification.title}
         </p>
         <p className={cn(
           'mt-0.5 leading-snug',
           compact ? 'text-xs' : 'text-sm',
-          'text-white/40'
+          'text-zinc-400'
         )}>
           {notification.message}
         </p>
-        <p className="text-[11px] text-white/25 mt-1">
+        <p className="text-[11px] text-zinc-300 mt-1">
           {formatRelativeTime(notification.created_at)}
         </p>
       </div>

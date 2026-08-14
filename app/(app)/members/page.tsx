@@ -39,18 +39,18 @@ export default async function MembersPage() {
     <div className="max-w-2xl mx-auto space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">👥 Members</h1>
-          <p className="text-white/40 text-sm mt-1">{members?.length ?? 0} members in {group?.name}</p>
+          <h1 className="text-2xl font-bold text-zinc-900">👥 Members</h1>
+          <p className="text-zinc-400 text-sm mt-1">{members?.length ?? 0} members in {group?.name}</p>
         </div>
       </div>
 
       {!members?.length ? (
         <div className="glass-card rounded-2xl p-12 text-center">
-          <Users className="h-10 w-10 text-white/20 mx-auto mb-3" />
-          <p className="text-white/40">No members found.</p>
+          <Users className="h-10 w-10 text-zinc-300 mx-auto mb-3" />
+          <p className="text-zinc-400">No members found.</p>
         </div>
       ) : (
-        <div className="glass-card rounded-2xl overflow-hidden divide-y divide-white/5">
+        <div className="glass-card rounded-2xl overflow-hidden divide-y divide-zinc-100">
           {members.map((m) => {
             const p = m.profiles as any
             const balance = balanceMap[m.user_id] ?? 0
@@ -59,7 +59,7 @@ export default async function MembersPage() {
               <Link
                 key={m.user_id}
                 href={`/members/${m.user_id}`}
-                className="flex items-center gap-4 px-5 py-4 hover:bg-white/3 transition-colors"
+                className="flex items-center gap-4 px-5 py-4 hover:bg-zinc-50 transition-colors"
               >
                 <Avatar className="h-11 w-11 shrink-0">
                   <AvatarImage src={p?.avatar_url ?? undefined} />
@@ -68,7 +68,7 @@ export default async function MembersPage() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-semibold text-white">{p?.display_name}</span>
+                    <span className="font-semibold text-zinc-900">{p?.display_name}</span>
                     {isMe && <Badge variant="default" className="text-[10px]">You</Badge>}
                     <Badge
                       variant={m.role === 'owner' ? 'owner' : m.role === 'admin' ? 'admin' : 'member'}
@@ -77,16 +77,16 @@ export default async function MembersPage() {
                       {m.role}
                     </Badge>
                   </div>
-                  <p className="text-xs text-white/40 mt-0.5">@{p?.username}</p>
+                  <p className="text-xs text-zinc-400 mt-0.5">@{p?.username}</p>
                 </div>
 
                 <div className="text-right shrink-0">
                   {balance > 0 ? (
-                    <p className="text-sm font-semibold text-red-400">{formatCurrency(balance, currency)}</p>
+                    <p className="text-sm font-semibold text-red-600">{formatCurrency(balance, currency)}</p>
                   ) : (
-                    <p className="text-sm text-green-400/70">✅ Clear</p>
+                    <p className="text-sm text-green-600/70">✅ Clear</p>
                   )}
-                  <p className="text-xs text-white/25 mt-0.5">
+                  <p className="text-xs text-zinc-300 mt-0.5">
                     {balance > 0 ? 'outstanding' : 'no debt'}
                   </p>
                 </div>

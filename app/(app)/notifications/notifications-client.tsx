@@ -84,9 +84,9 @@ export function NotificationsClient({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">🔔 Notifications</h1>
+          <h1 className="text-2xl font-bold text-zinc-900">🔔 Notifications</h1>
           {unreadCount > 0 && (
-            <p className="text-white/40 text-sm mt-1">{unreadCount} unread</p>
+            <p className="text-zinc-400 text-sm mt-1">{unreadCount} unread</p>
           )}
         </div>
         {unreadCount > 0 && (
@@ -104,23 +104,23 @@ export function NotificationsClient({
 
       {notifications.length === 0 ? (
         <div className="glass-card rounded-2xl p-14 text-center">
-          <Bell className="h-12 w-12 text-white/15 mx-auto mb-4" />
-          <p className="text-white/40">No notifications yet.</p>
-          <p className="text-white/25 text-sm mt-1">You&apos;ll see fines, payments, and updates here.</p>
+          <Bell className="h-12 w-12 text-zinc-300 mx-auto mb-4" />
+          <p className="text-zinc-400">No notifications yet.</p>
+          <p className="text-zinc-300 text-sm mt-1">You&apos;ll see fines, payments, and updates here.</p>
         </div>
       ) : (
         <div className="glass-card rounded-2xl overflow-hidden">
           {/* Unread */}
           {unread.length > 0 && (
             <div>
-              <div className="px-5 py-2.5 border-b border-white/5">
-                <p className="text-xs text-white/30 uppercase tracking-wider font-medium">New</p>
+              <div className="px-5 py-2.5 border-b border-zinc-200">
+                <p className="text-xs text-zinc-400 uppercase tracking-wider font-medium">New</p>
               </div>
               <motion.div
                 initial="hidden"
                 animate="show"
                 variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } }}
-                className="divide-y divide-white/5"
+                className="divide-y divide-zinc-100"
               >
                 {unread.map((n) => (
                   <NotificationItem key={n.id} notification={n} />
@@ -132,10 +132,10 @@ export function NotificationsClient({
           {/* Read */}
           {read.length > 0 && (
             <div>
-              <div className="px-5 py-2.5 border-t border-b border-white/5">
-                <p className="text-xs text-white/20 uppercase tracking-wider font-medium">Earlier</p>
+              <div className="px-5 py-2.5 border-t border-b border-zinc-200">
+                <p className="text-xs text-zinc-300 uppercase tracking-wider font-medium">Earlier</p>
               </div>
-              <div className="divide-y divide-white/5 opacity-60">
+              <div className="divide-y divide-zinc-100 opacity-60">
                 {read.map((n) => (
                   <NotificationItem key={n.id} notification={n} />
                 ))}
