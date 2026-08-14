@@ -10,6 +10,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 
+import { GoogleSignInButton } from '@/components/auth/google-sign-in-button'
+
 export default function SignupPage() {
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -37,7 +39,7 @@ export default function SignupPage() {
 
   if (done) {
     return (
-      <Card className="border-zinc-200 bg-white">
+      <Card className="border-zinc-200 bg-white shadow-xs">
         <CardContent className="p-6 text-center space-y-4">
           <div className="w-12 h-12 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-800 mx-auto">
             <UserPlus className="h-6 w-6" />
@@ -62,7 +64,20 @@ export default function SignupPage() {
         <CardTitle className="text-lg font-bold text-zinc-900">Create an Account</CardTitle>
         <CardDescription className="text-xs text-zinc-500">Join Keep Tabs to track group fines and payments</CardDescription>
       </CardHeader>
-      <CardContent className="p-6">
+      <CardContent className="p-6 space-y-4">
+        {/* Google OAuth */}
+        <GoogleSignInButton redirectTo="/dashboard" text="Sign up with Google" />
+
+        {/* Divider */}
+        <div className="relative my-2">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-zinc-200" />
+          </div>
+          <div className="relative flex justify-center text-[11px] uppercase">
+            <span className="bg-white px-2 text-zinc-400 font-medium">or continue with email</span>
+          </div>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
@@ -134,7 +149,7 @@ export default function SignupPage() {
           </Button>
         </form>
 
-        <div className="mt-6 text-center text-xs text-zinc-500">
+        <div className="pt-2 text-center text-xs text-zinc-500">
           Already have an account?{' '}
           <Link
             href="/login"

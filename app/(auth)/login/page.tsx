@@ -11,10 +11,13 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 
+import { GoogleSignInButton } from '@/components/auth/google-sign-in-button'
+
 export default function LoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get('redirectTo') || '/dashboard'
+  const errorParam = searchParams.get('error')
 
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -44,9 +47,22 @@ export default function LoginPage() {
     <Card className="p-0 overflow-hidden border-zinc-200 shadow-xs bg-white">
       <CardHeader className="p-6 pb-0">
         <CardTitle className="text-lg font-bold text-zinc-900">Sign In</CardTitle>
-        <CardDescription className="text-xs text-zinc-500">Enter your email and password to access your account</CardDescription>
+        <CardDescription className="text-xs text-zinc-500">Welcome back. Access your groups and fines.</CardDescription>
       </CardHeader>
-      <CardContent className="p-6">
+      <CardContent className="p-6 space-y-4">
+        {/* Google OAuth */}
+        <GoogleSignInButton redirectTo={redirectTo} text="Continue with Google" />
+
+        {/* Divider */}
+        <div className="relative my-2">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-zinc-200" />
+          </div>
+          <div className="relative flex justify-center text-[11px] uppercase">
+            <span className="bg-white px-2 text-zinc-400 font-medium">or continue with email</span>
+          </div>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <Label htmlFor="email">Email</Label>
@@ -96,7 +112,7 @@ export default function LoginPage() {
           </Button>
         </form>
 
-        <div className="mt-6 text-center text-xs text-zinc-500">
+        <div className="pt-2 text-center text-xs text-zinc-500">
           Don&apos;t have an account?{' '}
           <Link
             href="/signup"
