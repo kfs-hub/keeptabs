@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { getInitials } from '@/lib/utils'
 import { logoutAction } from '@/app/(auth)/actions'
+import { createClient } from '@/lib/supabase/client'
 import type { Profile, Group } from '@/types/database'
 
 import { GroupSwitcher } from '@/components/layout/group-switcher'
@@ -75,14 +76,22 @@ export function Header({ profile, group, unreadNotifications, groups }: HeaderPr
             <DropdownMenuItem asChild className="rounded-md text-xs py-2 px-2.5 text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50 cursor-pointer">
               <Link href="/notifications">Notifications</Link>
             </DropdownMenuItem>
-            <DropdownMenuSeparator className="my-1 bg-zinc-100" />
-            <form action={logoutAction}>
-              <DropdownMenuItem asChild className="rounded-md text-xs py-2 px-2.5 text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer">
-                <button type="submit" className="w-full text-left font-medium">
-                  Sign Out
-                </button>
-              </DropdownMenuItem>
-            </form>
+            <DropdownMenuItem
+              onSelect={async () => {
+                try {
+                  const supabase = createClient()
+                  await supabase.auth.signOut()
+                  await logoutAction()
+                } catch {
+                  // redirect throws in Next.js
+                } finally {
+                  window.location.href = '/login'
+                }
+              }}
+              className="rounded-md text-xs py-2 px-2.5 text-red-600 hover:text-red-700 hover:bg-red-50 focus:text-red-700 focus:bg-red-50 cursor-pointer font-medium"
+            >
+              Sign Out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -20,6 +20,7 @@ import { cn, getInitials } from '@/lib/utils'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { GroupSwitcher } from '@/components/layout/group-switcher'
 import { logoutAction } from '@/app/(auth)/actions'
+import { createClient } from '@/lib/supabase/client'
 import type { Profile, MemberRole, Group } from '@/types/database'
 
 interface NavItem {
@@ -119,15 +120,24 @@ export function Sidebar({ profile, groupName, role, groups, activeGroup }: Sideb
             <div className="text-xs font-semibold text-zinc-900 truncate">{profile.display_name}</div>
             <div className="text-[10px] text-zinc-400 truncate">@{profile.username}</div>
           </div>
-          <form action={logoutAction}>
-            <button
-              type="submit"
-              className="text-zinc-400 hover:text-red-600 transition-colors p-1 rounded cursor-pointer"
-              title="Sign out"
-            >
-              <LogOut className="h-3.5 w-3.5" />
-            </button>
-          </form>
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                const supabase = createClient()
+                await supabase.auth.signOut()
+                await logoutAction()
+              } catch {
+                // Next.js redirect throw
+              } finally {
+                window.location.href = '/login'
+              }
+            }}
+            className="text-zinc-400 hover:text-red-600 transition-colors p-1 rounded cursor-pointer"
+            title="Sign out"
+          >
+            <LogOut className="h-3.5 w-3.5" />
+          </button>
         </div>
       </div>
     </aside>

@@ -13,6 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { getInitials, formatDate } from '@/lib/utils'
 import { logoutAction } from '@/app/(auth)/actions'
+import { createClient } from '@/lib/supabase/client'
 import {
   updateProfileAction,
   uploadAvatarAction,
@@ -256,12 +257,25 @@ export function SettingsClient({ profile, groups, activeGroupId }: SettingsClien
       {/* Danger zone */}
       <div className="bg-white border border-red-200 rounded-xl p-5 shadow-xs">
         <h2 className="text-xs font-semibold text-red-600 uppercase tracking-wider mb-4">Account</h2>
-        <form action={logoutAction}>
-          <Button type="submit" variant="destructive" className="w-full">
-            <LogOut className="h-4 w-4" />
-            Sign Out
-          </Button>
-        </form>
+        <Button
+          type="button"
+          variant="destructive"
+          className="w-full cursor-pointer"
+          onClick={async () => {
+            try {
+              const supabase = createClient()
+              await supabase.auth.signOut()
+              await logoutAction()
+            } catch {
+              // Next.js redirect throw
+            } finally {
+              window.location.href = '/login'
+            }
+          }}
+        >
+          <LogOut className="h-4 w-4" />
+          Sign Out
+        </Button>
       </div>
     </div>
   )
