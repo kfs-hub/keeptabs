@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Loader2 } from 'lucide-react'
 
@@ -9,7 +11,15 @@ interface GroupSwitchOverlayProps {
 }
 
 export function GroupSwitchOverlay({ isVisible, groupName }: GroupSwitchOverlayProps) {
-  return (
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
+  return createPortal(
     <AnimatePresence>
       {isVisible && (
         <motion.div
@@ -21,13 +31,13 @@ export function GroupSwitchOverlay({ isVisible, groupName }: GroupSwitchOverlayP
             position: 'fixed',
             top: 0,
             left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 9999,
+            width: '100vw',
+            height: '100vh',
+            zIndex: 99999,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'rgba(250, 250, 250, 0.97)',
+            backgroundColor: '#fafafa',
           }}
         >
           <motion.div
@@ -69,6 +79,7 @@ export function GroupSwitchOverlay({ isVisible, groupName }: GroupSwitchOverlayP
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   )
 }
